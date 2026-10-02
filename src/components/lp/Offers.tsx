@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -35,7 +35,11 @@ const OFFERS: readonly Offer[] = [
 
 export function Offers(): ReactElement {
   return (
-    <section id="offers" aria-labelledby="offers-heading" className="relative overflow-hidden bg-ink py-20 lg:py-28">
+    <section
+      id="offers"
+      aria-labelledby="offers-heading"
+      className="relative overflow-hidden bg-ink py-20 lg:py-28"
+    >
       <div className="mx-auto grid max-w-[1240px] gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-5">
           <SectionHeading
@@ -80,7 +84,9 @@ export function Offers(): ReactElement {
                 <span className="inline-block rounded-[2px] bg-brand px-2 py-0.5 text-[0.75rem] font-bold uppercase tracking-[0.12em] text-white">
                   {offer.badge}
                 </span>
-                <h3 className="mt-2 text-h3 font-bold text-white">{offer.title}</h3>
+                <h3 className="mt-2 text-h3 font-bold text-white">
+                  {offer.title}
+                </h3>
                 <p className="mt-2 leading-relaxed text-muted">{offer.body}</p>
               </div>
             </Reveal>

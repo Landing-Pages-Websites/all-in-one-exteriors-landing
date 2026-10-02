@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Icon } from "./Icon";
 import { SectionHeading } from "./SectionHeading";
 import { FAQ_ITEMS } from "./content";
@@ -7,7 +7,11 @@ import { FAQ_ITEMS } from "./content";
 /** Native <details> accordion: keyboard and screen-reader support for free. */
 export function Faq(): ReactElement {
   return (
-    <section id="faq" aria-labelledby="faq-heading" className="bg-ink py-20 lg:py-28">
+    <section
+      id="faq"
+      aria-labelledby="faq-heading"
+      className="bg-ink py-20 lg:py-28"
+    >
       <div className="mx-auto grid max-w-[1240px] gap-12 px-4 sm:px-6 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <SectionHeading
@@ -25,7 +29,9 @@ export function Faq(): ReactElement {
                   <Icon name="plus" size={20} />
                 </span>
               </summary>
-              <p className="max-w-2xl pb-6 pr-12 leading-relaxed text-muted">{item.answer}</p>
+              <p className="max-w-2xl pb-6 pr-12 leading-relaxed text-muted">
+                {item.answer}
+              </p>
             </details>
           ))}
         </div>

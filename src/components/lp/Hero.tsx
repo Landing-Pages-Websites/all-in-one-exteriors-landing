@@ -1,9 +1,9 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { PhoneLink } from "./Cta";
+import { PhoneLink } from "./PhoneLink";
 import { Icon } from "./Icon";
 import { RoofEstimateForm } from "./RoofEstimateForm";
-import { FORM_ANCHOR } from "./content";
+import { CITY_LIST_TEXT, FORM_ANCHOR } from "./content";
 
 const CREDENTIALS = [
   "GAF certified",
@@ -27,7 +27,7 @@ export function Hero(): ReactElement {
           390px screen. Desktop: copy and photo left, form spanning the right. */}
       <div className="relative mx-auto grid max-w-[1240px] grid-cols-1 gap-x-12 px-4 pb-16 pt-6 sm:px-6 lg:grid-cols-12 lg:pb-24 lg:pt-10">
         <div className="lg:col-span-7 lg:row-start-1">
-          <p className="flex items-center gap-3 text-small font-bold uppercase tracking-[0.18em] text-gold">
+          <p className="flex items-center gap-3 text-small font-bold uppercase tracking-[0.1em] sm:tracking-[0.18em] text-gold">
             <span aria-hidden="true" className="h-[3px] w-8 bg-brand" />
             North Metro Atlanta roof replacement
           </p>
@@ -40,7 +40,7 @@ export function Hero(): ReactElement {
               first time.
             </span>
           </h1>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-white lg:mt-5">
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-white sm:mt-4 sm:text-lg lg:mt-5">
             Certified, warranty-backed roof replacement for homeowners across
             eight North Metro Atlanta cities.
           </p>
@@ -48,7 +48,7 @@ export function Hero(): ReactElement {
 
         <div
           id={FORM_ANCHOR}
-          className="mt-6 lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:self-start"
+          className="mt-5 sm:mt-6 lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:self-start"
         >
           <RoofEstimateForm
             placement="hero"
@@ -58,8 +58,7 @@ export function Hero(): ReactElement {
 
         <div className="mt-10 lg:col-span-7 lg:row-start-2 lg:mt-5">
           <p className="max-w-xl leading-relaxed text-muted">
-            Serving Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome,
-            Roswell, and Dunwoody with manufacturer-backed warranties. If
+            Serving {CITY_LIST_TEXT} with manufacturer-backed warranties. If
             something isn&apos;t right, we come back until it is. Light
             commercial welcome.
           </p>
@@ -70,7 +69,7 @@ export function Hero(): ReactElement {
             {CREDENTIALS.map((credential) => (
               <li
                 key={credential}
-                className="inline-flex items-center gap-1.5 rounded-[2px] border border-gold/70 px-3 py-1.5 text-small font-semibold text-white transition-colors duration-150 hover:bg-gold hover:text-black"
+                className="inline-flex items-center gap-1.5 rounded-[2px] border border-gold/70 px-3 py-1.5 text-small font-semibold text-white"
               >
                 <Icon name="award" size={16} className="text-gold" />
                 {credential}
@@ -91,7 +90,7 @@ export function Hero(): ReactElement {
               fill
               preload
               sizes="(min-width: 1240px) 700px, (min-width: 1024px) 58vw, 100vw"
-              className="object-cover object-[50%_40%] transition-transform duration-500 ease-brand hover:scale-[1.02]"
+              className="object-cover object-[50%_40%] transition-transform duration-200 ease-brand hover:scale-[1.02]"
             />
           </div>
           <figcaption className="absolute bottom-3 left-4 flex items-center gap-2 rounded-[2px] bg-ink/90 px-3 py-2 text-small font-semibold text-white sm:left-3 lg:bottom-5 lg:left-5">

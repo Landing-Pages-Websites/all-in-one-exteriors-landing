@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { EstimateLink, PhoneLink } from "./Cta";
+import { EstimateLink } from "./EstimateLink";
+import { PhoneLink } from "./PhoneLink";
 
 /** Minimal sticky bar: logo, request button, phone button. No nav links. */
 export function SiteHeader(): ReactElement {
@@ -18,8 +19,15 @@ export function SiteHeader(): ReactElement {
           sizes="70px"
         />
         <div className="flex items-center gap-2">
-          <EstimateLink location="header" className="min-h-11! px-4! py-2.5! max-md:hidden!" />
-          <PhoneLink location="header" compact className="min-h-11! px-3.5! py-2.5! text-[0.8125rem]! sm:px-4!" />
+          <EstimateLink
+            location="header"
+            className="min-h-11! px-4! py-2.5! max-md:hidden!"
+          />
+          <PhoneLink
+            location="header"
+            compact
+            className="min-h-11! px-3.5! py-2.5! text-[0.8125rem]! sm:px-4!"
+          />
         </div>
       </div>
     </header>

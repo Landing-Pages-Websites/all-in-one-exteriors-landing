@@ -20,8 +20,7 @@ import {
 } from "@/lib/roofLead";
 import { siteConfig } from "@/site.config";
 
-export const SUBMIT_ERROR_MESSAGE =
-  "We couldn't send your request. Please try again, or call (404) 445-8136.";
+export const SUBMIT_ERROR_MESSAGE = `We couldn't send your request. Please try again, or call ${siteConfig.contact.phone}.`;
 
 export type SubmitStatus = "idle" | "submitting" | "success";
 

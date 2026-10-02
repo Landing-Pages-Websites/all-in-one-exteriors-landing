@@ -18,6 +18,11 @@
   --color-disabled: #6b6b6b;
   --color-error: #e5484d;
   --color-success: #3fb950;
+  /* Form fields: off-white, never pure #fff. */
+  --color-field: #f7f5f2;
+  --color-field-hover: #8a8a8a;
+  --color-field-disabled: #e6e6e6;
+  --color-error-surface: #2a0d0e;
 
   --font-sans: var(--font-montserrat), "Montserrat", sans-serif;
   --font-display: var(--font-montserrat), "Montserrat", sans-serif;

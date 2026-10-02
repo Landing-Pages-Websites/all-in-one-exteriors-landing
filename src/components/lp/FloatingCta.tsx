@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactElement } from "react";
-import { EstimateLink } from "./Cta";
+import { EstimateLink } from "./EstimateLink";
 import { FINAL_FORM_ANCHOR, FORM_ANCHOR } from "./content";
 
 /**
@@ -15,7 +15,8 @@ export function FloatingCta(): ReactElement {
     const targets = [FORM_ANCHOR, FINAL_FORM_ANCHOR, "hero"]
       .map((id) => document.getElementById(id))
       .filter((node): node is HTMLElement => node !== null);
-    if (targets.length === 0 || typeof IntersectionObserver === "undefined") return;
+    if (targets.length === 0 || typeof IntersectionObserver === "undefined")
+      return;
     const onScreen = new Set<Element>();
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
@@ -30,7 +31,7 @@ export function FloatingCta(): ReactElement {
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-ink/95 p-3 backdrop-blur transition duration-500 ease-brand lg:inset-x-auto lg:bottom-6 lg:right-6 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0 lg:translate-y-8"}`}
+      className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-ink/95 p-3 backdrop-blur transition duration-200 ease-brand lg:inset-x-auto lg:bottom-6 lg:right-6 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0 lg:translate-y-8"}`}
       aria-hidden={!visible}
       inert={!visible}
     >

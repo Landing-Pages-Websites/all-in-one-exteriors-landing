@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { PhoneLink } from "@/components/lp/Cta";
+import { PhoneLink } from "@/components/lp/PhoneLink";
 import { Icon } from "@/components/lp/Icon";
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/site.config";

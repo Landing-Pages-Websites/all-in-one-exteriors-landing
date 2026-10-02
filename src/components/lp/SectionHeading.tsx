@@ -23,10 +23,15 @@ export function SectionHeading({
         <span aria-hidden="true" className="h-[3px] w-8 bg-brand" />
         {eyebrow}
       </p>
-      <h2 id={id} className="mt-4 text-h2 font-extrabold tracking-tight text-balance text-white">
+      <h2
+        id={id}
+        className="mt-4 text-h2 font-extrabold tracking-tight text-balance text-white"
+      >
         {title}
       </h2>
-      {intro ? <p className="mt-5 text-lg leading-relaxed text-muted">{intro}</p> : null}
+      {intro ? (
+        <p className="mt-5 text-lg leading-relaxed text-muted">{intro}</p>
+      ) : null}
     </div>
   );
 }

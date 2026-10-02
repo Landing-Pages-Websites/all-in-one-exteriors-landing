@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Icon } from "./Icon";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";

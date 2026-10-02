@@ -24,6 +24,9 @@ export const CITIES = [
   "Dunwoody",
 ] as const;
 
+/** "Alpharetta, Milton, ..., and Dunwoody" for running copy. */
+export const CITY_LIST_TEXT = `${CITIES.slice(0, -1).join(", ")}, and ${CITIES[CITIES.length - 1]}`;
+
 export const WARRANTY_QUALIFIER =
   "Lifetime materials warranty and 5–10 years on labor, depending on the manufacturer.";
 
@@ -88,7 +91,6 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   },
   {
     question: "Which areas do you serve?",
-    answer:
-      "Our initial footprint covers Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell, and Dunwoody, GA.",
+    answer: `Our initial footprint covers ${CITY_LIST_TEXT}, GA.`,
   },
 ];

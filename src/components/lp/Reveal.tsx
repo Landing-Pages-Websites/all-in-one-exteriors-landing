@@ -48,7 +48,11 @@ export function Reveal({
   }, []);
 
   const stateClass =
-    state === "static" ? "" : state === "armed" ? "reveal-armed" : "reveal-armed reveal-in";
+    state === "static"
+      ? ""
+      : state === "armed"
+        ? "reveal-armed"
+        : "reveal-armed reveal-in";
 
   return (
     <Tag

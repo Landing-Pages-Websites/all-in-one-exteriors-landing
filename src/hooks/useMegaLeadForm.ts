@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { captureLeadContext, initAttribution } from "@/lib/megaLeadContext";
 import { isValidEmail } from "@/lib/leadValidation";
 import {
+  DECISION_MAKER_OPTIONS,
+  ROOF_STATUS_OPTIONS,
   isValidPhone,
   phoneDigits,
   qualifyRoofLead,
@@ -42,6 +44,10 @@ interface UseMegaLeadFormReturn {
   ) => Promise<SubmissionResult>;
 }
 
+function isOption(options: readonly string[], value: string): boolean {
+  return options.includes(value);
+}
+
 function normalizeFields(fields: RoofLeadFields): RoofLeadFields {
   const normalized: RoofLeadFields = {
     firstName: fields.firstName.trim(),
@@ -54,12 +60,17 @@ function normalizeFields(fields: RoofLeadFields): RoofLeadFields {
   if (!normalized.firstName || !normalized.lastName) {
     throw new Error("First and last name are required");
   }
-  if (!isValidEmail(normalized.email))
+  if (!isValidEmail(normalized.email)) {
     throw new Error("Enter a valid email address");
-  if (!isValidPhone(fields.phone))
+  }
+  if (!isValidPhone(fields.phone)) {
     throw new Error("Phone must be exactly 10 digits");
-  if (!normalized.decisionMaker || !normalized.roofStatus) {
-    throw new Error("Both qualifying questions are required");
+  }
+  if (!isOption(DECISION_MAKER_OPTIONS, normalized.decisionMaker)) {
+    throw new Error("Answer whether you are the homeowner or decision maker");
+  }
+  if (!isOption(ROOF_STATUS_OPTIONS, normalized.roofStatus)) {
+    throw new Error("Answer whether the roof is leaking or damaged");
   }
   return normalized;
 }

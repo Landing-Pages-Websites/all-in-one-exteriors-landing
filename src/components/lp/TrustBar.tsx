@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { CountUp } from "./CountUp";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Reveal } from "./Reveal";
 
 interface Credential {
@@ -15,7 +15,8 @@ const CREDENTIALS: readonly Credential[] = [
   {
     figure: (
       <>
-        5–<CountUp to={10} />
+        5–
+        <CountUp to={10} />
         <span className="text-[0.55em] font-bold"> yrs</span>
       </>
     ),
@@ -23,8 +24,16 @@ const CREDENTIALS: readonly Credential[] = [
     label: "Labor warranty, by manufacturer",
   },
   { figure: "GAF", spoken: "GAF", label: "Certified contractor" },
-  { figure: "CertainTeed", spoken: "CertainTeed", label: "Certified contractor" },
-  { figure: "NRCA", spoken: "NRCA", label: "Low-slope & steep-slope certified" },
+  {
+    figure: "CertainTeed",
+    spoken: "CertainTeed",
+    label: "Certified contractor",
+  },
+  {
+    figure: "NRCA",
+    spoken: "NRCA",
+    label: "Low-slope & steep-slope certified",
+  },
   {
     figure: <CountUp to={8} />,
     spoken: "8",
@@ -32,7 +41,12 @@ const CREDENTIALS: readonly Credential[] = [
   },
 ];
 
-const OWNERSHIP = ["Insured", "Bonded", "Family owned", "Locally owned"] as const;
+const OWNERSHIP = [
+  "Insured",
+  "Bonded",
+  "Family owned",
+  "Locally owned",
+] as const;
 
 export function TrustBar(): ReactElement {
   return (
@@ -58,14 +72,21 @@ export function TrustBar(): ReactElement {
                 <span aria-hidden="true">{item.figure}</span>
                 <span className="sr-only">{item.spoken}</span>
               </p>
-              <p className="mt-3 text-small font-semibold text-muted">{item.label}</p>
+              <p className="mt-3 text-small font-semibold text-muted">
+                {item.label}
+              </p>
             </Reveal>
           ))}
         </ul>
         <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-small font-bold uppercase tracking-[0.14em] text-white">
           {OWNERSHIP.map((item, index) => (
             <li key={item} className="flex items-center gap-6">
-              {index > 0 ? <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-brand" /> : null}
+              {index > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 rotate-45 bg-brand"
+                />
+              ) : null}
               {item}
             </li>
           ))}

@@ -21,7 +21,7 @@ export function ChoiceGroup({
   return (
     <fieldset className="flex flex-col gap-2">
       <legend className={`${labelClasses} mb-2`}>
-        {legend} <RequiredMark />
+        {legend} <RequiredMark />
       </legend>
       <div className="grid grid-cols-2 gap-2">
         {options.map((option) => (

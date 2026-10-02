@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Icon } from "./Icon";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -50,7 +50,11 @@ const ROWS: readonly Row[] = [
 
 export function Benefits(): ReactElement {
   return (
-    <section id="benefits" aria-labelledby="benefits-heading" className="bg-ink py-20 lg:py-28">
+    <section
+      id="benefits"
+      aria-labelledby="benefits-heading"
+      className="bg-ink py-20 lg:py-28"
+    >
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6">
         <SectionHeading
           id="benefits-heading"
@@ -62,7 +66,10 @@ export function Benefits(): ReactElement {
           {ROWS.map((row, index) => {
             const flipped = index % 2 === 1;
             return (
-              <Reveal key={row.title} className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+              <Reveal
+                key={row.title}
+                className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12"
+              >
                 <div
                   className={`group relative lg:col-span-7 ${flipped ? "lg:order-2" : ""}`}
                 >
@@ -90,7 +97,10 @@ export function Benefits(): ReactElement {
                   <p className="mt-4 leading-relaxed text-muted">{row.body}</p>
                   <ul className="mt-6 flex flex-col gap-3">
                     {row.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3 font-semibold text-white">
+                      <li
+                        key={point}
+                        className="flex items-start gap-3 font-semibold text-white"
+                      >
                         <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-[2px] bg-gold text-black">
                           <Icon name="check" size={16} />
                         </span>

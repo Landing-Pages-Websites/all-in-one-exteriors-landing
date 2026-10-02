@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -61,7 +61,11 @@ const SERVICES: readonly Service[] = [
 
 export function Services(): ReactElement {
   return (
-    <section id="services" aria-labelledby="services-heading" className="bg-ink py-20 lg:py-28">
+    <section
+      id="services"
+      aria-labelledby="services-heading"
+      className="bg-ink py-20 lg:py-28"
+    >
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6">
         <SectionHeading
           id="services-heading"
@@ -76,7 +80,9 @@ export function Services(): ReactElement {
               delay={index * 90}
               className={`group flex flex-col overflow-hidden rounded-[2px] border border-line border-l-4 border-l-brand bg-surface transition duration-150 ease-brand hover:-translate-y-1 hover:border-l-gold focus-within:ring-2 focus-within:ring-gold ${service.layout}`}
             >
-              <div className={`relative overflow-hidden ${service.imageAspect}`}>
+              <div
+                className={`relative overflow-hidden ${service.imageAspect}`}
+              >
                 <Image
                   src={service.image.src}
                   alt={service.image.alt}
@@ -91,7 +97,9 @@ export function Services(): ReactElement {
               <div className="flex flex-col gap-3 p-6 sm:p-7">
                 <div className="flex items-center gap-3">
                   <Icon name={service.icon} size={32} className="text-gold" />
-                  <h3 className="text-h3 font-bold text-white">{service.title}</h3>
+                  <h3 className="text-h3 font-bold text-white">
+                    {service.title}
+                  </h3>
                 </div>
                 <p className="leading-relaxed text-muted">{service.body}</p>
               </div>

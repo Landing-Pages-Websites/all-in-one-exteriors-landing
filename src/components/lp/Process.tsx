@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -86,7 +86,10 @@ export function Process(): ReactElement {
         </div>
       </div>
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6">
-        <DualCta location="how-it-works" label="Talk With a Roofing Specialist" />
+        <DualCta
+          location="how-it-works"
+          label="Talk With a Roofing Specialist"
+        />
       </div>
     </section>
   );

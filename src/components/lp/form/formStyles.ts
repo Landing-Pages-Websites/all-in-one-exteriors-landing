@@ -1,5 +1,5 @@
 export const inputClasses =
-  "min-h-12 w-full rounded-[2px] border-2 border-charcoal bg-white px-3.5 py-3 text-base text-charcoal placeholder:text-[#6b6b6b] transition duration-150 ease-brand hover:border-[#5a5a5a] focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-surface user-invalid:border-error disabled:bg-[#e6e6e6] disabled:text-disabled";
+  "min-h-12 w-full rounded-[2px] border-2 border-muted bg-field px-3.5 py-3 text-base text-charcoal placeholder:text-disabled transition duration-150 ease-brand hover:border-field-hover focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-surface user-invalid:border-error disabled:bg-field-disabled disabled:text-disabled";
 
 export const labelClasses = "text-small font-semibold text-white";
 

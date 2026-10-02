@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { DualCta } from "./Cta";
+import { DualCta } from "./DualCta";
 import { Icon } from "./Icon";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -48,8 +48,12 @@ export function Testimonials(): ReactElement {
                     {initials(testimonial.name)}
                   </span>
                   <span>
-                    <span className="block font-bold text-white">{testimonial.name}</span>
-                    <span className="block text-small font-medium text-muted">Google review</span>
+                    <span className="block font-bold text-white">
+                      {testimonial.name}
+                    </span>
+                    <span className="block text-small font-medium text-muted">
+                      Google review
+                    </span>
                   </span>
                 </figcaption>
               </Reveal>

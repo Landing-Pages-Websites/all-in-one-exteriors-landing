@@ -6,7 +6,13 @@ import { useEffect, useRef, useState, type ReactElement } from "react";
  * Counts an integer up from zero once it scrolls into view. Server markup and
  * reduced-motion visitors get the final number immediately.
  */
-export function CountUp({ to, durationMs = 900 }: { to: number; durationMs?: number }): ReactElement {
+export function CountUp({
+  to,
+  durationMs = 900,
+}: {
+  to: number;
+  durationMs?: number;
+}): ReactElement {
   const ref = useRef<HTMLSpanElement>(null);
   const [value, setValue] = useState(to);
 

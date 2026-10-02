@@ -24,7 +24,7 @@ export function TextField({
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className={labelClasses}>
-        {label} <RequiredMark />
+        {label} <RequiredMark />
       </label>
       <input
         {...inputProps}

@@ -11,11 +11,11 @@ import {
   PHONE_PATTERN,
   ROOF_STATUS_OPTIONS,
 } from "@/lib/roofLead";
-import { buttonStyles } from "./Cta";
+import { buttonStyles } from "./buttonStyles";
 import { ChoiceGroup } from "./form/ChoiceGroup";
 import { TextField } from "./form/TextField";
 import { Icon } from "./Icon";
-import { PRIMARY_CTA } from "./content";
+import { CITY_LIST_TEXT, PRIMARY_CTA } from "./content";
 
 const BUTTON_LABELS: Record<SubmitStatus, string> = {
   idle: PRIMARY_CTA,
@@ -61,16 +61,15 @@ export function RoofEstimateForm({
       >
         {heading}
       </Heading>
-      <p className="mt-2 text-small font-medium text-muted">
-        For homeowners in Alpharetta, Milton, Johns Creek, Marietta, Woodstock,
-        Rome, Roswell, and Dunwoody.
+      <p className="mt-2 hidden text-small font-medium text-muted sm:block">
+        For homeowners in {CITY_LIST_TEXT}.
       </p>
       <form
         ref={formRef}
         onSubmit={handleSubmit}
         onKeyDown={handleKeyDown}
         aria-labelledby={`${id}-heading`}
-        className="mt-5 flex flex-col gap-4"
+        className="mt-4 flex flex-col gap-4 sm:mt-5"
       >
         <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2">
           <TextField
@@ -139,7 +138,7 @@ export function RoofEstimateForm({
         {submitError ? (
           <p
             role="alert"
-            className="rounded-[2px] border-2 border-error bg-[#2a0d0e] px-3 py-2.5 text-sm font-medium text-white"
+            className="rounded-[2px] border-2 border-error bg-error-surface px-3 py-2.5 text-sm font-medium text-white"
           >
             {submitError}
           </p>
