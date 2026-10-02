@@ -1,5 +1,8 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
+import { managedSiteFieldAttributesV1 } from "@landing-pages-websites/managed-site-contract";
+
+import { managedHome } from "@/content/managed-site";
 import { PhoneLink } from "./PhoneLink";
 import { Icon } from "./Icon";
 import { RoofEstimateForm } from "./RoofEstimateForm";
@@ -13,6 +16,7 @@ const POINTS = [
 ] as const;
 
 export function FinalCta(): ReactElement {
+  const { heading } = managedHome.contact;
   return (
     <section
       id="form"
@@ -47,8 +51,9 @@ export function FinalCta(): ReactElement {
           <h2
             id="final-cta-heading"
             className="mt-4 text-h2 font-extrabold tracking-tight text-balance text-white"
+            {...managedSiteFieldAttributesV1(heading.fieldId)}
           >
-            Request a Roof Estimate.
+            {heading.value}
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted">
             A certified, warranty-backed roof replacement from a local

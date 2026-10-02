@@ -15,7 +15,6 @@ import { Services } from "@/components/lp/Services";
 import { SiteHeader } from "@/components/lp/SiteHeader";
 import { Testimonials } from "@/components/lp/Testimonials";
 import { TrustBar } from "@/components/lp/TrustBar";
-import { FAQ_ITEMS } from "@/components/lp/content";
 import { JsonLd } from "@/components/schema/JsonLd";
 import { buildBusinessSchema, buildFaqSchema } from "@/components/schema/builders";
 import { managedHome } from "@/content/managed-site";
@@ -41,7 +40,10 @@ export const metadata: Metadata = buildMetadata({
 
 const businessSchema = buildBusinessSchema(identity);
 const faqSchema = buildFaqSchema(
-  FAQ_ITEMS.map((item) => ({ question: item.question, answer: item.answer })),
+  managedHome.faq.items.map((item) => ({
+    question: item.question.value,
+    answer: item.answer.value,
+  })),
 );
 
 /** Meta roof-replacement LP: promise, picture, proof, push. */

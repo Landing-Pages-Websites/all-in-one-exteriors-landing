@@ -7,12 +7,15 @@ export function SectionHeading({
   intro,
   align = "left",
   id,
+  titleAttributes,
 }: {
   eyebrow: string;
   title: ReactNode;
   intro?: ReactNode;
   align?: "left" | "center";
   id?: string;
+  /** Managed-content annotation for the H2, when the title is a managed field. */
+  titleAttributes?: Readonly<Record<`data-${string}`, string>>;
 }): ReactElement {
   const centered = align === "center";
   return (
@@ -26,6 +29,7 @@ export function SectionHeading({
       <h2
         id={id}
         className="mt-4 text-h2 font-extrabold tracking-tight text-balance text-white"
+        {...titleAttributes}
       >
         {title}
       </h2>

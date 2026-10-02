@@ -147,10 +147,8 @@ export const siteConfig: SiteConfig = {
   logoPath: "/logo.png",
   ogImagePath: "/og-image.png",
   megaCustomerId: "1862914c-bd83-4c75-b22b-f25364728c36",
-  // Flow B: site_id and siteKey are minted by `mega site-tracking enable`
-  // after the first pre-registration deploy. Replace both and redeploy.
-  megaSiteId: "TODO_MEGA_SITE_ID",
-  megaSiteKey: "TODO_MEGA_SITE_KEY",
+  megaSiteId: "9e73a962-e432-4c14-a8be-6b13d53ca91e",
+  megaSiteKey: "kp1lhbs18zpcy78t",
   sourceProvider: "lp-allinoneexteriors-roof-replacement",
   formKeys: ["contact-form"],
   uploadsEnabled: false,

@@ -1,5 +1,8 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
+import { managedSiteFieldAttributesV1 } from "@landing-pages-websites/managed-site-contract";
+
+import { managedHome } from "@/content/managed-site";
 import { PhoneLink } from "./PhoneLink";
 import { Icon } from "./Icon";
 import { RoofEstimateForm } from "./RoofEstimateForm";
@@ -11,7 +14,22 @@ const CREDENTIALS = [
   "NRCA certified",
 ] as const;
 
+/** Trailing words of the managed title that carry the gold accent. */
+const ACCENT_WORD_COUNT = 2;
+
+/** Splits the managed title so its closing words take the gold treatment. */
+function splitTitle(title: string): { lead: string; accent: string } {
+  const words = title.trim().split(/\s+/);
+  const leadCount = Math.max(words.length - ACCENT_WORD_COUNT, 0);
+  return {
+    lead: words.slice(0, leadCount).join(" "),
+    accent: words.slice(leadCount).join(" "),
+  };
+}
+
 export function Hero(): ReactElement {
+  const { eyebrow, title, description, image } = managedHome.hero;
+  const { lead, accent } = splitTitle(title.value);
   return (
     <section
       id="hero"
@@ -29,20 +47,25 @@ export function Hero(): ReactElement {
         <div className="lg:col-span-7 lg:row-start-1">
           <p className="flex items-center gap-3 text-small font-bold uppercase tracking-[0.1em] sm:tracking-[0.18em] text-gold">
             <span aria-hidden="true" className="h-[3px] w-8 bg-brand" />
-            North Metro Atlanta roof replacement
+            <span {...managedSiteFieldAttributesV1(eyebrow.fieldId)}>
+              {eyebrow.value}
+            </span>
           </p>
           <h1
             id="hero-heading"
             className="mt-4 text-h1 font-extrabold tracking-[-0.02em] text-balance text-white"
+            {...managedSiteFieldAttributesV1(title.fieldId)}
           >
-            Your new roof, done right the{" "}
+            {lead ? `${lead} ` : null}
             <span className="relative whitespace-nowrap text-gold">
-              first time.
+              {accent}
             </span>
           </h1>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-white sm:mt-4 sm:text-lg lg:mt-5">
-            Certified, warranty-backed roof replacement for homeowners across
-            eight North Metro Atlanta cities.
+          <p
+            className="mt-3 max-w-xl text-base leading-relaxed text-white sm:mt-4 sm:text-lg lg:mt-5"
+            {...managedSiteFieldAttributesV1(description.fieldId)}
+          >
+            {description.value}
           </p>
         </div>
 
@@ -84,13 +107,17 @@ export function Hero(): ReactElement {
         {/* Photo: a full-bleed band on mobile, a gable-clipped frame under the copy on desktop. */}
         <figure className="relative -mx-4 mt-10 sm:mx-0 lg:col-span-7 lg:col-start-1 lg:row-start-3 lg:mt-8">
           <div className="relative aspect-[3/2] overflow-hidden lg:[clip-path:polygon(0_10%,50%_0,100%_10%,100%_100%,0_100%)]">
+            {/* The managed source is square (asset slot policy); object-cover
+                centers it, showing the same 3:2 frame as the original photo. */}
             <Image
-              src="/images/hero-finished-home.webp"
-              alt="Two-story stone and siding home with a finished metal roof in Alpharetta, GA"
-              fill
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
               preload
               sizes="(min-width: 1240px) 700px, (min-width: 1024px) 58vw, 100vw"
-              className="object-cover object-[50%_40%] transition-transform duration-200 ease-brand hover:scale-[1.02]"
+              className="h-full w-full object-cover object-center transition-transform duration-200 ease-brand hover:scale-[1.02]"
+              {...managedSiteFieldAttributesV1(image.fieldId)}
             />
           </div>
           <figcaption className="absolute bottom-3 left-4 flex items-center gap-2 rounded-[2px] bg-ink/90 px-3 py-2 text-small font-semibold text-white sm:left-3 lg:bottom-5 lg:left-5">

@@ -1,25 +1,29 @@
 {
   "hero": {
-    "eyebrow": "Roof replacement \u00b7 North Metro Atlanta",
-    "title": "A roof replacement done right the first time.",
-    "description": "Certified, warranty-backed roof replacement for homeowners in Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell, and Dunwoody. Light commercial welcome.",
+    "eyebrow": "North Metro Atlanta roof replacement",
+    "title": "Your new roof, done right the first time.",
+    "description": "Certified, warranty-backed roof replacement for homeowners across eight North Metro Atlanta cities.",
     "image": {
-      "path": "public/icon-512.png",
-      "sha256": "9573b1c9dda2da04e0c06b8bd526365eec86d8a8ccfb6fa51e7fe5469bddd939",
+      "path": "public/images/hero-finished-home.png",
+      "sha256": "21366de96aaae450244cb562039b1f4951c9634af7a934fe2f35ff05d4925c85",
       "mimeType": "image/png",
-      "width": 512,
-      "height": 512,
-      "bytes": 182569,
-      "altText": "All In One Exteriors logo",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 1772001,
+      "altText": "Two-story stone and siding home with a finished metal roof in Alpharetta, GA",
       "crop": null,
       "focalPoint": null
     }
   },
   "faq": {
-    "heading": "Roof replacement questions, answered",
+    "heading": "Straight answers before you call.",
     "order": {
       "orderedItemIds": [
         "item_000000000000000000000000g0",
+        "item_000000000000000000000001g0",
+        "item_000000000000000000000001h0",
+        "item_000000000000000000000001j0",
+        "item_000000000000000000000001k0",
         "item_000000000000000000000000h0"
       ]
     },
@@ -27,17 +31,37 @@
       {
         "id": "item_000000000000000000000000g0",
         "question": "Is the roof inspection paid?",
-        "answer": "Yes. Inspections are a paid service. Request a roof estimate and we will talk through your property and roof needs first."
+        "answer": "Yes. Inspections are a paid service. Start by requesting a roof estimate and we will talk through your property and roof needs."
+      },
+      {
+        "id": "item_000000000000000000000001g0",
+        "question": "What warranty comes with a roof replacement?",
+        "answer": "Replacements carry manufacturer-backed coverage: a lifetime warranty on materials and 5 to 10 years on labor, depending on the manufacturer. Exact terms vary by manufacturer, so ask us for the specifics on the system you choose."
+      },
+      {
+        "id": "item_000000000000000000000001h0",
+        "question": "Who should request the estimate?",
+        "answer": "The homeowner or the authorized decision maker for the property. That keeps the conversation with the person who can approve the scope of work."
+      },
+      {
+        "id": "item_000000000000000000000001j0",
+        "question": "My roof is leaking or damaged. Can I still request an estimate?",
+        "answer": "Yes. Leaking or damaged roofs and standard, planned replacements both qualify. Tell us on the form if your roof is leaking or damaged so we know it is urgent."
+      },
+      {
+        "id": "item_000000000000000000000001k0",
+        "question": "Do you work on commercial roofs?",
+        "answer": "Residential roof replacement is our focus, and light commercial inquiries are welcome. We hold NRCA certification for both low-slope and steep-slope roofing."
       },
       {
         "id": "item_000000000000000000000000h0",
         "question": "Which areas do you serve?",
-        "answer": "Our initial footprint covers Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell, and Dunwoody, GA. Light commercial inquiries are welcome."
+        "answer": "Our initial footprint covers Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell, and Dunwoody, GA."
       }
     ]
   },
   "contact": {
-    "heading": "Request a Roof Estimate"
+    "heading": "Request a Roof Estimate."
   },
   "seo": {
     "title": "Roof Replacement in North Metro Atlanta | All In One Exteriors",
