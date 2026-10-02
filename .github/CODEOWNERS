@@ -1,0 +1,15 @@
+# Every change to a Gomega-built site is reviewed before it merges.
+#
+# GitHub requests this reviewer automatically on every pull request, so nobody
+# has to remember who to ask and a PR cannot quietly sit with no reviewer
+# assigned. That failure is invisible: the PR looks healthy, CI is green, and
+# nothing says it is unassigned.
+#
+# `tommy-gomega` reviews the zleague repositories and is NOT a collaborator
+# here. Requesting them in this org fails with a 422 and leaves the PR
+# unreviewed, so do not add them as a fallback.
+#
+# This file is part of the site-starter template, so every site scaffolded from
+# it inherits the rule. Sites created before it landed need it copied in.
+
+* @website-pr-review-mega

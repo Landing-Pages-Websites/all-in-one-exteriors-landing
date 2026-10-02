@@ -1,0 +1,89 @@
+name: Site Starter CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: site-starter-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  # The contract package lives in GitHub Packages, and npm reaches for its
+  # metadata even when the lockfile resolves it through the workspace link.
+  # Without this the job's token authenticates and is then refused: 403,
+  # "Permission installation not allowed to Read organization package".
+  packages: read
+
+jobs:
+  verify:
+    name: Verify starter and managed-site contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+          registry-url: https://npm.pkg.github.com
+          scope: "@landing-pages-websites"
+
+      - name: Install exact dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+
+      - name: Test starter behavior
+        run: npm test
+
+      - name: Type-check managed-site contract
+        run: npm --workspace @landing-pages-websites/managed-site-contract run type-check
+
+      - name: Test managed-site contract
+        run: npm --workspace @landing-pages-websites/managed-site-contract run test
+
+      - name: Build managed-site contract and verify schema artifact
+        run: npm --workspace @landing-pages-websites/managed-site-contract run build
+
+      - name: Type-check managed-site conversion proposer
+        run: npm --workspace @landing-pages-websites/managed-site-conversion run type-check
+
+      - name: Test managed-site conversion proposer
+        run: npm --workspace @landing-pages-websites/managed-site-conversion run test
+
+      - name: Conform Astro reference content
+        run: npm run conformance:astro-reference
+
+      - name: Check Astro reference fixture
+        run: npm run check:astro-reference
+
+      - name: Build Astro reference fixture
+        run: npm run build:astro-reference
+
+      - name: Prove a conversion changes nothing rendered
+        run: npm run parity:reference
+
+      - name: Lint starter
+        run: npm run lint
+
+      - name: Build starter template
+        env:
+          ALLOW_TODO: "1"
+        run: npm run build
+
+      # The go-live sweep fails a production site whose scripts contain an
+      # always-pass site key, even as a literal the browser never takes. Code
+      # literals ship regardless of env, so the default build above is enough.
+      - name: Check the build serves no always-pass captcha key
+        run: node scripts/client-bundle-sentinel.mjs

@@ -1,0 +1,43 @@
+{
+  "contentRoot": "src/content",
+  "assetRoot": "public",
+  "bridge": {
+    "version": "v10",
+    "src": "https://app.gomega.ai/review-bridge/v10/review-bridge.js",
+    "integrity": "sha384-/+5J7l1l8JNgnIgvgOqEHDgx92NrGmbjezpRb/MZb2y0RildsCcaOVu8+mLZbrmF",
+    "crossOrigin": "anonymous",
+    "load": "head_defer"
+  },
+  "businessIdentity": {
+    "legalName": "Northwind Signs Ltd",
+    "displayName": "Northwind Signs",
+    "telephone": "+15555550100",
+    "email": "hello@northwind.example",
+    "description": "Signage designed, built and installed by one crew.",
+    "sameAs": ["https://www.northwind.example/"]
+  },
+  "pages": {
+    "/": {
+      "purpose": "home",
+      "canonical": "https://www.northwind.example/",
+      "sitemap": { "included": true, "changeFrequency": "monthly", "priority": 1 },
+      "performanceBudget": {
+        "maxLcpMilliseconds": 2500,
+        "maxCls": 0.1,
+        "maxInpMilliseconds": 200,
+        "maxPageBytes": 2097152
+      }
+    },
+    "/about": {
+      "purpose": "landing",
+      "canonical": "https://www.northwind.example/about",
+      "sitemap": { "included": true, "changeFrequency": "monthly", "priority": 0.5 },
+      "performanceBudget": {
+        "maxLcpMilliseconds": 2500,
+        "maxCls": 0.1,
+        "maxInpMilliseconds": 200,
+        "maxPageBytes": 2097152
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "identity": {
+    "legalName": "TODO_LEGAL_NAME",
+    "displayName": "TODO_BUSINESS_NAME",
+    "description": "TODO_BUSINESS_DESCRIPTION — one or two sentences about the business.",
+    "telephone": "TODO_PHONE",
+    "postalAddress": {
+      "streetAddress": "TODO_STREET",
+      "addressLocality": "TODO_CITY",
+      "addressRegion": "TODO_REGION",
+      "postalCode": "TODO_POSTAL_CODE",
+      "addressCountry": "US"
+    },
+    "email": "TODO_EMAIL",
+    "sameAs": ["https://example.com/TODO_SOCIAL_PROFILE"]
+  }
+}

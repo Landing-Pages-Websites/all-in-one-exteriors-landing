@@ -1,0 +1,54 @@
+---
+import {
+  managedRichTextBreakAttributesV1,
+  managedRichTextMarkAttributesV1,
+  type ManagedRichTextSpan,
+} from "@landing-pages-websites/managed-site-contract";
+
+import { managedAstroLinkAttributes } from "../lib/managed-site";
+
+interface Props {
+  readonly spans: readonly ManagedRichTextSpan[];
+}
+
+const { spans } = Astro.props;
+---
+
+{
+  // Each mark renders through this site's own element for it and names the
+  // mark with `data-gomega-mark`, so an editor previewing a change reuses the
+  // element rather than guessing at the styling. The `never` default makes a
+  // mark the contract adds a type error here rather than text this page drops.
+  spans.map((span) => {
+    if (span.kind === "text") return span.text;
+    // A line break is structure: this site draws it as a plain `<br>`, named
+    // with `data-gomega-break` so an editor previewing a change finds and
+    // reuses it. A site with its own line element renders that here instead.
+    if (span.kind === "hard_break") return <br {...managedRichTextBreakAttributesV1()} />;
+    const mark = span.mark;
+    switch (mark.type) {
+      case "bold":
+        return (
+          <strong class="managed-rich-text__bold" {...managedRichTextMarkAttributesV1("bold")}>
+            <Astro.self spans={span.children} />
+          </strong>
+        );
+      case "italic":
+        return (
+          <em class="managed-rich-text__italic" {...managedRichTextMarkAttributesV1("italic")}>
+            <Astro.self spans={span.children} />
+          </em>
+        );
+      case "link":
+        return (
+          <a {...managedAstroLinkAttributes(mark)} {...managedRichTextMarkAttributesV1("link")}>
+            <Astro.self spans={span.children} />
+          </a>
+        );
+      default: {
+        const unrendered: never = mark;
+        return unrendered;
+      }
+    }
+  })
+}

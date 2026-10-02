@@ -1,0 +1,59 @@
+{
+  "contentRoot": "src/content",
+  "assetRoot": "public",
+
+  "bridge": {
+    "version": "v10",
+    "src": "https://app.gomega.ai/review-bridge/v10/review-bridge.js",
+    "integrity": "sha384-/+5J7l1l8JNgnIgvgOqEHDgx92NrGmbjezpRb/MZb2y0RildsCcaOVu8+mLZbrmF",
+    "crossOrigin": "anonymous",
+    "load": "head_defer"
+  },
+
+  "businessIdentity": {
+    "legalName": "Example Holdings Ltd",
+    "displayName": "Example",
+    "telephone": "+15555550100",
+    "email": "hello@example.com",
+    "description": "What the business does, in one sentence.",
+    "sameAs": ["https://www.example.com/"]
+  },
+
+  "pages": {
+    "/": {
+      "purpose": "home",
+      "canonical": "https://www.example.com/",
+      "sitemap": { "included": true, "changeFrequency": "monthly", "priority": 1 },
+      "performanceBudget": {
+        "maxLcpMilliseconds": 2500,
+        "maxCls": 0.1,
+        "maxInpMilliseconds": 200,
+        "maxPageBytes": 2097152
+      }
+    },
+
+    "/admin": {
+      "purpose": "other",
+      "canonical": "https://www.example.com/admin",
+      "sitemap": { "included": false, "changeFrequency": "never", "priority": 0 },
+      "performanceBudget": {
+        "maxLcpMilliseconds": 2500,
+        "maxCls": 0.1,
+        "maxInpMilliseconds": 200,
+        "maxPageBytes": 2097152
+      },
+      "managedContent": false
+    }
+  },
+
+  "text": {
+    "labelMaxLength": 160,
+    "bodyMaxLength": 1000,
+    "headingMaxLength": 300,
+    "linkLabelMaxLength": 160,
+    "richTextMaxCharacters": 2000,
+    "richTextMaxNodes": 200
+  },
+  "collections": { "minItems": 1, "maxItems": 24 },
+  "assets": { "maxBytes": 5242880 }
+}

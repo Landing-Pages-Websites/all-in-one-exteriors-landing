@@ -1,0 +1,29 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    // Widened past this package: `image-probe.ts` imports the repository's one
+    // image header parser from `src/lib/`, which has to live there because the
+    // starter's `src/` is copied wholesale into customer sites that have no
+    // workspace packages. Nothing is emitted from this project, so `rootDir`
+    // only decides which files `tsc` will accept.
+    "rootDir": "../..",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "jsx": "preserve",
+    "types": ["node"],
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  // The root config excludes `**/*.test.ts` for the Next.js app. Inheriting it
+  // here made this project's `include` a lie: the suites were listed and never
+  // checked, so a signature change could break every caller in `test/` while
+  // `tsc --noEmit` still exited 0. Fixtures stay excluded for the reason the
+  // root config gives — they are a stand-in customer repository.
+  "exclude": ["node_modules", "test/fixtures/**"]
+}

@@ -1,0 +1,70 @@
+---
+import {
+  managedSitePageAttributesV1,
+  type JsonValue,
+  type StableId,
+} from "@landing-pages-websites/managed-site-contract";
+
+import "../styles/global.css";
+
+interface IndexingDirectives {
+  readonly index: boolean;
+  readonly follow: boolean;
+  readonly archive: boolean;
+  readonly imageIndex: boolean;
+  readonly maxSnippet: number;
+  readonly maxImagePreview: "none" | "standard" | "large";
+  readonly maxVideoPreview: number;
+}
+
+interface Props {
+  readonly pageId: StableId<"page">;
+  readonly seo: Readonly<{
+    readonly title: string;
+    readonly description: string;
+    readonly canonical: string;
+    readonly indexing: IndexingDirectives;
+  }>;
+  readonly jsonLd: JsonValue;
+}
+
+function robotsContent(indexing: IndexingDirectives): string {
+  return [
+    indexing.index ? "index" : "noindex",
+    indexing.follow ? "follow" : "nofollow",
+    indexing.archive ? "archive" : "noarchive",
+    indexing.imageIndex ? "indexifembedded" : "noimageindex",
+    `max-snippet:${indexing.maxSnippet}`,
+    `max-image-preview:${indexing.maxImagePreview}`,
+    `max-video-preview:${indexing.maxVideoPreview}`,
+  ].join(", ");
+}
+
+const { pageId, seo, jsonLd } = Astro.props;
+const pageAttributes = managedSitePageAttributesV1(pageId);
+---
+
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={seo.description} />
+    <meta name="robots" content={robotsContent(seo.indexing)} />
+    <link rel="canonical" href={seo.canonical} />
+    <title>{seo.title}</title>
+    <script is:inline type="application/ld+json" set:text={JSON.stringify(jsonLd)}></script>
+    <script
+      is:inline
+      src="https://app.gomega.ai/review-bridge/v10/review-bridge.js"
+      integrity="sha384-/+5J7l1l8JNgnIgvgOqEHDgx92NrGmbjezpRb/MZb2y0RildsCcaOVu8+mLZbrmF"
+      crossorigin="anonymous"
+      defer
+    ></script>
+  </head>
+  <body>
+    <main {...pageAttributes}>
+      <slot />
+    </main>
+  </body>
+</html>

@@ -1,0 +1,395 @@
+{
+  "schemaVersion": "1.0",
+  "contractId": "contract_00000000000000000000000010",
+  "adapter": { "kind": "nextjs", "adapterVersion": "1.0" },
+  "bridge": {
+    "reviewProtocol": 1,
+    "editProtocol": 2,
+    "annotationVersion": 1,
+    "delivery": {
+      "version": "v8",
+      "src": "https://app.gomega.ai/review-bridge/v8/review-bridge.js",
+      "integrity": "sha384-NDzGBYX794WmGsQUlic19v8G9ogOh2mtRqxSD9BO7Xgme8nIU1KI9ospotd6zUvo",
+      "crossOrigin": "anonymous",
+      "load": "head_defer"
+    },
+    "framing": "authenticated_preview_gateway"
+  },
+  "pages": [
+    {
+      "id": "page_00000000000000000000000020",
+      "presentation": {
+        "name": "Home",
+        "description": "Primary customer-facing home page",
+        "group": "Pages",
+        "order": 1,
+        "example": null
+      },
+      "route": { "kind": "static", "path": "/" },
+      "sections": [
+        {
+          "id": "section_00000000000000000000000030",
+          "presentation": {
+            "name": "Hero",
+            "description": "Primary introduction and brand image",
+            "group": "Home",
+            "order": 1,
+            "example": null
+          },
+          "fields": [
+            {
+              "id": "field_00000000000000000000000060",
+              "scope": "page",
+              "type": "plain_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/hero/eyebrow" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "Hero eyebrow", "description": null, "group": "Hero", "order": 1, "example": null },
+              "semantic": "label",
+              "constraints": { "minLength": 1, "maxLength": 100, "newlines": "forbid" }
+            },
+            {
+              "id": "field_00000000000000000000000070",
+              "scope": "page",
+              "type": "heading_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/hero/title" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "Hero heading", "description": null, "group": "Hero", "order": 2, "example": null },
+              "semanticLevel": 1,
+              "constraints": { "minLength": 1, "maxLength": 100, "newlines": "forbid" }
+            },
+            {
+              "id": "field_00000000000000000000000080",
+              "scope": "page",
+              "type": "plain_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/hero/description" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "Hero description", "description": null, "group": "Hero", "order": 3, "example": null },
+              "semantic": "body",
+              "constraints": { "minLength": 1, "maxLength": 400, "newlines": "allow" }
+            },
+            {
+              "id": "field_00000000000000000000000090",
+              "scope": "page",
+              "type": "image",
+              "classification": "customer_editable",
+              "capabilities": ["image.upload", "image.crop", "image.focal_point.edit", "image.alt.edit"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/hero/image" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "Hero image", "description": "Square brand or project image", "group": "Hero", "order": 4, "example": null },
+              "assetSlotId": "asset_000000000000000000000000a0"
+            }
+          ]
+        },
+        {
+          "id": "section_00000000000000000000000040",
+          "presentation": { "name": "FAQ", "description": null, "group": "Home", "order": 2, "example": null },
+          "fields": [
+            {
+              "id": "field_000000000000000000000000b0",
+              "scope": "page",
+              "type": "heading_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/faq/heading" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "FAQ heading", "description": null, "group": "FAQ", "order": 1, "example": null },
+              "semanticLevel": 2,
+              "constraints": { "minLength": 1, "maxLength": 100, "newlines": "forbid" }
+            },
+            {
+              "id": "field_000000000000000000000000c0",
+              "scope": "page",
+              "type": "collection",
+              "classification": "customer_editable",
+              "capabilities": ["collection.reorder", "collection.add", "collection.remove"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/faq/order" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "FAQ items", "description": null, "group": "FAQ", "order": 2, "example": null },
+              "collectionId": "collection_000000000000000000000000d0"
+            }
+          ]
+        },
+        {
+          "id": "section_00000000000000000000000050",
+          "presentation": { "name": "Contact", "description": null, "group": "Home", "order": 3, "example": null },
+          "fields": [
+            {
+              "id": "field_000000000000000000000000j0",
+              "scope": "page",
+              "type": "heading_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/contact/heading" },
+              "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+              "presentation": { "name": "Contact heading", "description": null, "group": "Contact", "order": 1, "example": null },
+              "semanticLevel": 2,
+              "constraints": { "minLength": 1, "maxLength": 100, "newlines": "forbid" }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "id": "collection_000000000000000000000000d0",
+      "presentation": { "name": "Frequently asked questions", "description": null, "group": "Home", "order": 1, "example": null },
+      "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/faq/items" },
+      "itemIdPointer": "/id",
+      "itemIdPolicy": "server_minted",
+      "minItems": 1,
+      "maxItems": 20,
+      "itemFields": [
+        {
+          "id": "field_000000000000000000000000e0",
+          "type": "plain_text",
+          "classification": "customer_editable",
+          "capabilities": ["text.edit"],
+          "itemPointer": "/question",
+          "presentation": { "name": "Question", "description": null, "group": "FAQ item", "order": 1, "example": null },
+          "semantic": "label",
+          "constraints": { "minLength": 1, "maxLength": 300, "newlines": "forbid" }
+        },
+        {
+          "id": "field_000000000000000000000000f0",
+          "type": "plain_text",
+          "classification": "customer_editable",
+          "capabilities": ["text.edit"],
+          "itemPointer": "/answer",
+          "presentation": { "name": "Answer", "description": null, "group": "FAQ item", "order": 2, "example": null },
+          "semantic": "body",
+          "constraints": { "minLength": 1, "maxLength": 1000, "newlines": "allow" }
+        }
+      ],
+      "uniqueness": [{ "fieldIds": ["field_000000000000000000000000e0"], "comparison": "case_folded" }],
+      "deletion": { "whenReferenced": "restrict", "restorable": true }
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset_000000000000000000000000a0",
+      "presentation": { "name": "Hero image", "description": "Square image shown above the main heading", "group": "Home", "order": 1, "example": null },
+      "semantics": { "kind": "informative" },
+      "acceptedMimeTypes": ["image/png"],
+      "outputMimeTypes": ["image/png"],
+      "minWidth": 256,
+      "maxWidth": 2048,
+      "minHeight": 256,
+      "maxHeight": 2048,
+      "aspectRatios": [{ "width": 1, "height": 1 }],
+      "cropPolicy": "optional",
+      "focalPointPolicy": "optional",
+      "maxBytes": 5242880
+    }
+  ],
+  "internalSeo": {
+    "protectedFields": [
+      {
+        "id": "field_000000000000000000000000k0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.legal_name",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/legalName" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Legal name", "description": null, "group": "SEO (internal)", "order": 1, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000m0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.display_name",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/displayName" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Display name", "description": null, "group": "SEO (internal)", "order": 2, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000x0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.description",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/description" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Business description", "description": null, "group": "SEO (internal)", "order": 3, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000n0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.telephone",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/telephone" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Telephone", "description": null, "group": "SEO (internal)", "order": 3, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000p0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "postal_address",
+        "semantic": "business.postal_address",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/postalAddress" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Postal address", "description": null, "group": "SEO (internal)", "order": 4, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000q0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.email",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/email" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Email", "description": null, "group": "SEO (internal)", "order": 5, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000r0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string_list",
+        "semantic": "business.same_as",
+        "resolver": { "kind": "json_pointer", "path": "src/content/site.json", "pointer": "/identity/sameAs" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Social profiles", "description": null, "group": "SEO (internal)", "order": 6, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000s0",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "seo.title",
+        "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/seo/title" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Metadata title", "description": null, "group": "SEO (internal)", "order": 7, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000t0",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "seo.description",
+        "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/seo/description" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Metadata description", "description": null, "group": "SEO (internal)", "order": 8, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000v0",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "url",
+        "semantic": "seo.canonical",
+        "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/seo/canonical" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Canonical URL", "description": null, "group": "SEO (internal)", "order": 9, "example": null }
+      },
+      {
+        "id": "field_000000000000000000000000w0",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "indexing_directives",
+        "semantic": "seo.indexing",
+        "resolver": { "kind": "json_pointer", "path": "src/content/pages/home.json", "pointer": "/seo/indexing" },
+        "usages": [{ "pageId": "page_00000000000000000000000020", "itemId": null }],
+        "presentation": { "name": "Indexing directives", "description": null, "group": "SEO (internal)", "order": 10, "example": null }
+      }
+    ],
+    "businessIdentity": {
+      "legalName": "field_000000000000000000000000k0",
+      "displayName": "field_000000000000000000000000m0",
+      "telephone": "field_000000000000000000000000n0",
+      "postalAddress": "field_000000000000000000000000p0",
+      "email": "field_000000000000000000000000q0",
+      "geo": null,
+      "openingHours": null,
+      "sameAs": "field_000000000000000000000000r0"
+    },
+    "pages": [
+      {
+        "pageId": "page_00000000000000000000000020",
+        "intent": {
+          "purpose": "home",
+          "primaryEntity": "field_000000000000000000000000m0",
+          "services": [],
+          "locations": ["field_000000000000000000000000p0"]
+        },
+        "metadata": {
+          "title": "field_000000000000000000000000s0",
+          "description": "field_000000000000000000000000t0",
+          "canonical": "field_000000000000000000000000v0",
+          "indexing": "field_000000000000000000000000w0",
+          "social": {
+            "title": "field_000000000000000000000000s0",
+            "description": "field_000000000000000000000000t0",
+            "image": null
+          }
+        },
+        "headingOutline": [
+          { "fieldId": "field_00000000000000000000000070", "semanticLevel": 1 },
+          { "fieldId": "field_000000000000000000000000b0", "semanticLevel": 2 },
+          { "fieldId": "field_000000000000000000000000j0", "semanticLevel": 2 }
+        ],
+        "jsonLd": [
+          {
+            "schemaType": "LocalBusiness",
+            "required": true,
+            "sourceFieldIds": [
+              "field_000000000000000000000000k0",
+              "field_000000000000000000000000m0",
+              "field_000000000000000000000000x0",
+              "field_000000000000000000000000n0",
+              "field_000000000000000000000000p0",
+              "field_000000000000000000000000q0",
+              "field_000000000000000000000000r0",
+              "field_000000000000000000000000t0"
+            ],
+            "requiredOutputProperties": ["name", "legalName", "description", "telephone", "address"]
+          }
+        ],
+        "breadcrumbParentPageId": null,
+        "internalLinks": { "requiredPageIds": [], "minimumInboundLinks": 0 },
+        "sitemap": { "included": true, "changeFrequency": "monthly", "priority": 1 },
+        "primaryImageAssetSlotId": "asset_000000000000000000000000a0",
+        "performanceBudget": {
+          "maxLcpMilliseconds": 2500,
+          "maxCls": 0.1,
+          "maxInpMilliseconds": 200,
+          "maxPageBytes": 1500000
+        }
+      }
+    ],
+    "generatedPages": [],
+    "redirects": []
+  },
+  "atomicAliasGroups": [],
+  "tombstonedIds": []
+}

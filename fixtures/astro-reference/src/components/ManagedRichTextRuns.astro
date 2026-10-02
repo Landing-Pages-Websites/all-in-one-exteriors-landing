@@ -1,0 +1,23 @@
+---
+import {
+  groupManagedRichTextInlines,
+  type ManagedRichTextInline,
+} from "@landing-pages-websites/managed-site-contract";
+import ManagedRichTextSpans from "./ManagedRichTextSpans.astro";
+
+interface Props {
+  readonly content: readonly ManagedRichTextInline[];
+}
+
+const { content } = Astro.props;
+
+/**
+ * Runs that share their outer mark render inside one element, the order a
+ * text node lists its marks in is the nesting order, and unmarked text is a
+ * bare text node. Grouping is the contract's, so this page and a converted Next
+ * site nest the same value the same way.
+ */
+const spans = groupManagedRichTextInlines(content);
+---
+
+<ManagedRichTextSpans spans={spans} />

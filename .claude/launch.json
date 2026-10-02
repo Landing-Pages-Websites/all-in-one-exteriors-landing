@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site-starter",
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["ALLOW_TODO=1", "npm", "run", "dev"],
+      "port": 3000
+    }
+  ]
+}

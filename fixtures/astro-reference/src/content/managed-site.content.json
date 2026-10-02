@@ -1,0 +1,517 @@
+{
+  "schemaVersion": "1.0",
+  "values": [
+    {
+      "fieldId": "field_j4zgmrbv0ka6g8dbczzjh12wr4",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "plain_text",
+      "value": "Care for homes built to last"
+    },
+    {
+      "fieldId": "field_3az4j5jfpxw2wq8f561w3rb0rw",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "heading_text",
+      "value": "Steady hands for the work your home needs."
+    },
+    {
+      "fieldId": "field_f9hr7zz5r429qrgyqa0an9x230",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "plain_text",
+      "value": "Repairs, seasonal upkeep, and practical improvements delivered with clear scopes, careful finishes, and respect for the character of your home."
+    },
+    {
+      "fieldId": "field_cape56j57edrbj8c2f3dwfph6w",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "image",
+      "value": {
+        "path": "public/logo.png",
+        "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "bytes": 1881,
+        "altText": "Harbor & Pine compass mark",
+        "crop": null,
+        "focalPoint": null
+      }
+    },
+    {
+      "fieldId": "field_xdd7hsm5jrnz1zbefaxxp7b19g",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "heading_text",
+      "value": "Small jobs, handled with uncommon care."
+    },
+    {
+      "fieldId": "field_n2f0j3sg2pv06r1cw6y3zskv84",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "collection",
+      "value": {
+        "orderedItemIds": [
+          "item_kynck6cpcd7y3xav5fzeesxdhm",
+          "item_cjn91vyj03j7mcnqcp2cq248sc"
+        ]
+      }
+    },
+    {
+      "fieldId": "field_dpm59kwe8c1t5gq9snbbdn8bf0",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "heading_text",
+      "value": "A better repair starts with a clear conversation."
+    },
+    {
+      "fieldId": "field_qgw8x9zwb8b1dwevnfa6n757w0",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Harbor & Pine Home Services Inc."
+    },
+    {
+      "fieldId": "field_heh85apwqxwzze80wk7jnxfw30",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Harbor & Pine"
+    },
+    {
+      "fieldId": "field_cfra2je02pncs3a6rm7vjt4cmm",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Thoughtful repairs and seasonal care for older homes across Toronto's west end."
+    },
+    {
+      "fieldId": "field_0tz4t0w4ezh6gmhmb1xgr0dnfr",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "+1-416-555-0142"
+    },
+    {
+      "fieldId": "field_5hbfrpqpn8k5phr3ba4nv5byfm",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "postal_address",
+      "value": {
+        "streetAddress": "142 Cedar Lane",
+        "addressLocality": "Toronto",
+        "addressRegion": "ON",
+        "postalCode": "M6R 2B7",
+        "addressCountry": "CA"
+      }
+    },
+    {
+      "fieldId": "field_jqq5kck8qptddfgbrsd4wtqdp8",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "hello@harborandpine.example"
+    },
+    {
+      "fieldId": "field_e9znd47pde4hnb6bfgs4tx2a8g",
+      "owner": {
+        "kind": "site"
+      },
+      "type": "internal_protected",
+      "valueType": "string_list",
+      "value": [
+        "https://www.instagram.com/harborandpinehome"
+      ]
+    },
+    {
+      "fieldId": "field_fvs5z5eze8vz38ya99mq67m5y4",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Harbor & Pine | Thoughtful Home Repair in Toronto"
+    },
+    {
+      "fieldId": "field_300b5sajrwhj0fyx7g44dzr604",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Careful home repairs, seasonal maintenance, and practical improvements for older houses across Toronto's west end."
+    },
+    {
+      "fieldId": "field_4fe2nvzk5qb5dnqwk6ya22qfv4",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "internal_protected",
+      "valueType": "url",
+      "value": "https://astro-reference.gomega.ai/"
+    },
+    {
+      "fieldId": "field_2h9458bbh771w90v4jys1cv8pc",
+      "owner": {
+        "kind": "page",
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348"
+      },
+      "type": "internal_protected",
+      "valueType": "indexing_directives",
+      "value": {
+        "index": true,
+        "follow": true,
+        "archive": true,
+        "imageIndex": true,
+        "maxSnippet": -1,
+        "maxImagePreview": "large",
+        "maxVideoPreview": -1
+      }
+    },
+    {
+      "fieldId": "field_xd6r9z2k24s8xq0a6fps88by7c",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "seasonal-home-care"
+    },
+    {
+      "fieldId": "field_kwe37h6ajzbtrbedndta9ygenr",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Seasonal Home Care | Harbor & Pine"
+    },
+    {
+      "fieldId": "field_08yfvs6qxtr0a18rtrme7k0frm",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "A practical spring and fall maintenance visit for Toronto homes, with a clear checklist and prioritized recommendations."
+    },
+    {
+      "fieldId": "field_e10ak1cnfed1bxtp0atj3fw298",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "internal_protected",
+      "valueType": "url",
+      "value": "https://astro-reference.gomega.ai/services/seasonal-home-care"
+    },
+    {
+      "fieldId": "field_sf4rqx8xrv1hk9tahe6ervpwmc",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "internal_protected",
+      "valueType": "indexing_directives",
+      "value": {
+        "index": true,
+        "follow": true,
+        "archive": true,
+        "imageIndex": true,
+        "maxSnippet": -1,
+        "maxImagePreview": "large",
+        "maxVideoPreview": -1
+      }
+    },
+    {
+      "fieldId": "field_jsenkjjm5mk1frd86y5728kye0",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "heading_text",
+      "value": "Seasonal home care"
+    },
+    {
+      "fieldId": "field_p3g400fzy4zt2dr29rm82b6w38",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "plain_text",
+      "value": "A calm, methodical reset for the details that protect your home through the next season."
+    },
+    {
+      "fieldId": "field_g3xc241ryqbvkph08mjs0rvzw0",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "rich_text",
+      "value": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "We inspect the small systems that quietly prevent larger repairs: exterior seals, drainage, hardware, ventilation, and the visible signs of seasonal wear."
+              }
+            ]
+          },
+          {
+            "type": "bullet_list",
+            "content": [
+              {
+                "type": "list_item",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "One prioritized home-care checklist",
+                        "marks": [
+                          {
+                            "type": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "list_item",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "Minor adjustments completed during the visit"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fieldId": "field_c96812gmb16vbej8h6x8f09em8",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_kynck6cpcd7y3xav5fzeesxdhm"
+      },
+      "type": "image",
+      "value": {
+        "path": "public/logo.png",
+        "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "bytes": 1881,
+        "altText": "Harbor & Pine seasonal home care",
+        "crop": null,
+        "focalPoint": null
+      }
+    },
+    {
+      "fieldId": "field_xd6r9z2k24s8xq0a6fps88by7c",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "finish-repairs"
+    },
+    {
+      "fieldId": "field_kwe37h6ajzbtrbedndta9ygenr",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Finish Repairs | Harbor & Pine"
+    },
+    {
+      "fieldId": "field_08yfvs6qxtr0a18rtrme7k0frm",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "internal_protected",
+      "valueType": "string",
+      "value": "Precise drywall, trim, door, and finish repairs that make well-used Toronto rooms feel settled again."
+    },
+    {
+      "fieldId": "field_e10ak1cnfed1bxtp0atj3fw298",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "internal_protected",
+      "valueType": "url",
+      "value": "https://astro-reference.gomega.ai/services/finish-repairs"
+    },
+    {
+      "fieldId": "field_sf4rqx8xrv1hk9tahe6ervpwmc",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "internal_protected",
+      "valueType": "indexing_directives",
+      "value": {
+        "index": true,
+        "follow": true,
+        "archive": true,
+        "imageIndex": true,
+        "maxSnippet": -1,
+        "maxImagePreview": "large",
+        "maxVideoPreview": -1
+      }
+    },
+    {
+      "fieldId": "field_jsenkjjm5mk1frd86y5728kye0",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "heading_text",
+      "value": "Finish repairs"
+    },
+    {
+      "fieldId": "field_p3g400fzy4zt2dr29rm82b6w38",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "plain_text",
+      "value": "Measured repairs for drywall, trim, doors, and the small visual breaks that keep a room from feeling complete."
+    },
+    {
+      "fieldId": "field_g3xc241ryqbvkph08mjs0rvzw0",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "rich_text",
+      "value": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "We match the repair to the room, not just the damaged spot, so lines, reveals, sheen, and hardware feel intentional when the work is done."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Every scope is documented before work begins, with any hidden conditions discussed before the plan changes.",
+                "marks": [
+                  {
+                    "type": "italic"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fieldId": "field_c96812gmb16vbej8h6x8f09em8",
+      "owner": {
+        "kind": "collection_item",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "itemId": "item_cjn91vyj03j7mcnqcp2cq248sc"
+      },
+      "type": "image",
+      "value": {
+        "path": "public/logo.png",
+        "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "bytes": 1881,
+        "altText": "Harbor & Pine finish repair service",
+        "crop": null,
+        "focalPoint": null
+      }
+    }
+  ],
+  "assetManifest": [
+    {
+      "assetSlotId": "asset_1mg8eagexrart2my0547729ny0",
+      "path": "public/logo.png",
+      "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 1881
+    }
+  ]
+}

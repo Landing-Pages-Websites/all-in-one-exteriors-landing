@@ -1,0 +1,73 @@
+---
+import type { ManagedAstroRichText } from "../lib/managed-site";
+import ManagedRichTextRuns from "./ManagedRichTextRuns.astro";
+
+interface Props {
+  readonly document: ManagedAstroRichText;
+}
+
+const { document } = Astro.props;
+
+/**
+ * Levels 1 to 3 are the only ones the contract admits, so this is total over
+ * the level type rather than a guess about the rest.
+ */
+const HEADING_TAG = { 1: "h1", 2: "h2", 3: "h3" } as const;
+---
+
+<div class="managed-rich-text">
+  {
+    // One branch per block kind, and the `never` default makes a kind the
+    // contract adds a type error here rather than a block this page silently
+    // drops or renders as something else.
+    document.content.map((block) => {
+      switch (block.type) {
+        case "paragraph":
+          return (
+            <p>
+              <ManagedRichTextRuns content={block.content} />
+            </p>
+          );
+        case "heading": {
+          const Heading = HEADING_TAG[block.attrs.level];
+          return (
+            <Heading>
+              <ManagedRichTextRuns content={block.content} />
+            </Heading>
+          );
+        }
+        case "blockquote":
+          return (
+            <blockquote>
+              {block.content.map((paragraph) => (
+                <p>
+                  <ManagedRichTextRuns content={paragraph.content} />
+                </p>
+              ))}
+            </blockquote>
+          );
+        case "bullet_list":
+        case "ordered_list": {
+          const List = block.type === "ordered_list" ? "ol" : "ul";
+          return (
+            <List>
+              {block.content.map((item) => (
+                <li>
+                  {item.content.map((paragraph) => (
+                    <p>
+                      <ManagedRichTextRuns content={paragraph.content} />
+                    </p>
+                  ))}
+                </li>
+              ))}
+            </List>
+          );
+        }
+        default: {
+          const unrendered: never = block;
+          return unrendered;
+        }
+      }
+    })
+  }
+</div>

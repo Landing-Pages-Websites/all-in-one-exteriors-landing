@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "eyebrow": "TODO_HERO_EYEBROW — replace with real content",
+    "title": "TODO_BUSINESS_NAME",
+    "description": "TODO_DESCRIPTION — one or two sentences about the business.",
+    "image": {
+      "path": "public/logo.png",
+      "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 1881,
+      "altText": "TODO_BUSINESS_NAME logo",
+      "crop": null,
+      "focalPoint": null
+    }
+  },
+  "faq": {
+    "heading": "TODO_FAQ_HEADING — frequently asked questions",
+    "order": {
+      "orderedItemIds": [
+        "item_000000000000000000000000g0",
+        "item_000000000000000000000000h0"
+      ]
+    },
+    "items": [
+      {
+        "id": "item_000000000000000000000000g0",
+        "question": "TODO_FAQ_QUESTION_ONE — what services do you offer?",
+        "answer": "TODO_FAQ_ANSWER — replace this answer with real customer content."
+      },
+      {
+        "id": "item_000000000000000000000000h0",
+        "question": "TODO_FAQ_QUESTION_TWO — what areas do you serve?",
+        "answer": "TODO_SERVICE_AREA_ANSWER — describe the real service area."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "TODO_CONTACT_HEADING — get in touch"
+  },
+  "seo": {
+    "title": "TODO_SEO_TITLE",
+    "description": "TODO_SEO_DESCRIPTION — one or two search-focused sentences.",
+    "canonical": "https://todo.example.com/TODO_CANONICAL_URL",
+    "indexing": {
+      "index": true,
+      "follow": true,
+      "archive": true,
+      "imageIndex": true,
+      "maxSnippet": -1,
+      "maxImagePreview": "large",
+      "maxVideoPreview": -1
+    }
+  }
+}

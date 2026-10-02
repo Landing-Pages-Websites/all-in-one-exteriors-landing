@@ -1,0 +1,2578 @@
+{
+  "about": [
+    "One adversarial table for where a managed-site link may point, ported from megaseo-web",
+    "src/server/db/managed_sites/cms_link_rules.corpus.ts (the CMS rule public.managed_site_cms_link_destination_violation",
+    "and its TypeScript twin src/util/cms_link_rules.ts) and run here by site-starter packages/managed-site-contract",
+    "(the contract Site Guard parses and a site builds against).",
+    "Keep this file byte-identical wherever it is run; change every copy together.",
+    "Each case's constraints are shallow-merged over the named base.",
+    "reason is the CMS's refusal reason; the contract package reports its own error and is held to outcome only.",
+    "pageId is the page every internal case names; a CMS runner must declare it once in the contract's pages.",
+    "Every destination a declared base admits, its any_https counterpart (link_open, rich_open) admits too: switching a field from a declared list of DNS names to any_https is a true widening.",
+    "destinationCases: a link field value (label 'Read more', target same_window) or a rich-text link mark (target same_window).",
+    "policyCases: whether the field's constraints parse; the CMS refuses a rejected policy as 'link policy is invalid'.",
+    "labelCases: a link field label under link_open with labelConstraints.newlines set as stated.",
+    "contractOnly: a verdict the CMS has no counterpart for, with why."
+  ],
+  "pageId": "page_10000000000000000000000000",
+  "bases": {
+    "link_open": {
+      "labelConstraints": {
+        "minLength": 1,
+        "maxLength": 40,
+        "newlines": "forbid"
+      },
+      "authority": "internal_or_external",
+      "allowedSchemes": [
+        "https",
+        "mailto",
+        "tel"
+      ],
+      "allowedExternalHosts": [],
+      "externalHostPolicy": "any_https",
+      "fragmentPolicy": "declared",
+      "allowedFragments": [
+        "method",
+        "pricing"
+      ],
+      "allowedTargets": [
+        "same_window",
+        "new_window"
+      ]
+    },
+    "link_declared": {
+      "labelConstraints": {
+        "minLength": 1,
+        "maxLength": 40,
+        "newlines": "forbid"
+      },
+      "authority": "internal_or_external",
+      "allowedSchemes": [
+        "https"
+      ],
+      "allowedExternalHosts": [
+        "example.com"
+      ],
+      "fragmentPolicy": "forbid",
+      "allowedFragments": [],
+      "allowedTargets": [
+        "same_window"
+      ]
+    },
+    "rich_open": {
+      "maxCharacters": 2000,
+      "maxNodes": 100,
+      "allowedBlocks": [
+        "paragraph"
+      ],
+      "allowedMarks": [
+        "bold",
+        "italic"
+      ],
+      "allowLinks": true,
+      "allowedExternalHosts": [],
+      "externalHostPolicy": "any_https",
+      "allowedTargets": [
+        "same_window"
+      ]
+    },
+    "rich_declared": {
+      "maxCharacters": 2000,
+      "maxNodes": 100,
+      "allowedBlocks": [
+        "paragraph"
+      ],
+      "allowedMarks": [
+        "bold",
+        "italic"
+      ],
+      "allowLinks": true,
+      "allowedExternalHosts": [
+        "example.com"
+      ],
+      "allowedTargets": [
+        "same_window"
+      ]
+    }
+  },
+  "policyCases": [
+    {
+      "name": "a link field with no host policy",
+      "base": "link_declared",
+      "constraints": {},
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a link field with an explicit declared policy",
+      "base": "link_declared",
+      "constraints": {
+        "externalHostPolicy": "declared"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a declared policy with no hosts",
+      "base": "link_declared",
+      "constraints": {
+        "externalHostPolicy": "declared",
+        "allowedExternalHosts": []
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "any_https with no hosts",
+      "base": "link_open",
+      "constraints": {},
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "any_https beside a declared host list",
+      "base": "link_open",
+      "constraints": {
+        "allowedExternalHosts": [
+          "example.org"
+        ]
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a wildcard host policy value",
+      "base": "link_open",
+      "constraints": {
+        "externalHostPolicy": "*"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "an uppercase host policy value",
+      "base": "link_open",
+      "constraints": {
+        "externalHostPolicy": "ANY_HTTPS"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a null host policy",
+      "base": "link_open",
+      "constraints": {
+        "externalHostPolicy": null
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a boolean host policy",
+      "base": "link_open",
+      "constraints": {
+        "externalHostPolicy": true
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "an unknown host policy",
+      "base": "link_open",
+      "constraints": {
+        "externalHostPolicy": "any"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a padded host policy",
+      "base": "link_open",
+      "constraints": {
+        "externalHostPolicy": " any_https"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a rich-text field with no host policy",
+      "base": "rich_declared",
+      "constraints": {},
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a rich-text field with an explicit declared policy",
+      "base": "rich_declared",
+      "constraints": {
+        "externalHostPolicy": "declared"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a rich-text field under any_https",
+      "base": "rich_open",
+      "constraints": {},
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a rich-text field under an unknown host policy",
+      "base": "rich_open",
+      "constraints": {
+        "externalHostPolicy": "all"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a rich-text field under any_https with hosts listed",
+      "base": "rich_open",
+      "constraints": {
+        "allowedExternalHosts": [
+          "example.org"
+        ]
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "a rich-text field under a null host policy",
+      "base": "rich_open",
+      "constraints": {
+        "externalHostPolicy": null
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "links off with an any_https policy",
+      "base": "rich_open",
+      "contractOnly": "The CMS reads no link policy from a field whose links are off, so it has no verdict; the contract refuses a policy that governs nothing, as it refuses targets or hosts there.",
+      "constraints": {
+        "allowLinks": false,
+        "allowedTargets": []
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "links off with an explicit declared policy",
+      "base": "rich_declared",
+      "contractOnly": "The CMS reads no link policy from a field whose links are off, so it has no verdict; the contract refuses a policy that governs nothing, as it refuses targets or hosts there.",
+      "constraints": {
+        "allowLinks": false,
+        "allowedTargets": [],
+        "allowedExternalHosts": [],
+        "externalHostPolicy": "declared"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link policy is invalid"
+      }
+    },
+    {
+      "name": "links off with no policy",
+      "base": "rich_declared",
+      "contractOnly": "The CMS reads no link policy from a field whose links are off, so it has no verdict; the contract refuses a policy that governs nothing, as it refuses targets or hosts there.",
+      "constraints": {
+        "allowLinks": false,
+        "allowedTargets": [],
+        "allowedExternalHosts": []
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    }
+  ],
+  "destinationCases": [
+    {
+      "name": "an https link to any host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://any.example.org/a?b=c"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an https link with its own fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://docs.example.org/kit.html#page/1"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an https link to an uppercase host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://Any.Example.ORG/x"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a punycode host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://xn--bcher-kva.example/"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a bare https origin",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an internal link with no fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": null
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an internal link to a declared fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "method"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an email address",
+      "base": "link_open",
+      "destination": {
+        "kind": "email",
+        "address": "hello@example.org"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an E.164 number",
+      "base": "link_open",
+      "destination": {
+        "kind": "phone",
+        "number": "+14155550100"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com/before"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a declared host in another case",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://EXAMPLE.com/"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a zero-width non-joiner, which is not in the class",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u200cb"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "javascript:",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "javascript:alert(1)"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "http:",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "http://example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a protocol-relative url",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "//example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "an uppercase scheme",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "HTTPS://example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a mixed-case scheme",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "Https://example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "leading whitespace",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": " https://example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "trailing whitespace",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/ "
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a space inside the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a space inside the query",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/?q=a b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a space inside the fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/#a b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a non-breaking space, which is not a space or control",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u00a0b"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a tab inside the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\tb"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a newline inside the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\nb"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a C1 control inside the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u0085b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a BEL control inside the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u0007b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "an escape character in the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u001bb"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a DEL in the query",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/?a=\u007f"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a C1 control at the top of the range",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u009fb"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a line separator in the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u2028b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a paragraph separator in the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u2029b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a right-to-left override in the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/\u202egnp.exe"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a left-to-right embedding in the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\u202ab"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "an isolate in the host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://exa\u2066mple.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a pop-isolate in the query",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/?q=\u2069"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a right-to-left override in the fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/#a\u202eb"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a bidi override in an email address",
+      "base": "link_open",
+      "destination": {
+        "kind": "email",
+        "address": "a\u202e@example.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a tab in an email address",
+      "base": "link_open",
+      "destination": {
+        "kind": "email",
+        "address": "a\t@example.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a line separator in an email address",
+      "base": "link_open",
+      "destination": {
+        "kind": "email",
+        "address": "a\u2028@example.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a bidi override in a phone number",
+      "base": "link_open",
+      "destination": {
+        "kind": "phone",
+        "number": "+1415555\u202e0100"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a line separator in a fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "method\u2028"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "an embedding in a page id",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000\u202a",
+        "fragment": null
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a url at the length limit",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a url one past the length limit",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url is too long"
+      }
+    },
+    {
+      "name": "a quote and markup in the path",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/\"><script>alert(1)</script>"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a bare quote",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a\"b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a less-than",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a<b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a greater-than",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a>b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a backtick",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a`b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a quote in the fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/#a\"b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a percent-encoded quote and markup",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/%22%3E%3Cscript%3E"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a single quote, which a URL may carry",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/it's"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "userinfo",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://evil.test@example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "userinfo with a password",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://user:pw@example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "an @ in the query before any slash",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org?@evil.test"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "an encoded slash before an @ in the authority",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org%2f@evil.test/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "a port",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org:8443/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a backslash in the authority",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org\\evil.test/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "an IPv6 literal",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://[::1]/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a percent-encoded host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://ex%61mple.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "an underscore host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://ex_ample.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "an empty authority before a query",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://?x=1"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a Kelvin sign, which lowercases to k",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://\u212aexample.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a fullwidth dot in the host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example\uff0eorg/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "an IPv4 literal",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://127.0.0.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a private IPv4 literal",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://10.0.0.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a single-label host",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://localhost/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a decimal IP",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://2130706433/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a hex dotted IP",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://0x7f.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a hex IP",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://0x7f000001/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "an uppercase hex IP",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://0X7F.0.0.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "an octal dotted IP",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://0177.0.0.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a short dotted IP",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://127.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "an IP with a trailing dot",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://127.0.0.1./"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a host of exactly 253 characters",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.org/"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a host over 253 characters",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a label of exactly 63 characters",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.org/"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a label over 63 characters",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a top-level label over 63 characters",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a host over 253 characters built from 62-character labels",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a trailing dot",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org./"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "an empty label",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example..org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a label starting with a hyphen",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://-example.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a label ending with a hyphen",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example-.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a numeric top-level label",
+      "base": "link_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.123/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "an undeclared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://other.test/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "a subdomain of a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://www.example.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "a declared host as a prefix",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com.evil.test/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "an IP literal nobody declared",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://127.0.0.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "a hex IP nobody declared",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://0x7f.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "a trailing dot on a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com./"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "an empty declared host list",
+      "base": "link_declared",
+      "constraints": {
+        "allowedExternalHosts": []
+      },
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "an uppercase scheme on a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "HTTPS://example.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "leading whitespace on a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": " https://example.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a port on a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com:22/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a percent-encoded declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://ex%61mple.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a backslash after a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com\\evil.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "an @ in the query after a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com?@evil.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "an @ in the fragment after a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com#@evil.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "userinfo before a declared host",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://evil.org@example.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "a declared host with a query and no path",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com?x=1"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a declared host with a fragment and no path",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com#top"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a declared host with its own fragment",
+      "base": "link_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com/kit.html#page/1"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose link with a port on a declared host",
+      "base": "rich_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com:8443/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a prose link with an uppercase scheme on a declared host",
+      "base": "rich_declared",
+      "destination": {
+        "kind": "external",
+        "url": "HTTPS://example.com/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a prose link with an @ in the fragment after a declared host",
+      "base": "rich_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com#@evil.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "an explicit declared policy",
+      "base": "link_declared",
+      "constraints": {
+        "externalHostPolicy": "declared"
+      },
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com/"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "an explicit declared policy and an undeclared host",
+      "base": "link_declared",
+      "constraints": {
+        "externalHostPolicy": "declared"
+      },
+      "destination": {
+        "kind": "external",
+        "url": "https://other.test/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "a fragment the field did not declare",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "team"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination fragment is not permitted by the field"
+      }
+    },
+    {
+      "name": "a fragment the field forbids",
+      "base": "link_declared",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "method"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination fragment is not permitted by the field"
+      }
+    },
+    {
+      "name": "a fragment with a space",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "our method"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination fragment is malformed"
+      }
+    },
+    {
+      "name": "a script in a fragment",
+      "base": "link_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "x\"><script>"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination fragment is malformed"
+      }
+    },
+    {
+      "name": "an address with no at",
+      "base": "link_open",
+      "destination": {
+        "kind": "email",
+        "address": "hello.example.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an email address"
+      }
+    },
+    {
+      "name": "an address with a space",
+      "base": "link_open",
+      "destination": {
+        "kind": "email",
+        "address": "a b@example.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an email address"
+      }
+    },
+    {
+      "name": "a number with punctuation",
+      "base": "link_open",
+      "destination": {
+        "kind": "phone",
+        "number": "+1 415-555-0100"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an E.164 number"
+      }
+    },
+    {
+      "name": "a prose link to any host",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://any.example.org/"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose link to a fragment nothing declares",
+      "base": "rich_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "method"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose email",
+      "base": "rich_open",
+      "destination": {
+        "kind": "email",
+        "address": "a@example.org"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose phone number",
+      "base": "rich_open",
+      "destination": {
+        "kind": "phone",
+        "number": "+14155550100"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose link to a declared host",
+      "base": "rich_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com/x"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose link to an undeclared host",
+      "base": "rich_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://other.test/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not permitted by the field"
+      }
+    },
+    {
+      "name": "a prose link with a query ahead of the host check",
+      "base": "rich_declared",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.com?x=1"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose link to an IP literal",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://127.0.0.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a prose link to a hex IP",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://0x7f.1/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a prose link to a decimal IP",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://2130706433/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a prose link to a single-label host",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://localhost/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a prose link with a port under any_https",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org:8443/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a bare hostname"
+      }
+    },
+    {
+      "name": "a prose link with an @ in the query",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org?@evil.test"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries userinfo"
+      }
+    },
+    {
+      "name": "a prose link to a host over 253 characters",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.org/"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination host is not a domain name"
+      }
+    },
+    {
+      "name": "a prose javascript: link",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "javascript:alert(1)"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination is not an absolute https url"
+      }
+    },
+    {
+      "name": "a prose link with a malformed fragment",
+      "base": "rich_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "our method"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination fragment is malformed"
+      }
+    },
+    {
+      "name": "a prose link with a right-to-left override",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/\u202egnp.exe"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a prose link with a line separator in its fragment",
+      "base": "rich_open",
+      "destination": {
+        "kind": "internal",
+        "pageId": "page_10000000000000000000000000",
+        "fragment": "method\u2029"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a prose email with a tab",
+      "base": "rich_open",
+      "destination": {
+        "kind": "email",
+        "address": "a\t@example.org"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a prose phone number with an isolate",
+      "base": "rich_open",
+      "destination": {
+        "kind": "phone",
+        "number": "+1415555\u20670100"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination carries a disallowed character"
+      }
+    },
+    {
+      "name": "a prose link at the length limit",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a prose link one past the length limit",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url is too long"
+      }
+    },
+    {
+      "name": "a prose link breaking out of its attribute",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/\"><script>alert(1)</script>"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    },
+    {
+      "name": "a prose link with a backtick",
+      "base": "rich_open",
+      "destination": {
+        "kind": "external",
+        "url": "https://example.org/a`b"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "link destination url carries an unescaped character"
+      }
+    }
+  ],
+  "labelCases": [
+    {
+      "name": "a plain label",
+      "label": "Read more",
+      "newlines": "forbid",
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a label with a zero-width joiner, which is not in the class",
+      "label": "Read\u200dmore",
+      "newlines": "forbid",
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a line break where breaks are allowed",
+      "label": "Read\nmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a carriage return where breaks are allowed",
+      "label": "Read\rmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "accepted"
+      }
+    },
+    {
+      "name": "a line break where breaks are forbidden",
+      "label": "Read\nmore",
+      "newlines": "forbid",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a carriage return where breaks are forbidden",
+      "label": "Read\rmore",
+      "newlines": "forbid",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a NUL where breaks are allowed",
+      "label": "Read\u0000more",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a tab where breaks are allowed",
+      "label": "Read\tmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a vertical tab where breaks are allowed",
+      "label": "Read\u000bmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a form feed where breaks are allowed",
+      "label": "Read\fmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with an escape character where breaks are allowed",
+      "label": "Read\u001bmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a DEL where breaks are allowed",
+      "label": "Read\u007fmore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a C1 control where breaks are allowed",
+      "label": "Read\u0085more",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a line separator where breaks are allowed",
+      "label": "Read\u2028more",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a paragraph separator where breaks are allowed",
+      "label": "Read\u2029more",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a left-to-right embedding where breaks are allowed",
+      "label": "Read\u202amore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a right-to-left override where breaks are allowed",
+      "label": "Read\u202emore",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with an isolate where breaks are allowed",
+      "label": "Read\u2067more",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    },
+    {
+      "name": "a label with a pop-isolate where breaks are allowed",
+      "label": "Read\u2069more",
+      "newlines": "allow",
+      "expected": {
+        "outcome": "rejected"
+      }
+    }
+  ],
+  "compatibility": {
+    "contractOnly": "Contract compatibility (Site Guard's production-to-candidate check); the CMS has no counterpart. any_https widens a declared list only when it admits every host on it.",
+    "cases": [
+      {
+        "name": "link: a declared list grows",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example",
+            "b.example"
+          ]
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "link: a declared list shrinks",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example",
+            "b.example"
+          ]
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "link: a declared list becomes any_https",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "link: an empty declared list becomes any_https",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "link: a declared list becomes any_https, which refuses one of its hosts",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example",
+            "localhost"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "link: a declared IP host becomes any_https",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": [
+            "127.0.0.1"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "link: any_https stays any_https",
+        "fieldKind": "link",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "link: any_https becomes a declared list",
+        "fieldKind": "link",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "link: any_https becomes an empty declared list",
+        "fieldKind": "link",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "link: any_https becomes an explicit declared list",
+        "fieldKind": "link",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "link: an absent policy becomes an explicit declared one",
+        "fieldKind": "link",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "link: an explicit declared policy becomes an absent one",
+        "fieldKind": "link",
+        "production": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "link: an explicit declared list shrinks",
+        "fieldKind": "link",
+        "production": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: a declared list grows",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example",
+            "b.example"
+          ]
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "rich_text: a declared list shrinks",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example",
+            "b.example"
+          ]
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: a declared list becomes any_https",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "rich_text: an empty declared list becomes any_https",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "rich_text: a declared list becomes any_https, which refuses one of its hosts",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example",
+            "localhost"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: a declared IP host becomes any_https",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": [
+            "127.0.0.1"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: any_https stays any_https",
+        "fieldKind": "rich_text",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "rich_text: any_https becomes a declared list",
+        "fieldKind": "rich_text",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: any_https becomes an empty declared list",
+        "fieldKind": "rich_text",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: any_https becomes an explicit declared list",
+        "fieldKind": "rich_text",
+        "production": {
+          "externalHostPolicy": "any_https",
+          "allowedExternalHosts": []
+        },
+        "candidate": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": false
+        }
+      },
+      {
+        "name": "rich_text: an absent policy becomes an explicit declared one",
+        "fieldKind": "rich_text",
+        "production": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "rich_text: an explicit declared policy becomes an absent one",
+        "fieldKind": "rich_text",
+        "production": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "expected": {
+          "widened": true
+        }
+      },
+      {
+        "name": "rich_text: an explicit declared list shrinks",
+        "fieldKind": "rich_text",
+        "production": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": [
+            "a.example"
+          ]
+        },
+        "candidate": {
+          "externalHostPolicy": "declared",
+          "allowedExternalHosts": []
+        },
+        "expected": {
+          "widened": false
+        }
+      }
+    ]
+  }
+}

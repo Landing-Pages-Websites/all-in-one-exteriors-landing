@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "1.0",
+  "contractId": "contract_6w6xgb4jk4d2mqkgzgdmp42dk0",
+  "adapter": { "kind": "astro", "adapterVersion": "1.0" },
+  "bridge": {
+    "reviewProtocol": 1,
+    "editProtocol": 2,
+    "annotationVersion": 1,
+    "delivery": {
+      "version": "v10",
+      "src": "https://app.gomega.ai/review-bridge/v10/review-bridge.js",
+      "integrity": "sha384-/+5J7l1l8JNgnIgvgOqEHDgx92NrGmbjezpRb/MZb2y0RildsCcaOVu8+mLZbrmF",
+      "crossOrigin": "anonymous",
+      "load": "head_defer"
+    },
+    "framing": "authenticated_preview_gateway"
+  },
+  "pages": [
+    {
+      "id": "page_ebwbmwmf1a96na1z5fbevd8348",
+      "presentation": { "name": "Home", "description": "Editorial home page", "group": "Pages", "order": 1, "example": null },
+      "route": { "kind": "static", "path": "/" },
+      "sections": [
+        {
+          "id": "section_n6s0vdwgxxbhweekq1e7zw38hw",
+          "presentation": { "name": "Hero", "description": null, "group": "Home", "order": 1, "example": null },
+          "fields": [
+            {
+              "id": "field_j4zgmrbv0ka6g8dbczzjh12wr4",
+              "scope": "page",
+              "type": "plain_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/hero/eyebrow" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Hero eyebrow", "description": null, "group": "Hero", "order": 1, "example": null },
+              "semantic": "label",
+              "constraints": { "minLength": 1, "maxLength": 100, "newlines": "forbid" }
+            },
+            {
+              "id": "field_3az4j5jfpxw2wq8f561w3rb0rw",
+              "scope": "page",
+              "type": "heading_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/hero/title" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Hero heading", "description": null, "group": "Hero", "order": 2, "example": null },
+              "semanticLevel": 1,
+              "constraints": { "minLength": 1, "maxLength": 120, "newlines": "forbid" }
+            },
+            {
+              "id": "field_f9hr7zz5r429qrgyqa0an9x230",
+              "scope": "page",
+              "type": "plain_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/hero/description" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Hero description", "description": null, "group": "Hero", "order": 3, "example": null },
+              "semantic": "body",
+              "constraints": { "minLength": 1, "maxLength": 500, "newlines": "allow" }
+            },
+            {
+              "id": "field_cape56j57edrbj8c2f3dwfph6w",
+              "scope": "page",
+              "type": "image",
+              "classification": "customer_editable",
+              "capabilities": ["image.upload", "image.crop", "image.focal_point.edit", "image.alt.edit"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/hero/image" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Hero image", "description": null, "group": "Hero", "order": 4, "example": null },
+              "assetSlotId": "asset_1mg8eagexrart2my0547729ny0"
+            }
+          ]
+        },
+        {
+          "id": "section_7gcyrkk9fjvrna3zt18fc6234w",
+          "presentation": { "name": "Services", "description": null, "group": "Home", "order": 2, "example": null },
+          "fields": [
+            {
+              "id": "field_xdd7hsm5jrnz1zbefaxxp7b19g",
+              "scope": "page",
+              "type": "heading_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/services/heading" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Services heading", "description": null, "group": "Services", "order": 1, "example": null },
+              "semanticLevel": 2,
+              "constraints": { "minLength": 1, "maxLength": 120, "newlines": "forbid" }
+            },
+            {
+              "id": "field_n2f0j3sg2pv06r1cw6y3zskv84",
+              "scope": "page",
+              "type": "collection",
+              "classification": "customer_editable",
+              "capabilities": ["collection.reorder", "collection.add", "collection.remove"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/services/order" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Service order", "description": null, "group": "Services", "order": 2, "example": null },
+              "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc"
+            }
+          ]
+        },
+        {
+          "id": "section_p928asq7ws9dtvmfkgcvzhbz2c",
+          "presentation": { "name": "Contact", "description": null, "group": "Home", "order": 3, "example": null },
+          "fields": [
+            {
+              "id": "field_dpm59kwe8c1t5gq9snbbdn8bf0",
+              "scope": "page",
+              "type": "heading_text",
+              "classification": "customer_editable",
+              "capabilities": ["text.edit"],
+              "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/contact/heading" },
+              "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+              "presentation": { "name": "Contact heading", "description": null, "group": "Contact", "order": 1, "example": null },
+              "semanticLevel": 2,
+              "constraints": { "minLength": 1, "maxLength": 120, "newlines": "forbid" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "page_7y3adv3w5p6hhg5ve86dnecn5m",
+      "presentation": { "name": "Service detail", "description": "Generated service page", "group": "Pages", "order": 2, "example": null },
+      "route": {
+        "kind": "generated",
+        "pattern": "/services/[slug]",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "routeKeyFieldId": "field_xd6r9z2k24s8xq0a6fps88by7c"
+      },
+      "sections": [
+        {
+          "id": "section_165v8te67xvrmp48044v2h4j7r",
+          "presentation": { "name": "Service detail", "description": null, "group": "Service", "order": 1, "example": null },
+          "fields": []
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "id": "collection_wqsv43qx7wamchv6newwv64pzc",
+      "presentation": { "name": "Services", "description": "Generated service pages", "group": "Services", "order": 1, "example": null },
+      "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/collections/services.json", "pointer": "" },
+      "itemIdPointer": "/id",
+      "itemIdPolicy": "server_minted",
+      "minItems": 1,
+      "maxItems": 50,
+      "itemFields": [
+        {
+          "id": "field_xd6r9z2k24s8xq0a6fps88by7c",
+          "type": "internal_protected",
+          "classification": "internal_protected",
+          "capabilities": [],
+          "valueType": "string",
+          "semantic": "route.slug",
+          "itemPointer": "/slug",
+          "presentation": { "name": "Route slug", "description": null, "group": "SEO (internal)", "order": 1, "example": null }
+        },
+        {
+          "id": "field_kwe37h6ajzbtrbedndta9ygenr",
+          "type": "internal_protected",
+          "classification": "internal_protected",
+          "capabilities": [],
+          "valueType": "string",
+          "semantic": "seo.title",
+          "itemPointer": "/seo/title",
+          "presentation": { "name": "Metadata title", "description": null, "group": "SEO (internal)", "order": 2, "example": null }
+        },
+        {
+          "id": "field_08yfvs6qxtr0a18rtrme7k0frm",
+          "type": "internal_protected",
+          "classification": "internal_protected",
+          "capabilities": [],
+          "valueType": "string",
+          "semantic": "seo.description",
+          "itemPointer": "/seo/description",
+          "presentation": { "name": "Metadata description", "description": null, "group": "SEO (internal)", "order": 3, "example": null }
+        },
+        {
+          "id": "field_e10ak1cnfed1bxtp0atj3fw298",
+          "type": "internal_protected",
+          "classification": "internal_protected",
+          "capabilities": [],
+          "valueType": "url",
+          "semantic": "seo.canonical",
+          "itemPointer": "/seo/canonical",
+          "presentation": { "name": "Canonical URL", "description": null, "group": "SEO (internal)", "order": 4, "example": null }
+        },
+        {
+          "id": "field_sf4rqx8xrv1hk9tahe6ervpwmc",
+          "type": "internal_protected",
+          "classification": "internal_protected",
+          "capabilities": [],
+          "valueType": "indexing_directives",
+          "semantic": "seo.indexing",
+          "itemPointer": "/seo/indexing",
+          "presentation": { "name": "Indexing directives", "description": null, "group": "SEO (internal)", "order": 5, "example": null }
+        },
+        {
+          "id": "field_jsenkjjm5mk1frd86y5728kye0",
+          "type": "heading_text",
+          "classification": "customer_editable",
+          "capabilities": ["text.edit"],
+          "itemPointer": "/heading",
+          "presentation": { "name": "Service heading", "description": null, "group": "Service", "order": 6, "example": null },
+          "semanticLevel": 1,
+          "constraints": { "minLength": 1, "maxLength": 120, "newlines": "forbid" }
+        },
+        {
+          "id": "field_p3g400fzy4zt2dr29rm82b6w38",
+          "type": "plain_text",
+          "classification": "customer_editable",
+          "capabilities": ["text.edit"],
+          "itemPointer": "/summary",
+          "presentation": { "name": "Service summary", "description": null, "group": "Service", "order": 7, "example": null },
+          "semantic": "body",
+          "constraints": { "minLength": 1, "maxLength": 500, "newlines": "allow" }
+        },
+        {
+          "id": "field_g3xc241ryqbvkph08mjs0rvzw0",
+          "type": "rich_text",
+          "classification": "customer_editable",
+          "capabilities": ["text.edit", "rich_text.mark.bold", "rich_text.mark.italic"],
+          "itemPointer": "/body",
+          "presentation": { "name": "Service body", "description": null, "group": "Service", "order": 8, "example": null },
+          "constraints": {
+            "maxCharacters": 5000,
+            "maxNodes": 200,
+            "allowedBlocks": ["paragraph", "bullet_list"],
+            "allowedMarks": ["bold", "italic"],
+            "allowLinks": false,
+            "allowedExternalHosts": [],
+            "allowedTargets": []
+          }
+        },
+        {
+          "id": "field_c96812gmb16vbej8h6x8f09em8",
+          "type": "image",
+          "classification": "customer_editable",
+          "capabilities": ["image.upload", "image.crop", "image.focal_point.edit", "image.alt.edit"],
+          "itemPointer": "/image",
+          "presentation": { "name": "Service image", "description": null, "group": "Service", "order": 9, "example": null },
+          "assetSlotId": "asset_1mg8eagexrart2my0547729ny0"
+        }
+      ],
+      "uniqueness": [{ "fieldIds": ["field_xd6r9z2k24s8xq0a6fps88by7c"], "comparison": "exact" }],
+      "deletion": { "whenReferenced": "restrict", "restorable": true }
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset_1mg8eagexrart2my0547729ny0",
+      "presentation": { "name": "Brand image", "description": "Square reference image", "group": "Images", "order": 1, "example": null },
+      "semantics": { "kind": "informative" },
+      "acceptedMimeTypes": ["image/png"],
+      "outputMimeTypes": ["image/png"],
+      "minWidth": 256,
+      "maxWidth": 2048,
+      "minHeight": 256,
+      "maxHeight": 2048,
+      "aspectRatios": [{ "width": 1, "height": 1 }],
+      "cropPolicy": "optional",
+      "focalPointPolicy": "optional",
+      "maxBytes": 5242880
+    }
+  ],
+  "internalSeo": {
+    "protectedFields": [
+      {
+        "id": "field_qgw8x9zwb8b1dwevnfa6n757w0",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.legal_name",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/legalName" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Legal name", "description": null, "group": "SEO (internal)", "order": 1, "example": null }
+      },
+      {
+        "id": "field_heh85apwqxwzze80wk7jnxfw30",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.display_name",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/displayName" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Display name", "description": null, "group": "SEO (internal)", "order": 2, "example": null }
+      },
+      {
+        "id": "field_cfra2je02pncs3a6rm7vjt4cmm",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.description",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/description" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Business description", "description": null, "group": "SEO (internal)", "order": 3, "example": null }
+      },
+      {
+        "id": "field_0tz4t0w4ezh6gmhmb1xgr0dnfr",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.telephone",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/telephone" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Telephone", "description": null, "group": "SEO (internal)", "order": 4, "example": null }
+      },
+      {
+        "id": "field_5hbfrpqpn8k5phr3ba4nv5byfm",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "postal_address",
+        "semantic": "business.postal_address",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/postalAddress" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Postal address", "description": null, "group": "SEO (internal)", "order": 5, "example": null }
+      },
+      {
+        "id": "field_jqq5kck8qptddfgbrsd4wtqdp8",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "business.email",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/email" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Email", "description": null, "group": "SEO (internal)", "order": 6, "example": null }
+      },
+      {
+        "id": "field_e9znd47pde4hnb6bfgs4tx2a8g",
+        "scope": "site",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string_list",
+        "semantic": "business.same_as",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/site.json", "pointer": "/identity/sameAs" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }, { "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m", "itemId": null }],
+        "presentation": { "name": "Social profiles", "description": null, "group": "SEO (internal)", "order": 7, "example": null }
+      },
+      {
+        "id": "field_fvs5z5eze8vz38ya99mq67m5y4",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "seo.title",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/seo/title" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+        "presentation": { "name": "Home metadata title", "description": null, "group": "SEO (internal)", "order": 8, "example": null }
+      },
+      {
+        "id": "field_300b5sajrwhj0fyx7g44dzr604",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "string",
+        "semantic": "seo.description",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/seo/description" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+        "presentation": { "name": "Home metadata description", "description": null, "group": "SEO (internal)", "order": 9, "example": null }
+      },
+      {
+        "id": "field_4fe2nvzk5qb5dnqwk6ya22qfv4",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "url",
+        "semantic": "seo.canonical",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/seo/canonical" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+        "presentation": { "name": "Home canonical URL", "description": null, "group": "SEO (internal)", "order": 10, "example": null }
+      },
+      {
+        "id": "field_2h9458bbh771w90v4jys1cv8pc",
+        "scope": "page",
+        "type": "internal_protected",
+        "classification": "internal_protected",
+        "capabilities": [],
+        "valueType": "indexing_directives",
+        "semantic": "seo.indexing",
+        "resolver": { "kind": "json_pointer", "path": "fixtures/astro-reference/src/content/pages/home.json", "pointer": "/seo/indexing" },
+        "usages": [{ "pageId": "page_ebwbmwmf1a96na1z5fbevd8348", "itemId": null }],
+        "presentation": { "name": "Home indexing directives", "description": null, "group": "SEO (internal)", "order": 11, "example": null }
+      }
+    ],
+    "businessIdentity": {
+      "legalName": "field_qgw8x9zwb8b1dwevnfa6n757w0",
+      "displayName": "field_heh85apwqxwzze80wk7jnxfw30",
+      "telephone": "field_0tz4t0w4ezh6gmhmb1xgr0dnfr",
+      "postalAddress": "field_5hbfrpqpn8k5phr3ba4nv5byfm",
+      "email": "field_jqq5kck8qptddfgbrsd4wtqdp8",
+      "geo": null,
+      "openingHours": null,
+      "sameAs": "field_e9znd47pde4hnb6bfgs4tx2a8g"
+    },
+    "pages": [
+      {
+        "pageId": "page_ebwbmwmf1a96na1z5fbevd8348",
+        "intent": {
+          "purpose": "home",
+          "primaryEntity": "field_heh85apwqxwzze80wk7jnxfw30",
+          "services": ["field_n2f0j3sg2pv06r1cw6y3zskv84"],
+          "locations": ["field_5hbfrpqpn8k5phr3ba4nv5byfm"]
+        },
+        "metadata": {
+          "title": "field_fvs5z5eze8vz38ya99mq67m5y4",
+          "description": "field_300b5sajrwhj0fyx7g44dzr604",
+          "canonical": "field_4fe2nvzk5qb5dnqwk6ya22qfv4",
+          "indexing": "field_2h9458bbh771w90v4jys1cv8pc",
+          "social": {
+            "title": "field_fvs5z5eze8vz38ya99mq67m5y4",
+            "description": "field_300b5sajrwhj0fyx7g44dzr604",
+            "image": "asset_1mg8eagexrart2my0547729ny0"
+          }
+        },
+        "headingOutline": [
+          { "fieldId": "field_3az4j5jfpxw2wq8f561w3rb0rw", "semanticLevel": 1 },
+          { "fieldId": "field_xdd7hsm5jrnz1zbefaxxp7b19g", "semanticLevel": 2 },
+          { "fieldId": "field_dpm59kwe8c1t5gq9snbbdn8bf0", "semanticLevel": 2 }
+        ],
+        "jsonLd": [
+          {
+            "schemaType": "LocalBusiness",
+            "required": true,
+            "sourceFieldIds": ["field_qgw8x9zwb8b1dwevnfa6n757w0", "field_heh85apwqxwzze80wk7jnxfw30", "field_cfra2je02pncs3a6rm7vjt4cmm", "field_0tz4t0w4ezh6gmhmb1xgr0dnfr", "field_5hbfrpqpn8k5phr3ba4nv5byfm", "field_jqq5kck8qptddfgbrsd4wtqdp8", "field_e9znd47pde4hnb6bfgs4tx2a8g"],
+            "requiredOutputProperties": ["name", "legalName", "description", "telephone", "address"]
+          }
+        ],
+        "breadcrumbParentPageId": null,
+        "internalLinks": { "requiredPageIds": ["page_7y3adv3w5p6hhg5ve86dnecn5m"], "minimumInboundLinks": 0 },
+        "sitemap": { "included": true, "changeFrequency": "monthly", "priority": 1 },
+        "primaryImageAssetSlotId": "asset_1mg8eagexrart2my0547729ny0",
+        "performanceBudget": { "maxLcpMilliseconds": 2500, "maxCls": 0.1, "maxInpMilliseconds": 200, "maxPageBytes": 1000000 }
+      }
+    ],
+    "generatedPages": [
+      {
+        "pageId": "page_7y3adv3w5p6hhg5ve86dnecn5m",
+        "collectionId": "collection_wqsv43qx7wamchv6newwv64pzc",
+        "intent": {
+          "purpose": "service",
+          "primaryEntity": "field_jsenkjjm5mk1frd86y5728kye0",
+          "services": ["field_jsenkjjm5mk1frd86y5728kye0"],
+          "locations": []
+        },
+        "metadata": {
+          "title": "field_kwe37h6ajzbtrbedndta9ygenr",
+          "description": "field_08yfvs6qxtr0a18rtrme7k0frm",
+          "canonical": "field_e10ak1cnfed1bxtp0atj3fw298",
+          "indexing": "field_sf4rqx8xrv1hk9tahe6ervpwmc",
+          "social": {
+            "title": "field_kwe37h6ajzbtrbedndta9ygenr",
+            "description": "field_08yfvs6qxtr0a18rtrme7k0frm",
+            "imageFieldId": "field_c96812gmb16vbej8h6x8f09em8"
+          }
+        },
+        "headingOutline": [{ "fieldId": "field_jsenkjjm5mk1frd86y5728kye0", "semanticLevel": 1 }],
+        "jsonLd": [
+          {
+            "schemaType": "Service",
+            "required": true,
+            "itemSourceFieldIds": ["field_jsenkjjm5mk1frd86y5728kye0", "field_p3g400fzy4zt2dr29rm82b6w38"],
+            "siteSourceFieldIds": ["field_qgw8x9zwb8b1dwevnfa6n757w0", "field_heh85apwqxwzze80wk7jnxfw30", "field_0tz4t0w4ezh6gmhmb1xgr0dnfr", "field_5hbfrpqpn8k5phr3ba4nv5byfm"],
+            "requiredOutputProperties": ["name", "description", "provider"]
+          }
+        ],
+        "breadcrumbParentPageId": "page_ebwbmwmf1a96na1z5fbevd8348",
+        "internalLinks": { "requiredPageIds": ["page_ebwbmwmf1a96na1z5fbevd8348"], "minimumInboundLinks": 1 },
+        "sitemap": { "included": true, "changeFrequency": "monthly", "priority": 0.8 },
+        "primaryImageFieldId": "field_c96812gmb16vbej8h6x8f09em8",
+        "performanceBudget": { "maxLcpMilliseconds": 2500, "maxCls": 0.1, "maxInpMilliseconds": 200, "maxPageBytes": 1000000 }
+      }
+    ],
+    "redirects": []
+  },
+  "atomicAliasGroups": [],
+  "tombstonedIds": []
+}

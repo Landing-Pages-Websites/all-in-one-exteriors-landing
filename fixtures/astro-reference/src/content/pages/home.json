@@ -1,0 +1,44 @@
+{
+  "hero": {
+    "eyebrow": "Care for homes built to last",
+    "title": "Steady hands for the work your home needs.",
+    "description": "Repairs, seasonal upkeep, and practical improvements delivered with clear scopes, careful finishes, and respect for the character of your home.",
+    "image": {
+      "path": "public/logo.png",
+      "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 1881,
+      "altText": "Harbor & Pine compass mark",
+      "crop": null,
+      "focalPoint": null
+    }
+  },
+  "services": {
+    "heading": "Small jobs, handled with uncommon care.",
+    "order": {
+      "orderedItemIds": [
+        "item_kynck6cpcd7y3xav5fzeesxdhm",
+        "item_cjn91vyj03j7mcnqcp2cq248sc"
+      ]
+    }
+  },
+  "contact": {
+    "heading": "A better repair starts with a clear conversation."
+  },
+  "seo": {
+    "title": "Harbor & Pine | Thoughtful Home Repair in Toronto",
+    "description": "Careful home repairs, seasonal maintenance, and practical improvements for older houses across Toronto's west end.",
+    "canonical": "https://astro-reference.gomega.ai/",
+    "indexing": {
+      "index": true,
+      "follow": true,
+      "archive": true,
+      "imageIndex": true,
+      "maxSnippet": -1,
+      "maxImagePreview": "large",
+      "maxVideoPreview": -1
+    }
+  }
+}

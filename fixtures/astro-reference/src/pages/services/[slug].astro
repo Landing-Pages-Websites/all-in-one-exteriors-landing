@@ -1,0 +1,61 @@
+---
+import { managedSiteFieldAttributesV1 } from "@landing-pages-websites/managed-site-contract";
+import type { GetStaticPaths } from "astro";
+
+import ManagedRichText from "../../components/ManagedRichText.astro";
+import ManagedLayout from "../../layouts/ManagedLayout.astro";
+import {
+  managedAstroIdentity,
+  managedAstroServicePaths,
+  type ManagedAstroService,
+} from "../../lib/managed-site";
+
+interface Props {
+  readonly service: ManagedAstroService;
+}
+
+export const getStaticPaths: GetStaticPaths = () =>
+  Array.from(managedAstroServicePaths);
+
+const { service } = Astro.props;
+if (Astro.params.slug !== service.slug) {
+  throw new Error("Managed service route does not match its validated slug");
+}
+---
+
+<ManagedLayout pageId={service.pageId} seo={service.seo} jsonLd={service.jsonLd}>
+  <header class="site-header shell">
+    <a class="wordmark" href="/" aria-label={`${managedAstroIdentity.displayName} home`}>
+      <img src="/logo.png" alt="" width="40" height="40" />
+      <span>{managedAstroIdentity.displayName}</span>
+    </a>
+    <a class="back-link" href="/">← All services</a>
+  </header>
+
+  <article class="service-detail shell">
+    <div class="service-detail__intro">
+      <p class="eyebrow">Service field note</p>
+      <h1 {...managedSiteFieldAttributesV1(service.heading.fieldId, service.itemId)}>
+        {service.heading.value}
+      </h1>
+      <p class="service-detail__summary" {...managedSiteFieldAttributesV1(service.summary.fieldId, service.itemId)}>
+        {service.summary.value}
+      </p>
+    </div>
+    <div class="service-detail__image" {...managedSiteFieldAttributesV1(service.image.fieldId, service.itemId)}>
+      <span>Measured. Mended. Made right.</span>
+      <img src={service.image.src} alt={service.image.alt} width="512" height="512" />
+    </div>
+    <div class="service-detail__body" {...managedSiteFieldAttributesV1(service.body.fieldId, service.itemId)}>
+      <ManagedRichText document={service.body.value} />
+      <a class="text-link" href={`mailto:${managedAstroIdentity.email}?subject=${encodeURIComponent(service.heading.value)}`}>
+        Ask about this service <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </article>
+
+  <footer class="site-footer shell">
+    <p>{managedAstroIdentity.legalName}</p>
+    <a href="/">Return home</a>
+  </footer>
+</ManagedLayout>

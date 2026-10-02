@@ -1,0 +1,512 @@
+{
+  "$id": "https://schemas.gomega.ai/managed-site/v1/migration",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bridge": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "pattern": "^v[1-9]\\d{0,3}$",
+          "type": "string"
+        },
+        "to": {
+          "pattern": "^v[1-9]\\d{0,3}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "type": "object"
+    },
+    "from": {
+      "additionalProperties": false,
+      "properties": {
+        "contentSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "contractSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contractSha256",
+        "contentSha256"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "1.0",
+      "type": "string"
+    },
+    "steps": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "into": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "plain_text",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "block": {
+                    "oneOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "paragraph",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "level": {
+                            "anyOf": [
+                              {
+                                "const": 1,
+                                "type": "number"
+                              },
+                              {
+                                "const": 2,
+                                "type": "number"
+                              },
+                              {
+                                "const": 3,
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "type": {
+                            "const": "heading",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "level"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "bullet_list",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "type": {
+                    "const": "rich_text",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "block"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "op": {
+            "const": "merge",
+            "type": "string"
+          },
+          "parts": {
+            "items": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "joinedBy": {
+                      "enum": [
+                        "hard_break"
+                      ],
+                      "type": "string"
+                    },
+                    "marks": {
+                      "items": {
+                        "oneOf": [
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "const": "italic",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "const": "bold",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "destination": {
+                                "oneOf": [
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "fragment": {
+                                        "anyOf": [
+                                          {
+                                            "maxLength": 256,
+                                            "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "kind": {
+                                        "const": "internal",
+                                        "type": "string"
+                                      },
+                                      "pageId": {
+                                        "pattern": "^page_[0-9a-hjkmnp-tv-z]{25}[048cgmrw]$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "pageId",
+                                      "fragment"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "kind": {
+                                        "const": "external",
+                                        "type": "string"
+                                      },
+                                      "url": {
+                                        "pattern": "^[^ \\p{Cc}]*$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "url"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "address": {
+                                        "format": "email",
+                                        "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                                        "type": "string"
+                                      },
+                                      "kind": {
+                                        "const": "email",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "address"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "kind": {
+                                        "const": "phone",
+                                        "type": "string"
+                                      },
+                                      "number": {
+                                        "pattern": "^\\+[1-9]\\d{7,14}$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "number"
+                                    ],
+                                    "type": "object"
+                                  }
+                                ]
+                              },
+                              "target": {
+                                "enum": [
+                                  "same_window",
+                                  "new_window"
+                                ],
+                                "type": "string"
+                              },
+                              "type": {
+                                "const": "link",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "destination",
+                              "target"
+                            ],
+                            "type": "object"
+                          }
+                        ]
+                      },
+                      "maxItems": 3,
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "source": {
+                      "pattern": "^field_[0-9a-hjkmnp-tv-z]{25}[048cgmrw]$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "source"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "joinedBy": {
+                      "enum": [
+                        "hard_break"
+                      ],
+                      "type": "string"
+                    },
+                    "literal": {
+                      "maxLength": 1000,
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "marks": {
+                      "items": {
+                        "oneOf": [
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "const": "italic",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "const": "bold",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "destination": {
+                                "oneOf": [
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "fragment": {
+                                        "anyOf": [
+                                          {
+                                            "maxLength": 256,
+                                            "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "kind": {
+                                        "const": "internal",
+                                        "type": "string"
+                                      },
+                                      "pageId": {
+                                        "pattern": "^page_[0-9a-hjkmnp-tv-z]{25}[048cgmrw]$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "pageId",
+                                      "fragment"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "kind": {
+                                        "const": "external",
+                                        "type": "string"
+                                      },
+                                      "url": {
+                                        "pattern": "^[^ \\p{Cc}]*$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "url"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "address": {
+                                        "format": "email",
+                                        "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                                        "type": "string"
+                                      },
+                                      "kind": {
+                                        "const": "email",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "address"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "kind": {
+                                        "const": "phone",
+                                        "type": "string"
+                                      },
+                                      "number": {
+                                        "pattern": "^\\+[1-9]\\d{7,14}$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "number"
+                                    ],
+                                    "type": "object"
+                                  }
+                                ]
+                              },
+                              "target": {
+                                "enum": [
+                                  "same_window",
+                                  "new_window"
+                                ],
+                                "type": "string"
+                              },
+                              "type": {
+                                "const": "link",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "destination",
+                              "target"
+                            ],
+                            "type": "object"
+                          }
+                        ]
+                      },
+                      "maxItems": 3,
+                      "minItems": 1,
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "literal"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "type": "array"
+          },
+          "target": {
+            "pattern": "^field_[0-9a-hjkmnp-tv-z]{25}[048cgmrw]$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "op",
+          "target",
+          "into",
+          "parts"
+        ],
+        "type": "object"
+      },
+      "maxItems": 1000,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "from",
+    "steps"
+  ],
+  "type": "object"
+}

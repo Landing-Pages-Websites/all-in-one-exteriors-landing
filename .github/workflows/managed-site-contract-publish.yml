@@ -1,0 +1,52 @@
+name: Publish managed-site contract
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: managed-site-contract-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Verify and publish the private contract package
+    runs-on: ubuntu-latest
+    environment: managed-site-contract-release
+    timeout-minutes: 20
+
+    steps:
+      - name: Require the protected main branch
+        run: test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js and GitHub Packages
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+          registry-url: https://npm.pkg.github.com
+          scope: "@landing-pages-websites"
+
+      - name: Install exact dependencies
+        run: npm ci
+
+      - name: Type-check package
+        run: npm --workspace @landing-pages-websites/managed-site-contract run type-check
+
+      - name: Test package
+        run: npm --workspace @landing-pages-websites/managed-site-contract run test
+
+      - name: Build package and verify schema artifact
+        run: npm --workspace @landing-pages-websites/managed-site-contract run build
+
+      - name: Publish exact restricted version
+        run: npm publish --workspace @landing-pages-websites/managed-site-contract --access restricted
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}

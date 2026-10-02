@@ -1,0 +1,43 @@
+{
+  "name": "site-starter",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@10.9.8",
+  "workspaces": [
+    "packages/*",
+    "fixtures/*"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/check-config.mjs && npm --workspace @landing-pages-websites/managed-site-contract run build",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "check-config": "node scripts/check-config.mjs",
+    "test": "node --test scripts/*.test.mjs && tsx --test \"src/**/*.test.ts\"",
+    "test:managed-site": "tsx --test",
+    "conformance:astro-reference": "npm --workspace @gomega/managed-site-astro-reference run conformance",
+    "check:astro-reference": "npm --workspace @gomega/managed-site-astro-reference run check",
+    "build:astro-reference": "npm --workspace @gomega/managed-site-astro-reference run build",
+    "parity:reference": "node scripts/managed-site-parity.mjs"
+  },
+  "dependencies": {
+    "@landing-pages-websites/managed-site-contract": "0.19.0",
+    "next": "16.2.10",
+    "posthog-js": "^1.396.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "esbuild": "0.28.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "tailwindcss": "^4",
+    "tsx": "4.23.11",
+    "typescript": "^5"
+  }
+}

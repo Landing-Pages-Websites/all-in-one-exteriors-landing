@@ -1,0 +1,39 @@
+:root {
+  --ink: #101418;
+  --rule: #d7dde3;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+}
+
+section {
+  border-top: 1px solid var(--rule);
+  padding-block: 2rem;
+}
+
+@media (min-width: 40em) {
+  section {
+    padding-block: 3rem;
+  }
+}
+
+/* The site's own formatting classes, which a converted block keeps using. */
+.italic {
+  font-style: italic;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.underline {
+  text-decoration: underline;
+}

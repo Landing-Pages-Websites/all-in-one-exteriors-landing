@@ -1,0 +1,32 @@
+{
+  "about": [
+    "sha256 of the generator's own output (the runtime minus the three reader additions) for each converter fixture, with configFor([\"/\"]).",
+    "Recorded from main at 6c04116, and re-recorded deliberately when #104's formatted-block reader gained one link builder with rel (peter/formatted-block-link-rel),",
+    "and again when the formatted-block reader gained the hard_break template and its <br data-gomega-break> fallback (peter/rich-text-hard-break).",
+    "runtime-readers.test.ts removes exactly the reader additions from today's output and must reproduce each digest; re-record only for an intended change to the generator's own text."
+  ],
+  "digests": {
+    "annotationsafety": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "apmshaped": "d8c09071c967b27f5e8de9405af6ca1f821518f45c92dedba3dfc6356d6ce79e",
+    "callbacks": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "childrenhop": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "clientchain": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "clientcollection": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "clientcollectionlink": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "formattedblocks": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "hiddenroute": "8e278fe7a71253765f44201bc1a2b4c96a19b0145e5dd76d02e932b9c8fe2fb8",
+    "inlinetypevalue": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "linebreaks": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "multilineimport": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "namecollision": "d7f60082246c3f59b9d07c0d99fb4723962eef459146eedab001ac5ce5d68743",
+    "nodeprop": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "reachability": "9c60ec383b5bedcc03e3a9391b48f0ce12aa19d05037789f8bf1dd2178fa4a67",
+    "receiverchain": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "routes": "1faa2d1d77481d23b7b8e62a7302be8030df6ab43e699796aa2d218a90dbeb76",
+    "site": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "twinvalues": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "typeonlyimport": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "typeonlyvalue": "0119688fbd6b4cbed0a1a17511033157154f1af47de45eb2378ffd97f460b3a0",
+    "unmanagedroute": "d7f60082246c3f59b9d07c0d99fb4723962eef459146eedab001ac5ce5d68743"
+  }
+}

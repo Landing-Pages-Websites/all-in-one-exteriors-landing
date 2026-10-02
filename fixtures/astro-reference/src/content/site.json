@@ -1,0 +1,17 @@
+{
+  "identity": {
+    "legalName": "Harbor & Pine Home Services Inc.",
+    "displayName": "Harbor & Pine",
+    "description": "Thoughtful repairs and seasonal care for older homes across Toronto's west end.",
+    "telephone": "+1-416-555-0142",
+    "postalAddress": {
+      "streetAddress": "142 Cedar Lane",
+      "addressLocality": "Toronto",
+      "addressRegion": "ON",
+      "postalCode": "M6R 2B7",
+      "addressCountry": "CA"
+    },
+    "email": "hello@harborandpine.example",
+    "sameAs": ["https://www.instagram.com/harborandpinehome"]
+  }
+}

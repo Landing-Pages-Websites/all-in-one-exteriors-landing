@@ -1,0 +1,144 @@
+[
+  {
+    "id": "item_kynck6cpcd7y3xav5fzeesxdhm",
+    "slug": "seasonal-home-care",
+    "seo": {
+      "title": "Seasonal Home Care | Harbor & Pine",
+      "description": "A practical spring and fall maintenance visit for Toronto homes, with a clear checklist and prioritized recommendations.",
+      "canonical": "https://astro-reference.gomega.ai/services/seasonal-home-care",
+      "indexing": {
+        "index": true,
+        "follow": true,
+        "archive": true,
+        "imageIndex": true,
+        "maxSnippet": -1,
+        "maxImagePreview": "large",
+        "maxVideoPreview": -1
+      }
+    },
+    "heading": "Seasonal home care",
+    "summary": "A calm, methodical reset for the details that protect your home through the next season.",
+    "body": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "We inspect the small systems that quietly prevent larger repairs: exterior seals, drainage, hardware, ventilation, and the visible signs of seasonal wear."
+            }
+          ]
+        },
+        {
+          "type": "bullet_list",
+          "content": [
+            {
+              "type": "list_item",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "One prioritized home-care checklist",
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list_item",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Minor adjustments completed during the visit"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "image": {
+      "path": "public/logo.png",
+      "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 1881,
+      "altText": "Harbor & Pine seasonal home care",
+      "crop": null,
+      "focalPoint": null
+    }
+  },
+  {
+    "id": "item_cjn91vyj03j7mcnqcp2cq248sc",
+    "slug": "finish-repairs",
+    "seo": {
+      "title": "Finish Repairs | Harbor & Pine",
+      "description": "Precise drywall, trim, door, and finish repairs that make well-used Toronto rooms feel settled again.",
+      "canonical": "https://astro-reference.gomega.ai/services/finish-repairs",
+      "indexing": {
+        "index": true,
+        "follow": true,
+        "archive": true,
+        "imageIndex": true,
+        "maxSnippet": -1,
+        "maxImagePreview": "large",
+        "maxVideoPreview": -1
+      }
+    },
+    "heading": "Finish repairs",
+    "summary": "Measured repairs for drywall, trim, doors, and the small visual breaks that keep a room from feeling complete.",
+    "body": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "We match the repair to the room, not just the damaged spot, so lines, reveals, sheen, and hardware feel intentional when the work is done."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Every scope is documented before work begins, with any hidden conditions discussed before the plan changes.",
+              "marks": [
+                {
+                  "type": "italic"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "image": {
+      "path": "public/logo.png",
+      "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 1881,
+      "altText": "Harbor & Pine finish repair service",
+      "crop": null,
+      "focalPoint": null
+    }
+  }
+]

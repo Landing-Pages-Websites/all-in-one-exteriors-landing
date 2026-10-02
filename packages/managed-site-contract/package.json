@@ -1,0 +1,45 @@
+{
+  "name": "@landing-pages-websites/managed-site-contract",
+  "version": "0.19.0",
+  "type": "module",
+  "bin": {
+    "gomega-managed-site-conformance": "./dist/conformance-cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "schema"
+  ],
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Landing-Pages-Websites/site-starter.git",
+    "directory": "packages/managed-site-contract"
+  },
+  "scripts": {
+    "prebuild": "node scripts/clean-dist.mjs",
+    "build": "tsc --project tsconfig.build.json && node scripts/check-schema.mjs",
+    "prepack": "npm run build",
+    "preschema:generate": "node scripts/clean-dist.mjs",
+    "schema:generate": "tsc --project tsconfig.build.json && node scripts/write-schema.mjs",
+    "test": "npm run test:unit && npm run test:runtime",
+    "test:runtime": "node --test test/runtime.test.mjs",
+    "test:unit": "tsx --test test/*.test.ts",
+    "type-check": "tsc --project tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "zod": "4.4.3"
+  }
+}

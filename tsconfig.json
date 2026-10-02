@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": [
+    // Built and removed by `npm run parity:reference`; a leftover copy must
+    // never be able to fail the starter's own type-check.
+    "fixtures/.parity-work",
+    "node_modules",
+    // Fixtures are deliberately unconverted source for the conversion
+    // tool to read. They stand in for a customer repository, so their
+    // path aliases resolve against that imagined site rather than this
+    // one, and type-checking them here would be checking someone
+    // else's tsconfig.
+    "packages/managed-site-conversion/test/fixtures/**",
+    "**/*.test.ts"
+  ]
+}
