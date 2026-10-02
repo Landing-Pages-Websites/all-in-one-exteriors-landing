@@ -20,7 +20,7 @@ const ROWS: readonly Row[] = [
     body: "Your replacement carries manufacturer-backed warranty coverage. Terms vary by manufacturer, so you get the specifics for the exact system going on your home.",
     points: [
       "Lifetime warranty on materials",
-      "5–10 years on labor, depending on the manufacturer",
+      "5 to 10 years on labor, depending on the manufacturer",
       "GAF and CertainTeed certified contractor",
     ],
     image: {

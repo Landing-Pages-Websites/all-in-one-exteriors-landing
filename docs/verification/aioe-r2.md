@@ -11,10 +11,11 @@ Raw evidence (not committed) lives in `/var/lib/megaclaw/workspace/tmp/aioe-r2/`
 
 | Gate | Result |
 | --- | --- |
-| `ALLOW_TODO=1 npm run build` | exit 0. **Pre-registration only, not the final real-ID gate.** check-config warns on `TODO_MEGA_SITE_ID`, `TODO_MEGA_SITE_KEY` and the starter blog seed post id. |
+| `npm run build` (no ALLOW_TODO) | exit 1 at prebuild check-config, **only** on `TODO_MEGA_SITE_ID` and `TODO_MEGA_SITE_KEY` (Flow B, not in task input, never invented). The blog seed id and the legal page sentinels are cleared. |
+| `ALLOW_TODO=1 npm run build` | exit 0. Same two warnings only. This is the build the browser QA ran against. |
 | `tsc --noEmit` | exit 0 |
 | eslint (LP files) | exit 0 |
-| `npm test` | 140 pass / 7 fail. All 7 are template self-tests (`managed-site-starter`, `placeholder-assets`) that bind to the starter's placeholder icon/logo/OG digests. They fail because the customer's brand assets replaced those placeholders. Not LP behaviour, and the shared scripts were left untouched. `src/lib/roofLead.test.ts` passes 5/5. |
+| `npm test` | 139 pass / 8 fail. All 8 are template self-tests. Seven (`managed-site-starter`, `placeholder-assets`) bind to the starter's placeholder icon/logo/OG digests, which the customer's brand assets replaced. The eighth (`blog-contract`: "the starter's own seed post id is a placeholder") asserts the starter seed id is still present, so it fails because that id was re-minted. Not LP behaviour, and the shared scripts were left untouched. `src/lib/roofLead.test.ts` passes 5/5. |
 | LP lint `--pre-registration` | exit 1. False positives only (below). |
 
 ### LP lint false positives
@@ -34,7 +35,7 @@ Captures: 360x780 DPR2, 390x844 DPR2, 1512x982, 1728x1117 (fold + full page).
 | --- | --- | --- | --- | --- |
 | H1 font size | 40px | 40px | 75.6px | 84px |
 | Hero form card top | 377 | 377 | 113 | 113 |
-| First real field top | 496 | 469 | 261 | 261 |
+| First real field top | 466 | 466 | 261 | 261 |
 | Logo rendered | 60x48 | 60x48 | 70x56 | 70x56 |
 | Horizontal overflow / negative z-index | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 |
 
@@ -68,6 +69,15 @@ The endpoint `**/submission/submit` was intercepted in every scenario, and call 
 
 Form key: both instances send the one declared key `contact-form`. The starter's form-identity gate blocks a declared key that no `<LeadForm>` sends, and it cannot see `RoofEstimateForm`. Tracking tells the two instances apart with `form-hero` / `form-final`.
 
+## Final pre-registration hardening
+
+- 360x780 first-field fix: the form heading "Request a Roof Estimate" wrapped to two lines at 24px in the 286px card at 360. It now uses `text-h4` (20px) below `sm` and `text-h3` from `sm` up, which keeps it on one line. First field moved from 496 to 466 at 360 (and from 469 to 466 at 390). The desktop layout is unchanged. Visual suite: 0 failures. Forms suite: 40/40. axe: 0.
+- Legal pages: every `TODO_POLICY_CONTENT` sentinel was replaced with plain-language copy under the existing headings, using the configured business name, legal name, email and phone. No compliance claims.
+- The warranty range "5–10" became "5 to 10" in copy and "5-10" in the TrustBar figure, so no en dash is rendered.
+- Blog seed id re-minted (`item_n3kjy7579psdkgfm814p323qqr`, valid Crockford pattern), and the post copy was kept with its dash removed.
+- Provenance: `task-spec.json` and `content-sources.json` at the repo root (audit only, not rendered).
+- Rendered-text sweep of `/`, `/privacy-policy`, `/terms`, `/cookie-policy`, `/thank-you`, `/blog`, `/blog/welcome`, `/llms.txt` and the 404 page (text, meta, alt, title and aria-label, scripts excluded) found 0 hits for "free", em dash, en dash, financ, insurance, claim, competitor and `TODO_` (`logs/content-sweep.txt`).
+
 ## Reviews
 
 - design-review: SHIP-READY after fixes (CTA wrapping at 360, asterisk binding, off-white field tokens, static chips). It accepted three items as unchanged: the placeholders as the Flow B state, the requestSubmit exception, and the desktop space under the form.
@@ -80,5 +90,5 @@ Form key: both instances send the one declared key `contact-form`. The starter's
 
 ## Outstanding (controller)
 
-1. Register the site (`mega site-tracking enable`). Replace `megaSiteId`/`megaSiteKey` in `src/site.config.ts` (that feeds both MEGA_TAG_CONFIG and the submission payload). Re-mint the starter blog seed id in `content/blog/welcome.md`. Then run `npm run build` without ALLOW_TODO and the LP lint without `--pre-registration`.
+1. Register the site (`mega site-tracking enable`). Replace `megaSiteId`/`megaSiteKey` in `src/site.config.ts` (that feeds both MEGA_TAG_CONFIG and the submission payload). Then run `npm run build` without ALLOW_TODO (the only remaining blockers are those two sentinels) and the LP lint without `--pre-registration`.
 2. Live QA after the real IDs are deployed: one qualified and one disqualified lead with the customer-safe identity (Test / MEGA QA / qatest+<ts>@gomega.ai / +15555550100), confirming Keystone persistence and form_data keys. Also verify that optimizer-injected GTM/Pixel and CTM number swap work on the live domain services.allinoneexteriors.com.

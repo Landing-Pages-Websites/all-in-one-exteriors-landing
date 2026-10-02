@@ -28,7 +28,7 @@ export const CITIES = [
 export const CITY_LIST_TEXT = `${CITIES.slice(0, -1).join(", ")}, and ${CITIES[CITIES.length - 1]}`;
 
 export const WARRANTY_QUALIFIER =
-  "Lifetime materials warranty and 5–10 years on labor, depending on the manufacturer.";
+  "Lifetime materials warranty and 5 to 10 years on labor, depending on the manufacturer.";
 
 export interface Testimonial {
   name: string;
@@ -72,7 +72,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: "What warranty comes with a roof replacement?",
     answer:
-      "Replacements carry manufacturer-backed coverage: a lifetime warranty on materials and 5–10 years on labor, depending on the manufacturer. Exact terms vary by manufacturer, so ask us for the specifics on the system you choose.",
+      "Replacements carry manufacturer-backed coverage: a lifetime warranty on materials and 5 to 10 years on labor, depending on the manufacturer. Exact terms vary by manufacturer, so ask us for the specifics on the system you choose.",
   },
   {
     question: "Who should request the estimate?",

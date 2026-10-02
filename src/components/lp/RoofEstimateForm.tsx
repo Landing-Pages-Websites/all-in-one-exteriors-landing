@@ -57,7 +57,7 @@ export function RoofEstimateForm({
     <div className="relative rounded-[2px] border border-line border-t-4 border-t-brand bg-surface p-5 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)] sm:p-7">
       <Heading
         id={`${id}-heading`}
-        className="text-h3 font-extrabold tracking-tight text-white"
+        className="text-h4 font-extrabold tracking-tight text-white sm:text-h3"
       >
         {heading}
       </Heading>

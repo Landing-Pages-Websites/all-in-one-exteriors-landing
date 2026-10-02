@@ -15,7 +15,7 @@ const CREDENTIALS: readonly Credential[] = [
   {
     figure: (
       <>
-        5–
+        5-
         <CountUp to={10} />
         <span className="text-[0.55em] font-bold"> yrs</span>
       </>

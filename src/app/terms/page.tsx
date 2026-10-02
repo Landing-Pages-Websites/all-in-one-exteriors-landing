@@ -13,23 +13,23 @@ export const metadata: Metadata = buildMetadata({
 const sections: LegalSection[] = [
   {
     heading: "Acceptance of Terms",
-    body: `TODO_POLICY_CONTENT — describe the agreement between visitors and ${siteConfig.legalName}.`,
+    body: `By using this site, you agree to these terms with ${siteConfig.legalName}, doing business as ${siteConfig.businessName}. If you do not agree, please do not use the site.`,
   },
   {
     heading: "Services",
-    body: "TODO_POLICY_CONTENT — describe the services offered and any disclaimers.",
+    body: "This site describes our roofing services and lets you request an estimate. Requesting an estimate does not create a contract. Pricing, scope, schedule, and warranty terms are set only in a written agreement signed by you and us after an inspection.",
   },
   {
     heading: "Intellectual Property",
-    body: "TODO_POLICY_CONTENT — describe ownership of site content and trademarks.",
+    body: `The text, photos, logos, and design on this site belong to ${siteConfig.businessName} or are used with permission. Manufacturer names and certification marks belong to their owners. Please do not copy or reuse site content without written permission.`,
   },
   {
     heading: "Limitation of Liability",
-    body: "TODO_POLICY_CONTENT — describe liability limits.",
+    body: "Information on this site is provided for general guidance and may change without notice. To the extent allowed by law, we are not liable for losses that come from using this site or relying on its content. Work we perform is governed by your signed agreement.",
   },
   {
     heading: "Governing Law",
-    body: "TODO_POLICY_CONTENT — state the governing jurisdiction.",
+    body: "These terms are governed by the laws of the State of Georgia.",
   },
   {
     heading: "Contact",
