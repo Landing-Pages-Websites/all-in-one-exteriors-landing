@@ -8,6 +8,7 @@ import test from "node:test";
 import { promisify } from "node:util";
 
 import {
+  collectPlaceholderAssetProblems,
   PLACEHOLDER_ASSET_DIGESTS,
   PLACEHOLDER_ASSET_PATHS,
   PLACEHOLDER_ASSET_SIZES,
@@ -16,6 +17,21 @@ import {
 const run = promisify(execFile);
 const repositoryRoot = new URL("../", import.meta.url);
 const repositoryDir = repositoryRoot.pathname;
+
+/**
+ * Whether this checkout is the untouched template rather than a customer clone.
+ *
+ * The starter-only tests below need the template's placeholder bytes, which a
+ * customer clone has replaced (exactly what the gate demands), and a digest
+ * cannot be planted without them. There they skip, and the customer-only test
+ * asserts the sweep comes back clean instead. Keyed on the TODO_ site identity,
+ * not on the assets, so a re-cut placeholder in the template still fails the
+ * freshness tests rather than passing for a customer repo.
+ */
+const siteContent = JSON.parse(await readFile(join(repositoryDir, "src/content/site.json"), "utf8"));
+const isStarter = siteContent.identity.displayName.startsWith("TODO_");
+const starterOnly = { skip: !isStarter && "customer clone: the template's placeholder assets were replaced" };
+const customerOnly = { skip: isStarter && "template: its placeholder assets are expected to be present" };
 
 async function sha256(absolutePath) {
   return createHash("sha256").update(await readFile(absolutePath)).digest("hex");
@@ -70,7 +86,7 @@ test("the placeholder tables are not empty", () => {
  * a customer repo can catch that, because there a mismatch legitimately means
  * "replaced". Here in the template it always means the table is stale.
  */
-test("every shipped placeholder is still covered by a declared digest", async () => {
+test("every shipped placeholder is still covered by a declared digest", starterOnly, async () => {
   const uncovered = [];
   for (const relativePath of PLACEHOLDER_ASSET_PATHS) {
     const actual = await sha256(join(repositoryDir, relativePath));
@@ -88,7 +104,7 @@ test("every shipped placeholder is still covered by a declared digest", async ()
  * it before hashing. Re-cutting an asset changes its size as well as its
  * digest, so both tables have to move together.
  */
-test("every shipped placeholder's size is in the pre-filter", async () => {
+test("every shipped placeholder's size is in the pre-filter", starterOnly, async () => {
   for (const relativePath of PLACEHOLDER_ASSET_PATHS) {
     const { length } = await readFile(join(repositoryDir, relativePath));
     assert.ok(
@@ -107,7 +123,7 @@ test("every declared placeholder path exists", async () => {
   }
 });
 
-test("the template's own assets trip the gate", async () => {
+test("the template's own assets trip the gate", starterOnly, async () => {
   const output = await runGateOn(async () => {});
   assert.match(output, /public\/logo\.png: still the template's logo\.png/);
   assert.match(output, /favicon\.ico: still the template's favicon/);
@@ -121,7 +137,7 @@ test("the template's own assets trip the gate", async () => {
  * reference it from its new name, and delete the original. A gate that checks
  * a fixed list of paths finds nothing while the site serves starter artwork.
  */
-test("a renamed placeholder is still caught", async () => {
+test("a renamed placeholder is still caught", starterOnly, async () => {
   const output = await runGateOn(async (dir) => {
     await copyFile(join(dir, "public/logo.png"), join(dir, "public/brand.png"));
     await rm(join(dir, "public/logo.png"));
@@ -135,7 +151,7 @@ test("a renamed placeholder is still caught", async () => {
 });
 
 /** Nested is the same defect as renamed; the sweep is recursive. */
-test("a placeholder moved into a subdirectory is still caught", async () => {
+test("a placeholder moved into a subdirectory is still caught", starterOnly, async () => {
   const output = await runGateOn(async (dir) => {
     await mkdir(join(dir, "public/brand"), { recursive: true });
     await copyFile(join(dir, "public/og-image.png"), join(dir, "public/brand/social.png"));
@@ -145,7 +161,7 @@ test("a placeholder moved into a subdirectory is still caught", async () => {
 });
 
 /** Replacing the artwork for real must clear that asset, and only that one. */
-test("replacing an asset clears it and leaves the others reported", async () => {
+test("replacing an asset clears it and leaves the others reported", starterOnly, async () => {
   const output = await runGateOn(async (dir) => {
     await writeFile(join(dir, "public/og-image.png"), Buffer.alloc(4096, 7));
   });
@@ -164,4 +180,8 @@ test("a same-size file that is not a placeholder is not reported", async () => {
     await writeFile(join(dir, "public/decoy.png"), Buffer.alloc(placeholderSize, 3));
   });
   assert.doesNotMatch(output, /decoy\.png/, "a same-size non-placeholder must not be flagged");
+});
+
+test("a customer clone ships none of the template's artwork", customerOnly, () => {
+  assert.deepEqual(collectPlaceholderAssetProblems(), []);
 });
