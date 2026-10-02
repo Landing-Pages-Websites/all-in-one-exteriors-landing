@@ -24,7 +24,7 @@ export function ConsentBanner(): ReactElement | null {
     <div
       role="region"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white p-4 shadow-lg dark:border-white/10 dark:bg-neutral-900"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white p-4 text-neutral-900 shadow-lg dark:border-white/10 dark:text-white dark:bg-neutral-900"
     >
       <div className="mx-auto flex max-w-3xl flex-col items-start gap-3 sm:flex-row sm:items-center">
         <p className="text-sm text-neutral-700 dark:text-neutral-300">

@@ -116,7 +116,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   businessName: siteContent.identity.displayName,
   legalName: siteContent.identity.legalName,
-  domain: "TODO_DOMAIN.example.com",
+  domain: "services.allinoneexteriors.com",
   description: siteContent.identity.description,
   contact: {
     phone: siteContent.identity.telephone,
@@ -130,23 +130,31 @@ export const siteConfig: SiteConfig = {
     },
   },
   schemaType: "LocalBusiness",
-  serviceAreas: ["TODO_SERVICE_AREA"],
+  serviceAreas: [
+    "Alpharetta, GA",
+    "Milton, GA",
+    "Johns Creek, GA",
+    "Marietta, GA",
+    "Woodstock, GA",
+    "Rome, GA",
+    "Roswell, GA",
+    "Dunwoody, GA",
+  ],
   socialLinks: siteContent.identity.sameAs.map((url, index) => ({
     label: `Profile ${index + 1}`,
     url,
   })),
   logoPath: "/logo.png",
   ogImagePath: "/og-image.png",
-  megaCustomerId: "TODO_MEGA_CUSTOMER_ID",
+  megaCustomerId: "1862914c-bd83-4c75-b22b-f25364728c36",
+  // Flow B: site_id and siteKey are minted by `mega site-tracking enable`
+  // after the first pre-registration deploy. Replace both and redeploy.
   megaSiteId: "TODO_MEGA_SITE_ID",
   megaSiteKey: "TODO_MEGA_SITE_KEY",
-  sourceProvider: "website-TODO_SOURCE_SLUG",
-  formKeys: ["contact-form"],
+  sourceProvider: "lp-allinoneexteriors-roof-replacement",
+  formKeys: ["contact-form", "roof-estimate-final"],
   uploadsEnabled: false,
-  budgetQualifier: {
-    priceAnchor: "TODO_PRICE_ANCHOR — e.g. 'Our projects start at $X,XXX.'",
-    question: "Is this within your budget?",
-  },
+  budgetQualifier: null,
   thankYouPath: "/thank-you",
   locale: "en-US",
   consentMode: "us-default",

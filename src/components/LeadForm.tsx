@@ -14,7 +14,7 @@ import {
   isValidEmail,
   isValidPhone,
   useMegaLeadForm,
-} from "@/hooks/useMegaLeadForm";
+} from "@/hooks/useWebsiteLeadForm";
 import { DEFAULT_FORM_KEY, HONEYPOT_FIELD_NAME } from "@/lib/leadValidation";
 import { getPostHogClient } from "@/lib/posthog-client";
 import { siteConfig } from "@/site.config";
