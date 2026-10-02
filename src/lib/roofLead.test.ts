@@ -55,5 +55,8 @@ test("decision maker No is disqualified but keeps its urgency flag", () => {
     isDisqualified: true,
     urgency: "urgent",
   });
-  assert.equal(qualifyRoofLead(lead("No", "No, standard replacement")).qualified, false);
+  assert.equal(
+    qualifyRoofLead(lead("No", "No, standard replacement")).qualified,
+    false,
+  );
 });

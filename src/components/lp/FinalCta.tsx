@@ -26,7 +26,7 @@ export function FinalCta(): ReactElement {
           src="/images/final-finished-home.webp"
           alt=""
           fill
-          sizes="(min-width: 1024px) 125vw, 190vw"
+          sizes="(min-width: 1024px) 100vw, 190vw"
           className="object-cover object-[50%_35%]"
         />
       </div>
@@ -66,7 +66,7 @@ export function FinalCta(): ReactElement {
         </div>
         <div id={FINAL_FORM_ANCHOR} className="lg:col-span-5 lg:col-start-8">
           <RoofEstimateForm
-            formKey="roof-estimate-final"
+            placement="final"
             heading="Request a Roof Estimate"
             headingLevel="h3"
           />

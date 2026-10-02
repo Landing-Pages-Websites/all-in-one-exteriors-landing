@@ -5,7 +5,11 @@ import { Icon } from "./Icon";
 import { RoofEstimateForm } from "./RoofEstimateForm";
 import { FORM_ANCHOR } from "./content";
 
-const CREDENTIALS = ["GAF certified", "CertainTeed certified", "NRCA certified"] as const;
+const CREDENTIALS = [
+  "GAF certified",
+  "CertainTeed certified",
+  "NRCA certified",
+] as const;
 
 export function Hero(): ReactElement {
   return (
@@ -32,7 +36,9 @@ export function Hero(): ReactElement {
             className="mt-4 text-h1 font-extrabold tracking-[-0.02em] text-balance text-white"
           >
             Your new roof, done right the{" "}
-            <span className="relative whitespace-nowrap text-gold">first time.</span>
+            <span className="relative whitespace-nowrap text-gold">
+              first time.
+            </span>
           </h1>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-white lg:mt-5">
             Certified, warranty-backed roof replacement for homeowners across
@@ -44,7 +50,10 @@ export function Hero(): ReactElement {
           id={FORM_ANCHOR}
           className="mt-6 lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:self-start"
         >
-          <RoofEstimateForm formKey="contact-form" heading="Request a Roof Estimate" />
+          <RoofEstimateForm
+            placement="hero"
+            heading="Request a Roof Estimate"
+          />
         </div>
 
         <div className="mt-10 lg:col-span-7 lg:row-start-2 lg:mt-5">
@@ -54,7 +63,10 @@ export function Hero(): ReactElement {
             something isn&apos;t right, we come back until it is. Light
             commercial welcome.
           </p>
-          <ul className="mt-6 flex flex-wrap gap-2 lg:mt-5" aria-label="Certifications">
+          <ul
+            className="mt-6 flex flex-wrap gap-2 lg:mt-5"
+            aria-label="Certifications"
+          >
             {CREDENTIALS.map((credential) => (
               <li
                 key={credential}

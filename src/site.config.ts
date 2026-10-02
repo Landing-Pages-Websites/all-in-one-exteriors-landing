@@ -152,7 +152,7 @@ export const siteConfig: SiteConfig = {
   megaSiteId: "TODO_MEGA_SITE_ID",
   megaSiteKey: "TODO_MEGA_SITE_KEY",
   sourceProvider: "lp-allinoneexteriors-roof-replacement",
-  formKeys: ["contact-form", "roof-estimate-final"],
+  formKeys: ["contact-form"],
   uploadsEnabled: false,
   budgetQualifier: null,
   thankYouPath: "/thank-you",

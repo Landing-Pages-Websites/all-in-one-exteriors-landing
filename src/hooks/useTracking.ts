@@ -5,7 +5,11 @@ import { getPostHogClient } from "@/lib/posthog-client";
 import type { RoofLeadFields, RoofLeadQualification } from "@/lib/roofLead";
 import { siteConfig } from "@/site.config";
 
-type FbqArgs = [command: "track" | "trackCustom", event: string, params?: Record<string, string>];
+type FbqArgs = [
+  command: "track" | "trackCustom",
+  event: string,
+  params?: Record<string, string>,
+];
 
 declare global {
   interface Window {
@@ -21,7 +25,9 @@ function pushDataLayer(event: Record<string, unknown>): void {
 }
 
 /** MegaTag event values are strings; the booleans keep their form_data keys. */
-function qualificationProps(qualification: RoofLeadQualification): Record<string, string> {
+function qualificationProps(
+  qualification: RoofLeadQualification,
+): Record<string, string> {
   return {
     qualified: String(qualification.qualified),
     isDisqualified: String(qualification.isDisqualified),
@@ -47,11 +53,11 @@ function safely(send: () => void): void {
  * qualified leads only, never for a disqualified submission.
  */
 export function trackLeadCaptured(
-  formKey: string,
+  placement: string,
   fields: RoofLeadFields,
   qualification: RoofLeadQualification,
 ): void {
-  const formId = `form-${formKey}`;
+  const formId = `form-${placement}`;
   safely(() =>
     window.MegaTag?.trackEvent?.("form_submit", {
       element: formId,
@@ -68,9 +74,22 @@ export function trackLeadCaptured(
     }),
   );
   if (!qualification.qualified) return;
-  safely(() => pushDataLayer({ event: "qualified_lead", form_id: formId, urgency: qualification.urgency }));
-  safely(() => window.fbq?.("track", "Lead", { content_name: META_LEAD_CONTENT_NAME }));
-  safely(() => getPostHogClient()?.capture("qualified_lead", { form_key: formKey, urgency: qualification.urgency }));
+  safely(() =>
+    pushDataLayer({
+      event: "qualified_lead",
+      form_id: formId,
+      urgency: qualification.urgency,
+    }),
+  );
+  safely(() =>
+    window.fbq?.("track", "Lead", { content_name: META_LEAD_CONTENT_NAME }),
+  );
+  safely(() =>
+    getPostHogClient()?.capture("qualified_lead", {
+      form_id: formId,
+      urgency: qualification.urgency,
+    }),
+  );
 }
 
 export interface UseTrackingReturn {
@@ -83,14 +102,29 @@ export interface UseTrackingReturn {
 /** On-page CTA and phone-click tracking. The optimizer itself loads in layout.tsx. */
 export function useTracking(): UseTrackingReturn {
   const trackPhoneClick = useCallback((location: string): void => {
-    safely(() => pushDataLayer({ event: "phone_click", cta_location: location }));
+    safely(() =>
+      pushDataLayer({ event: "phone_click", cta_location: location }),
+    );
     safely(() => window.fbq?.("track", "Contact", { content_name: location }));
-    safely(() => getPostHogClient()?.capture("phone_click", { cta_location: location }));
+    safely(() =>
+      getPostHogClient()?.capture("phone_click", { cta_location: location }),
+    );
   }, []);
 
   const trackCtaClick = useCallback((label: string, location: string): void => {
-    safely(() => pushDataLayer({ event: "cta_click", cta_label: label, cta_location: location }));
-    safely(() => getPostHogClient()?.capture("cta_click", { cta_label: label, cta_location: location }));
+    safely(() =>
+      pushDataLayer({
+        event: "cta_click",
+        cta_label: label,
+        cta_location: location,
+      }),
+    );
+    safely(() =>
+      getPostHogClient()?.capture("cta_click", {
+        cta_label: label,
+        cta_location: location,
+      }),
+    );
   }, []);
 
   return { trackPhoneClick, trackCtaClick };

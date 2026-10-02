@@ -19,7 +19,14 @@ export default function ThankYouPage(): ReactElement {
     <div className="flex flex-1 flex-col bg-ink">
       <header className="border-b border-line">
         <div className="mx-auto flex h-[4.5rem] max-w-[1240px] items-center px-4 sm:px-6">
-          <Image src="/logo.png" alt={siteConfig.businessName} width={160} height={129} className="h-12 w-auto sm:h-14" sizes="70px" />
+          <Image
+            src="/logo.png"
+            alt={siteConfig.businessName}
+            width={160}
+            height={129}
+            className="h-12 w-auto sm:h-14"
+            sizes="70px"
+          />
         </div>
       </header>
       <section className="relative mx-auto flex w-full max-w-2xl flex-1 flex-col items-start justify-center gap-6 px-4 py-20 sm:px-6">

@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useMegaLeadForm } from "@/hooks/useMegaLeadForm";
 import { trackLeadCaptured } from "@/hooks/useTracking";
+import { DEFAULT_FORM_KEY } from "@/lib/leadValidation";
 import {
   EMPTY_ROOF_LEAD,
   formatPhone,
@@ -46,7 +47,9 @@ export interface UseRoofEstimateFormReturn {
  * clears the latch. No native submit is ever dispatched, so nothing can
  * observe a conversion before the API confirms it.
  */
-export function useRoofEstimateForm(formKey: string): UseRoofEstimateFormReturn {
+export function useRoofEstimateForm(
+  placement: string,
+): UseRoofEstimateFormReturn {
   const router = useRouter();
   const { submit } = useMegaLeadForm();
   const formRef = useRef<HTMLFormElement>(null);
@@ -57,9 +60,15 @@ export function useRoofEstimateForm(formKey: string): UseRoofEstimateFormReturn 
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const setField = useCallback((name: RoofLeadFieldName, value: string): void => {
-    setFields((prev) => ({ ...prev, [name]: name === "phone" ? formatPhone(value) : value }));
-  }, []);
+  const setField = useCallback(
+    (name: RoofLeadFieldName, value: string): void => {
+      setFields((prev) => ({
+        ...prev,
+        [name]: name === "phone" ? formatPhone(value) : value,
+      }));
+    },
+    [],
+  );
 
   const performSubmit = useCallback(async (): Promise<void> => {
     if (inFlightRef.current) return;
@@ -67,9 +76,11 @@ export function useRoofEstimateForm(formKey: string): UseRoofEstimateFormReturn 
     setStatus("submitting");
     setSubmitError(null);
     try {
-      const result = await submit(fields, formKey);
+      // Both instances are the same estimate request: one declared form key
+      // for routing; placement only distinguishes them in analytics.
+      const result = await submit(fields, DEFAULT_FORM_KEY);
       setStatus("success");
-      trackLeadCaptured(formKey, result.fields, result.qualification);
+      trackLeadCaptured(placement, result.fields, result.qualification);
       // Carry the ad click's query string so thank-you conversions attribute.
       router.push(`${siteConfig.thankYouPath}${window.location.search}`);
     } catch {
@@ -78,7 +89,7 @@ export function useRoofEstimateForm(formKey: string): UseRoofEstimateFormReturn 
       setStatus("idle");
       setSubmitError(SUBMIT_ERROR_MESSAGE);
     }
-  }, [fields, formKey, router, submit]);
+  }, [fields, placement, router, submit]);
 
   const attemptSubmit = useCallback((): void => {
     const form = formRef.current;
@@ -101,9 +112,21 @@ export function useRoofEstimateForm(formKey: string): UseRoofEstimateFormReturn 
     [attemptSubmit],
   );
 
-  const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-  }, []);
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>): void => {
+      event.preventDefault();
+    },
+    [],
+  );
 
-  return { formRef, fields, status, submitError, setField, attemptSubmit, handleKeyDown, handleSubmit };
+  return {
+    formRef,
+    fields,
+    status,
+    submitError,
+    setField,
+    attemptSubmit,
+    handleKeyDown,
+    handleSubmit,
+  };
 }

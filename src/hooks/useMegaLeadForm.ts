@@ -36,7 +36,10 @@ export interface SubmissionResult {
 }
 
 interface UseMegaLeadFormReturn {
-  submit: (fields: RoofLeadFields, formKey: string) => Promise<SubmissionResult>;
+  submit: (
+    fields: RoofLeadFields,
+    formKey: string,
+  ) => Promise<SubmissionResult>;
 }
 
 function normalizeFields(fields: RoofLeadFields): RoofLeadFields {
@@ -51,8 +54,10 @@ function normalizeFields(fields: RoofLeadFields): RoofLeadFields {
   if (!normalized.firstName || !normalized.lastName) {
     throw new Error("First and last name are required");
   }
-  if (!isValidEmail(normalized.email)) throw new Error("Enter a valid email address");
-  if (!isValidPhone(fields.phone)) throw new Error("Phone must be exactly 10 digits");
+  if (!isValidEmail(normalized.email))
+    throw new Error("Enter a valid email address");
+  if (!isValidPhone(fields.phone))
+    throw new Error("Phone must be exactly 10 digits");
   if (!normalized.decisionMaker || !normalized.roofStatus) {
     throw new Error("Both qualifying questions are required");
   }
@@ -60,7 +65,10 @@ function normalizeFields(fields: RoofLeadFields): RoofLeadFields {
 }
 
 function generateSubmissionId(): string {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return `sub_${crypto.randomUUID()}`;
   }
   return `sub_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
@@ -68,8 +76,15 @@ function generateSubmissionId(): string {
 
 /** Only `{ ok: true }` counts; any other 2xx body is a failed submission. */
 function confirmedId(json: unknown): string | undefined {
-  if (typeof json !== "object" || json === null || !("ok" in json) || json.ok !== true) {
-    throw new SubmissionRejectedError("Submission was not confirmed by the server");
+  if (
+    typeof json !== "object" ||
+    json === null ||
+    !("ok" in json) ||
+    json.ok !== true
+  ) {
+    throw new SubmissionRejectedError(
+      "Submission was not confirmed by the server",
+    );
   }
   return "id" in json && typeof json.id === "string" ? json.id : undefined;
 }
@@ -78,11 +93,15 @@ async function readJson(response: Response): Promise<unknown> {
   try {
     return await response.json();
   } catch {
-    throw new SubmissionRejectedError("Submission endpoint returned a malformed response");
+    throw new SubmissionRejectedError(
+      "Submission endpoint returned a malformed response",
+    );
   }
 }
 
-async function postSubmission(payload: Record<string, unknown>): Promise<string | undefined> {
+async function postSubmission(
+  payload: Record<string, unknown>,
+): Promise<string | undefined> {
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
@@ -92,11 +111,17 @@ async function postSubmission(payload: Record<string, unknown>): Promise<string 
       body: JSON.stringify(payload),
       signal: controller.signal,
     });
-    if (!response.ok) throw new SubmissionRejectedError(`Submission endpoint returned HTTP ${response.status}`);
+    if (!response.ok)
+      throw new SubmissionRejectedError(
+        `Submission endpoint returned HTTP ${response.status}`,
+      );
     return confirmedId(await readJson(response));
   } catch (error) {
     if (error instanceof SubmissionRejectedError) throw error;
-    throw new Error("Submission request failed before the server confirmed it", { cause: error });
+    throw new Error(
+      "Submission request failed before the server confirmed it",
+      { cause: error },
+    );
   } finally {
     window.clearTimeout(timer);
   }
@@ -115,8 +140,12 @@ export const useMegaLeadForm = (): UseMegaLeadFormReturn => {
   }, []);
 
   const submit = useCallback(
-    async (fields: RoofLeadFields, formKey: string): Promise<SubmissionResult> => {
-      if (inFlightRef.current) throw new Error("A submission is already in progress");
+    async (
+      fields: RoofLeadFields,
+      formKey: string,
+    ): Promise<SubmissionResult> => {
+      if (inFlightRef.current)
+        throw new Error("A submission is already in progress");
       inFlightRef.current = true;
       try {
         const normalized = normalizeFields(fields);

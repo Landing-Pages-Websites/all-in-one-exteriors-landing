@@ -85,6 +85,10 @@ export function formatPhone(value: string): string {
 export function isValidPhone(value: string): boolean {
   const raw = value.replace(/\D/g, "");
   const national =
-    raw.length === PHONE_DIGIT_COUNT + 1 ? raw.replace(LEADING_COUNTRY_CODE, "") : raw;
-  return national.length === PHONE_DIGIT_COUNT && NATIONAL_NUMBER.test(national);
+    raw.length === PHONE_DIGIT_COUNT + 1
+      ? raw.replace(LEADING_COUNTRY_CODE, "")
+      : raw;
+  return (
+    national.length === PHONE_DIGIT_COUNT && NATIONAL_NUMBER.test(national)
+  );
 }
