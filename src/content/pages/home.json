@@ -1,48 +1,72 @@
 {
   "hero": {
-    "eyebrow": "TODO_HERO_EYEBROW — replace with real content",
-    "title": "TODO_BUSINESS_NAME",
-    "description": "TODO_DESCRIPTION — one or two sentences about the business.",
+    "eyebrow": "North Metro Atlanta roof replacement",
+    "title": "Your new roof, done right the first time.",
+    "description": "Certified, warranty-backed roof replacement for homeowners across eight North Metro Atlanta cities.",
     "image": {
-      "path": "public/logo.png",
-      "sha256": "5e58b0624d7929f62df00080310d6c929ff390d371eb20c219ba9fb52890a4a7",
+      "path": "public/images/hero-finished-home.png",
+      "sha256": "21366de96aaae450244cb562039b1f4951c9634af7a934fe2f35ff05d4925c85",
       "mimeType": "image/png",
-      "width": 512,
-      "height": 512,
-      "bytes": 1881,
-      "altText": "TODO_BUSINESS_NAME logo",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 1772001,
+      "altText": "Two-story stone and siding home with a finished metal roof in Alpharetta, GA",
       "crop": null,
       "focalPoint": null
     }
   },
   "faq": {
-    "heading": "TODO_FAQ_HEADING — frequently asked questions",
+    "heading": "Straight answers before you call.",
     "order": {
       "orderedItemIds": [
         "item_000000000000000000000000g0",
+        "item_000000000000000000000001g0",
+        "item_000000000000000000000001h0",
+        "item_000000000000000000000001j0",
+        "item_000000000000000000000001k0",
         "item_000000000000000000000000h0"
       ]
     },
     "items": [
       {
         "id": "item_000000000000000000000000g0",
-        "question": "TODO_FAQ_QUESTION_ONE — what services do you offer?",
-        "answer": "TODO_FAQ_ANSWER — replace this answer with real customer content."
+        "question": "Is the roof inspection paid?",
+        "answer": "Yes. Inspections are a paid service. Start by requesting a roof estimate and we will talk through your property and roof needs."
+      },
+      {
+        "id": "item_000000000000000000000001g0",
+        "question": "What warranty comes with a roof replacement?",
+        "answer": "Replacements carry manufacturer-backed coverage: a lifetime warranty on materials and 5 to 10 years on labor, depending on the manufacturer. Exact terms vary by manufacturer, so ask us for the specifics on the system you choose."
+      },
+      {
+        "id": "item_000000000000000000000001h0",
+        "question": "Who should request the estimate?",
+        "answer": "The homeowner or the authorized decision maker for the property. That keeps the conversation with the person who can approve the scope of work."
+      },
+      {
+        "id": "item_000000000000000000000001j0",
+        "question": "My roof is leaking or damaged. Can I still request an estimate?",
+        "answer": "Yes. Leaking or damaged roofs and standard, planned replacements both qualify. Tell us on the form if your roof is leaking or damaged so we know it is urgent."
+      },
+      {
+        "id": "item_000000000000000000000001k0",
+        "question": "Do you work on commercial roofs?",
+        "answer": "Residential roof replacement is our focus, and light commercial inquiries are welcome. We hold NRCA certification for both low-slope and steep-slope roofing."
       },
       {
         "id": "item_000000000000000000000000h0",
-        "question": "TODO_FAQ_QUESTION_TWO — what areas do you serve?",
-        "answer": "TODO_SERVICE_AREA_ANSWER — describe the real service area."
+        "question": "Which areas do you serve?",
+        "answer": "Our initial footprint covers Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell, and Dunwoody, GA."
       }
     ]
   },
   "contact": {
-    "heading": "TODO_CONTACT_HEADING — get in touch"
+    "heading": "Request a Roof Estimate."
   },
   "seo": {
-    "title": "TODO_SEO_TITLE",
-    "description": "TODO_SEO_DESCRIPTION — one or two search-focused sentences.",
-    "canonical": "https://todo.example.com/TODO_CANONICAL_URL",
+    "title": "Roof Replacement in North Metro Atlanta | All In One Exteriors",
+    "description": "Request a roof estimate from a GAF and CertainTeed certified roofing contractor. Manufacturer-backed warranties, military and senior discounts. Call (404) 445-8136.",
+    "canonical": "https://services.allinoneexteriors.com/",
     "indexing": {
       "index": true,
       "follow": true,

@@ -13,23 +13,23 @@ export const metadata: Metadata = buildMetadata({
 const sections: LegalSection[] = [
   {
     heading: "Information We Collect",
-    body: `TODO_POLICY_CONTENT — describe what personal information ${siteConfig.businessName} collects (e.g. contact form submissions, analytics data).`,
+    body: `When you request a roof estimate, ${siteConfig.businessName} collects the details you enter: your name, email address, phone number, and your answers about the home and roof. We also collect basic visit information, such as the page you came from, campaign tags in the link, and device and browser details.`,
   },
   {
     heading: "How We Use Your Information",
-    body: "TODO_POLICY_CONTENT — describe how collected information is used (responding to inquiries, improving the site, marketing).",
+    body: "We use your details to contact you about your estimate, schedule an inspection, and follow up on your project. Visit information helps us understand which ads and pages are working so we can improve this site and our advertising.",
   },
   {
     heading: "Cookies and Analytics",
-    body: "TODO_POLICY_CONTENT — describe analytics tools in use and link to the cookie policy.",
+    body: "This site uses cookies and similar technologies for analytics, advertising measurement, and call tracking. Our Cookie Policy explains what they do and how to manage your choice.",
   },
   {
     heading: "Data Sharing and Third Parties",
-    body: "TODO_POLICY_CONTENT — describe any third parties data is shared with and why.",
+    body: "We do not sell your personal information. We share it only with service providers that help us run this site and respond to you, such as our lead management, analytics, advertising, and call tracking providers, and only for those purposes.",
   },
   {
     heading: "Your Rights",
-    body: "TODO_POLICY_CONTENT — describe access/deletion rights and how to exercise them.",
+    body: `You can ask us what personal information we hold about you, ask us to correct or delete it, or ask us to stop contacting you. Email ${siteConfig.contact.email} or call ${siteConfig.contact.phone} and we will respond within a reasonable time.`,
   },
   {
     heading: "Contact",

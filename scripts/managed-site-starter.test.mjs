@@ -99,15 +99,16 @@ test("renders the managed home without code-owned copy", async () => {
 });
 
 test("binds the image manifest facts to the checked-in hero asset", async () => {
-  const [home, logo] = await Promise.all([
-    readJson("src/content/pages/home.json"),
-    readBinary("public/logo.png"),
-  ]);
+  // Read the asset the manifest names rather than a fixed starter path: a
+  // customer site points the hero at its own artwork, and the contract is that
+  // the declared facts describe whichever file is actually served.
+  const home = await readJson("src/content/pages/home.json");
+  const asset = await readBinary(home.hero.image.path);
 
-  assert.equal(home.hero.image.bytes, logo.byteLength);
+  assert.equal(home.hero.image.bytes, asset.byteLength);
   assert.equal(
     home.hero.image.sha256,
-    createHash("sha256").update(logo).digest("hex"),
+    createHash("sha256").update(asset).digest("hex"),
   );
 });
 

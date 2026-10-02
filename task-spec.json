@@ -1,0 +1,73 @@
+{
+  "taskId": "f0c4cda7-1952-4908-98b1-c14d9eee42b3",
+  "customer": {
+    "id": "1862914c-bd83-4c75-b22b-f25364728c36",
+    "businessName": "All In One Exteriors",
+    "legalName": "All In One Exterior and Construction",
+    "existingSite": "https://allinoneexteriors.com/",
+    "lpDomain": "services.allinoneexteriors.com"
+  },
+  "researchContract": "website-lp-build-research-data/1862914c-bd83-4c75-b22b-f25364728c36/",
+  "pageType": "single paid-Meta landing page",
+  "adPlatforms": ["meta"],
+  "route": "/",
+  "focus": "Roof replacement in Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell and Dunwoody, GA: request an estimate by form or call.",
+  "serviceAreas": ["Alpharetta", "Milton", "Johns Creek", "Marietta", "Woodstock", "Rome", "Roswell", "Dunwoody"],
+  "brand": {
+    "theme": "dark",
+    "palette": { "red": "#C91A0B", "charcoal": "#1A1A1A", "gold": "#F2C230" },
+    "fontFamily": "Montserrat"
+  },
+  "phone": { "display": "(404) 445-8136", "href": "tel:4044458136", "routingNumber": "4044458136" },
+  "form": {
+    "fields": [
+      { "name": "firstName", "label": "First name", "type": "text", "required": true },
+      { "name": "lastName", "label": "Last name", "type": "text", "required": true },
+      { "name": "email", "label": "Email", "type": "email", "required": true },
+      { "name": "phone", "label": "Phone", "type": "tel", "required": true },
+      {
+        "name": "decisionMaker",
+        "label": "Are you the homeowner or authorized decision maker for this property?",
+        "type": "radio",
+        "required": true,
+        "options": [
+          { "value": "Yes", "qualification": "qualified" },
+          { "value": "No", "qualification": "disqualified, still submitted with qualified:false" }
+        ]
+      },
+      {
+        "name": "roofStatus",
+        "label": "Is your roof currently leaking or damaged?",
+        "type": "radio",
+        "required": true,
+        "options": [
+          { "value": "Yes, leaking or damaged", "qualification": "qualified, flags urgency" },
+          { "value": "No, standard replacement", "qualification": "qualified, standard replacement" }
+        ],
+        "neverDisqualifies": true
+      }
+    ],
+    "metadataKeys": ["qualified", "isDisqualified", "urgency"],
+    "qualificationRule": "decisionMaker Yes qualifies; decisionMaker No is submitted with qualified:false and isDisqualified:true; roofStatus only sets urgency.",
+    "conversionEvents": "Form capture after server ok:true for every stored lead; qualified_lead and Meta Lead only when qualified.",
+    "excluded": ["SMS consent", "captcha", "honeypot", "budget", "message", "uploads"]
+  },
+  "tracking": {
+    "gtmContainerId": "GTM-PCXQBG7X",
+    "metaPixelId": "1620710171744846",
+    "ctmScript": "https://572388.tctm.co/t.js",
+    "megaSiteId": "pending registration (Flow B)",
+    "megaSiteKey": "pending registration (Flow B)",
+    "notificationEmails": ["allinoneexteriors21@gmail.com"],
+    "sendLeadsToCrm": false
+  },
+  "requiredAnchors": ["hero", "trust-bar", "how-it-works", "services", "faq", "form"],
+  "bannedCopy": [
+    "the word free anywhere (no free estimate or free inspection; inspections are paid)",
+    "financing offers",
+    "insurance or claim outcome language",
+    "named competitor comparisons",
+    "em dash",
+    "en dash"
+  ]
+}

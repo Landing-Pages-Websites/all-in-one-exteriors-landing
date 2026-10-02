@@ -13,15 +13,15 @@ export const metadata: Metadata = buildMetadata({
 const sections: LegalSection[] = [
   {
     heading: "What Cookies Are",
-    body: "TODO_POLICY_CONTENT — brief plain-language explanation of cookies and similar technologies.",
+    body: "Cookies are small files a website saves in your browser. Similar technologies, such as local storage and tracking scripts, do the same job. They help a site remember your choices and measure how it is used.",
   },
   {
     heading: "Cookies We Use",
-    body: `TODO_POLICY_CONTENT — list the analytics cookies ${siteConfig.businessName} uses (Google Analytics, PostHog) and their purposes.`,
+    body: `${siteConfig.businessName} uses analytics and advertising tools, such as Google and Meta, to measure visits and estimate requests from our ads. A call tracking tool shows a tracking phone number so we know which ads lead to calls. We also keep campaign tags from your link so your estimate request is credited to the right ad.`,
   },
   {
     heading: "Managing Your Preferences",
-    body: "TODO_POLICY_CONTENT — explain the consent banner choice and how to clear it (clearing browser storage re-prompts).",
+    body: "Use the cookie banner to accept or decline analytics cookies. Your choice is saved in your browser. To change it, clear this site's data in your browser settings and the banner will appear again on your next visit. You can also block cookies in your browser settings.",
   },
   {
     heading: "Contact",

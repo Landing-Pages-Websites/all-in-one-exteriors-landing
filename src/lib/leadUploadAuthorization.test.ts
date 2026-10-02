@@ -20,7 +20,7 @@ import { readFileSync } from "node:fs";
  * any one of them can observe, so it is asserted against the source. A future
  * change that shares one token between both calls fails here.
  */
-const HOOK = readFileSync("src/hooks/useMegaLeadForm.ts", "utf8");
+const HOOK = readFileSync("src/hooks/useWebsiteLeadForm.ts", "utf8");
 const FORM = readFileSync("src/components/LeadForm.tsx", "utf8");
 const WIDGET = readFileSync("src/components/CaptchaWidget.tsx", "utf8");
 const SUBMIT_ROUTE = readFileSync("src/app/api/lead/route.ts", "utf8");

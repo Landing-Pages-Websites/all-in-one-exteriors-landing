@@ -1,230 +1,185 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { captureLeadContext, initAttribution } from "@/lib/megaLeadContext";
+import { isValidEmail } from "@/lib/leadValidation";
 import {
-  captureLeadContext,
-  initAttribution,
-  type Attribution,
-} from "@/lib/megaLeadContext";
-import {
-  HONEYPOT_FIELD_NAME,
-  isValidEmail,
+  DECISION_MAKER_OPTIONS,
+  ROOF_STATUS_OPTIONS,
   isValidPhone,
   phoneDigits,
-} from "@/lib/leadValidation";
-import {
-  declaredContentType,
-  parseSignedUploads,
-  uploadSignedFiles,
-} from "@/lib/leadUploads";
+  qualifyRoofLead,
+  type RoofLeadFields,
+  type RoofLeadQualification,
+} from "@/lib/roofLead";
+import { siteConfig } from "@/site.config";
 
-export {
-  EMAIL_PATTERN,
-  EMAIL_REGEX,
-  formatPhone,
-  isValidEmail,
-  isValidPhone,
-} from "@/lib/leadValidation";
+/**
+ * Standalone ads LP: leads go straight to the canonical MEGA submission API.
+ * site_id is a Flow B placeholder in site.config.ts until registration.
+ */
+const CONFIG = {
+  CUSTOMER_ID: siteConfig.megaCustomerId,
+  SITE_ID: siteConfig.megaSiteId,
+  SOURCE_PROVIDER: siteConfig.sourceProvider,
+  ENDPOINT: "https://analytics.gomega.ai/submission/submit",
+} as const;
 
-export type { Attribution };
+const REQUEST_TIMEOUT_MS = 15_000;
 
-export interface SubmissionResponse {
-  ok: boolean;
+/** The endpoint answered, but not with a confirmed submission. */
+class SubmissionRejectedError extends Error {}
+
+export interface SubmissionResult {
   id?: string;
-  ignored?: boolean;
+  /** The exact values MEGA stored, for the post-success form-capture event. */
+  fields: RoofLeadFields;
+  qualification: RoofLeadQualification;
 }
 
 interface UseMegaLeadFormReturn {
   submit: (
-    formData: Record<string, unknown>,
-    files?: readonly File[],
-    signingToken?: string | null,
-  ) => Promise<SubmissionResponse>;
-  isReady: boolean;
+    fields: RoofLeadFields,
+    formKey: string,
+  ) => Promise<SubmissionResult>;
 }
 
-/**
- * Mega lead submission hook. Validates email/phone, then POSTs to this
- * site's `/api/lead` (Turnstile + honeypot + Keystone). NEVER submit leads
- * any other way — no direct database access from frontend code.
- */
-/**
- * Hashes the submission's token so the signing step can bind to it without ever
- * seeing it. Returns null where WebCrypto is unavailable, which skips
- * attachments rather than sending an unbindable request.
- */
-async function submissionBinding(token: string): Promise<string | null> {
-  try {
-    const digest = await crypto.subtle.digest(
-      "SHA-256",
-      new TextEncoder().encode(token),
+function isOption(options: readonly string[], value: string): boolean {
+  return options.includes(value);
+}
+
+function normalizeFields(fields: RoofLeadFields): RoofLeadFields {
+  const normalized: RoofLeadFields = {
+    firstName: fields.firstName.trim(),
+    lastName: fields.lastName.trim(),
+    email: fields.email.trim(),
+    phone: phoneDigits(fields.phone),
+    decisionMaker: fields.decisionMaker,
+    roofStatus: fields.roofStatus,
+  };
+  if (!normalized.firstName || !normalized.lastName) {
+    throw new Error("First and last name are required");
+  }
+  if (!isValidEmail(normalized.email)) {
+    throw new Error("Enter a valid email address");
+  }
+  if (!isValidPhone(fields.phone)) {
+    throw new Error("Phone must be exactly 10 digits");
+  }
+  if (!isOption(DECISION_MAKER_OPTIONS, normalized.decisionMaker)) {
+    throw new Error("Answer whether you are the homeowner or decision maker");
+  }
+  if (!isOption(ROOF_STATUS_OPTIONS, normalized.roofStatus)) {
+    throw new Error("Answer whether the roof is leaking or damaged");
+  }
+  return normalized;
+}
+
+function generateSubmissionId(): string {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
+    return `sub_${crypto.randomUUID()}`;
+  }
+  return `sub_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+}
+
+/** Only `{ ok: true }` counts; any other 2xx body is a failed submission. */
+function confirmedId(json: unknown): string | undefined {
+  if (
+    typeof json !== "object" ||
+    json === null ||
+    !("ok" in json) ||
+    json.ok !== true
+  ) {
+    throw new SubmissionRejectedError(
+      "Submission was not confirmed by the server",
     );
-    return [...new Uint8Array(digest)]
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-  } catch (error) {
-    console.warn("Cannot bind attachments to this submission", error);
-    return null;
+  }
+  return "id" in json && typeof json.id === "string" ? json.id : undefined;
+}
+
+async function readJson(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    throw new SubmissionRejectedError(
+      "Submission endpoint returned a malformed response",
+    );
   }
 }
 
-export interface AttachmentClaim {
-  keys: string[];
-  signedKeys: string[];
-  capability: string | null;
-}
-
-const NO_ATTACHMENTS: AttachmentClaim = {
-  keys: [],
-  signedKeys: [],
-  capability: null,
-};
-
-/**
- * Signs and uploads the visitor's files, returning what the submission may claim.
- *
- * Uses a challenge token of its OWN so the submission's token is never spent
- * here, and binds the result to the submission's token by hash so the keys
- * cannot be presented by any other submission.
- *
- * Returns nothing claimable on any failure rather than throwing. The caller
- * submits either way.
- */
-async function uploadAttachments(
-  files: readonly File[],
-  signingToken: string,
-  binding: string,
-): Promise<AttachmentClaim> {
+async function postSubmission(
+  payload: Record<string, unknown>,
+): Promise<string | undefined> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
-    const response = await fetch("/api/lead/upload-url", {
+    const response = await fetch(CONFIG.ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        turnstileToken: signingToken,
-        submissionBinding: binding,
-        files: files.map((file) => ({
-          fileName: file.name,
-          contentType: declaredContentType(file),
-          sizeBytes: file.size,
-        })),
-      }),
+      body: JSON.stringify(payload),
+      signal: controller.signal,
     });
-    if (!response.ok) {
-      console.warn("Could not sign attachments", response.status);
-      return NO_ATTACHMENTS;
-    }
-    const json: unknown = await response.json();
-    const uploads = parseSignedUploads(json);
-    if (uploads === null) {
-      console.warn("Attachment signing returned an unexpected shape");
-      return NO_ATTACHMENTS;
-    }
-    const capability = (json as { capability?: unknown }).capability;
-    if (typeof capability !== "string") return NO_ATTACHMENTS;
-    return {
-      keys: await uploadSignedFiles(files, uploads),
-      signedKeys: uploads.map((upload) => upload.s3Key),
-      capability,
-    };
+    if (!response.ok)
+      throw new SubmissionRejectedError(
+        `Submission endpoint returned HTTP ${response.status}`,
+      );
+    return confirmedId(await readJson(response));
   } catch (error) {
-    console.warn("Attachment upload step failed", error);
-    return NO_ATTACHMENTS;
+    if (error instanceof SubmissionRejectedError) throw error;
+    throw new Error(
+      "Submission request failed before the server confirmed it",
+      { cause: error },
+    );
+  } finally {
+    window.clearTimeout(timer);
   }
 }
 
+/**
+ * MEGA lead submission. Validates, then POSTs one attempt with its own
+ * submission_id. Throws on every unconfirmed outcome so callers fail closed.
+ * NEVER submit leads any other way — no direct database access.
+ */
 export const useMegaLeadForm = (): UseMegaLeadFormReturn => {
-  const isInitialized = useRef(false);
+  const inFlightRef = useRef(false);
 
   useEffect(() => {
-    if (!isInitialized.current) {
-      initAttribution();
-      isInitialized.current = true;
-    }
+    initAttribution();
   }, []);
 
   const submit = useCallback(
     async (
-      formData: Record<string, unknown>,
-      files: readonly File[] = [],
-      signingToken: string | null = null,
-    ): Promise<SubmissionResponse> => {
-      if (!isValidPhone(String(formData.phone ?? ""))) {
-        throw new Error("Phone must be exactly 10 digits");
+      fields: RoofLeadFields,
+      formKey: string,
+    ): Promise<SubmissionResult> => {
+      if (inFlightRef.current)
+        throw new Error("A submission is already in progress");
+      inFlightRef.current = true;
+      try {
+        const normalized = normalizeFields(fields);
+        const qualification = qualifyRoofLead(normalized);
+        const id = await postSubmission({
+          ...captureLeadContext(),
+          customer_id: CONFIG.CUSTOMER_ID,
+          site_id: CONFIG.SITE_ID,
+          source_provider: CONFIG.SOURCE_PROVIDER,
+          submission_id: generateSubmissionId(),
+          // Top level, never in form_data: MEGA routes on it as transport.
+          form_key: formKey,
+          form_data: { ...normalized, ...qualification },
+        });
+        return { id, fields: normalized, qualification };
+      } finally {
+        inFlightRef.current = false;
       }
-      if (!formData.firstName || !formData.lastName || !formData.email) {
-        throw new Error("firstName, lastName and email are required");
-      }
-      if (!isValidEmail(formData.email)) {
-        throw new Error("Enter a valid email address");
-      }
-      formData.phone = phoneDigits(String(formData.phone));
-
-      // Uploads happen before the submission so the keys can be declared on it.
-      // Every failure below costs the attachments and never the enquiry.
-      // Attachments need a challenge of their own, supplied only when the form
-      // could obtain a second token, and a binding to this submission's token.
-      // Without either the files are skipped rather than the submission risked.
-      // Both wire names, because this hook ships to sites whose forms still
-      // send the legacy one. Reading only the canonical name would compute no
-      // binding there, and every attachment would be dropped silently while the
-      // lead itself still sent.
-      const rawToken = formData.captchaToken ?? formData.turnstileToken;
-      const submitToken = typeof rawToken === "string" ? rawToken : null;
-      const binding =
-        files.length > 0 && signingToken !== null && submitToken !== null
-          ? await submissionBinding(submitToken)
-          : null;
-      const claim =
-        binding !== null && signingToken !== null
-          ? await uploadAttachments(files, signingToken, binding)
-          : NO_ATTACHMENTS;
-
-      const response = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          ...(claim.capability !== null
-            ? {
-                uploadKeys: claim.keys,
-                uploadSignedKeys: claim.signedKeys,
-                uploadCapability: claim.capability,
-              }
-            : {}),
-          context: captureLeadContext(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const json: unknown = await response.json();
-      if (
-        typeof json !== "object" ||
-        json === null ||
-        !("ok" in json) ||
-        (json as { ok: unknown }).ok !== true
-      ) {
-        throw new Error(
-          `Submission rejected: ${JSON.stringify(json)?.slice(0, 200)}`,
-        );
-      }
-      const ignored =
-        "ignored" in json && (json as { ignored: unknown }).ignored === true;
-      return {
-        ok: true,
-        ...("id" in json && typeof (json as { id: unknown }).id === "string"
-          ? { id: (json as { id: string }).id }
-          : {}),
-        ...(ignored ? { ignored: true } : {}),
-      };
     },
     [],
   );
 
-  return { submit, isReady: typeof window !== "undefined" };
+  return { submit };
 };
 
-export { HONEYPOT_FIELD_NAME };
 export default useMegaLeadForm;

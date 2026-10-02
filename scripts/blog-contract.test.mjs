@@ -501,16 +501,29 @@ test("the starter's own seed post id is a placeholder, not a hard failure", () =
   // the same path: this template stays green in its own CI, which sets
   // ALLOW_TODO=1, while a configured site's real build fails until the id is
   // re-minted. A second bypass flag would be a second thing to get wrong.
-  const allowed = runCheckConfig({ ALLOW_TODO: "1" });
-  assert.equal(allowed.status, 0, allowed.output);
-  assert.match(allowed.output, /seed post id/);
-  assert.match(allowed.output, /WARNING/);
+  //
+  // A customer clone has already re-minted welcome.md, so the seed id is
+  // planted in a fixture post there; the template is tested as it ships.
+  const seedPostId = "item_wadhs7hh3d4012vwfq8k7n7pxg";
+  const carriesSeed = listPostFilenames(join(root, "content/blog")).some((name) =>
+    read(`content/blog/${name}`).includes(`id: ${seedPostId}`),
+  );
+  const fixture = join(root, "content/blog/seed-id-fixture.md");
+  if (!carriesSeed) writeFileSync(fixture, `---\nid: ${seedPostId}\ntitle: Seed\n---\nBody.\n`);
+  try {
+    const allowed = runCheckConfig({ ALLOW_TODO: "1" });
+    assert.equal(allowed.status, 0, allowed.output);
+    assert.match(allowed.output, /seed post id/);
+    assert.match(allowed.output, /WARNING/);
 
-  const strict = runCheckConfig({ ALLOW_TODO: "" });
-  assert.equal(strict.status, 1);
-  assert.match(strict.output, /seed post id/);
-  // Actionable, because whoever reads it is a builder or a provisioning bot.
-  assert.match(strict.output, /re-mint it/);
+    const strict = runCheckConfig({ ALLOW_TODO: "" });
+    assert.equal(strict.status, 1);
+    assert.match(strict.output, /seed post id/);
+    // Actionable, because whoever reads it is a builder or a provisioning bot.
+    assert.match(strict.output, /re-mint it/);
+  } finally {
+    if (!carriesSeed) removeFixture(fixture);
+  }
 });
 
 test("check-config treats a missing blog contract as a hard failure", () => {

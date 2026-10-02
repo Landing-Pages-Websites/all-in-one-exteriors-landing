@@ -10,17 +10,17 @@ export default function NotFound(): ReactElement {
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-6 py-24 text-center">
-      <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
+      <p className="text-sm font-medium uppercase tracking-wide text-gold">
         404
       </p>
       <h1 className="text-3xl font-bold">Page not found</h1>
-      <p className="text-neutral-600 dark:text-neutral-400">
+      <p className="text-muted">
         That page does not exist on the {siteConfig.businessName} site. It may
         have moved, or the link may be out of date.
       </p>
       <Link
         href="/"
-        className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+        className="rounded-[2px] bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-hover"
       >
         Back to home
       </Link>

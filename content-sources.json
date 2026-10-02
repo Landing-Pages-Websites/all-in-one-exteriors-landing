@@ -1,0 +1,68 @@
+[
+  {
+    "source": "Task input (build_task.json content_requests and form_fields)",
+    "url": "website-lp-build-research-data/1862914c-bd83-4c75-b22b-f25364728c36/sources/build_task.json",
+    "claimsUsed": [
+      "Manufacturer-backed warranties: lifetime on materials, 5-10 years on labor depending on manufacturer",
+      "GAF and CertainTeed certified",
+      "National Roofing Contractors Association certified in low-slope and steep-slope roofing",
+      "Licensed general contractor for commercial work (light commercial welcome)",
+      "Done right the first time, and we come back as many times as it takes",
+      "Offers: military discount, senior citizen discount, paid twice-yearly roof maintenance program",
+      "Inspections are paid",
+      "Service area: Alpharetta, Milton, Johns Creek, Marietta, Woodstock, Rome, Roswell and Dunwoody, GA",
+      "Phone routing number 4044458136",
+      "Six form fields and qualification rules"
+    ]
+  },
+  {
+    "source": "Research contract build prompt",
+    "url": "website-lp-build-research-data/1862914c-bd83-4c75-b22b-f25364728c36/build_prompt.md",
+    "claimsUsed": [
+      "Positioning around warranties, certifications, right-the-first-time commitment, discounts and paid maintenance",
+      "Process: request, discuss property and roof needs, select replacement approach, complete with manufacturer-backed coverage",
+      "FAQ answers limited to confirmed facts: paid inspections, warranty varies by manufacturer, decision maker required, both roof statuses qualify, eight cities"
+    ]
+  },
+  {
+    "source": "Research proof record",
+    "url": "website-lp-build-research-data/1862914c-bd83-4c75-b22b-f25364728c36/proof.json",
+    "claimsUsed": [
+      "Four testimonials with names and quotes (listed below), recorded as from the live site homepage / Google review embed",
+      "No aggregate rating used (rating is null)"
+    ]
+  },
+  {
+    "source": "Customer homepage",
+    "url": "https://allinoneexteriors.com/",
+    "claimsUsed": [
+      "Insured, Bonded, Family owned, Locally owned",
+      "All In One Exterior & Construction in Alpharetta, GA provides roofing services for residential and commercial properties",
+      "Address 12850 GA-9 #600, Alpharetta, GA 30004 and phone 4044458136"
+    ]
+  },
+  {
+    "source": "Customer roofing replacement page",
+    "url": "https://allinoneexteriors.com/roofing-replacement/",
+    "claimsUsed": [
+      "Roof replacement is an existing service of the business",
+      "GAF and CertainTeed product lines"
+    ]
+  },
+  {
+    "source": "Customer reviews page",
+    "url": "https://allinoneexteriors.com/reviews",
+    "claimsUsed": [
+      "James E. Carlisle: \"Timely and professional service.\"",
+      "Pam Perez-Ross: \"Had a great experience with Keefe. He was very knowledgeable and helped us make the right choice. Work was done phenomenally, on time and very clean.\" (excerpt)"
+    ]
+  },
+  {
+    "source": "Customer Google review embed (via research proof.json and build_prompt.md; not present in the scraped page text)",
+    "url": "website-lp-build-research-data/1862914c-bd83-4c75-b22b-f25364728c36/proof.json",
+    "claimsUsed": [
+      "Amber Broadway: \"Being on time is so important to us. When AIOE arrived they were professional and informative about the status of our roof. We were so grateful for knowing the top of our investment is in great condition after this company fixed all the problems we could not see.\"",
+      "Vincent Santerre: \"Keefe did what he said he was going to do, when he committed to have it done. Very professional and great value. No hassles.\""
+    ]
+  }
+]

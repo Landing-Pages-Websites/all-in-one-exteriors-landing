@@ -32,6 +32,10 @@ import test from "node:test";
  * `maid-ok-website` and `all-points-media-website`, both descendants of this
  * template. Anything NOT listed fails, because the safe answer for a file
  * nobody has checked is "no".
+ *
+ * `src/components/lp/{Hero,Faq,FinalCta}.tsx` are this landing page's own
+ * managed render path, not template files: they exist only in this repo, which
+ * carries `packages/` and the workspace dependency, so nothing syncs them out.
  */
 const EXEMPT_BECAUSE_THE_SUBSYSTEM_DOES_NOT_PROPAGATE = new Set([
   "src/app/page.tsx",
@@ -39,6 +43,9 @@ const EXEMPT_BECAUSE_THE_SUBSYSTEM_DOES_NOT_PROPAGATE = new Set([
   "src/components/home/ManagedContact.tsx",
   "src/components/home/ManagedFaq.tsx",
   "src/components/home/ManagedHero.tsx",
+  "src/components/lp/Faq.tsx",
+  "src/components/lp/FinalCta.tsx",
+  "src/components/lp/Hero.tsx",
   "src/content/managed-site.ts",
 ]);
 

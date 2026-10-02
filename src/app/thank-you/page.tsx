@@ -1,26 +1,47 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import type { ReactElement } from "react";
+import { PhoneLink } from "@/components/lp/PhoneLink";
+import { Icon } from "@/components/lp/Icon";
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/site.config";
 
 export const metadata: Metadata = buildMetadata({
   title: "Thank You",
-  description: `Thanks for contacting ${siteConfig.businessName}.`,
+  description: `Thanks for requesting a roof estimate from ${siteConfig.businessName}.`,
   path: "/thank-you",
+  robots: { index: false, follow: false },
 });
 
+/** Post-submit confirmation. The ad click's query string arrives intact for attribution. */
 export default function ThankYouPage(): ReactElement {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-4 px-6 py-24 text-center">
-      <h1 className="text-3xl font-bold">Thank you!</h1>
-      <p className="text-neutral-600 dark:text-neutral-400">
-        Your message is on its way to {siteConfig.businessName}. We will get
-        back to you shortly.
-      </p>
-      <Link href="/" className="mt-4 underline">
-        Back to home
-      </Link>
+    <div className="flex flex-1 flex-col bg-ink">
+      <header className="border-b border-line">
+        <div className="mx-auto flex h-[4.5rem] max-w-[1240px] items-center px-4 sm:px-6">
+          <Image
+            src="/logo.png"
+            alt={siteConfig.businessName}
+            width={160}
+            height={129}
+            className="h-12 w-auto sm:h-14"
+            sizes="70px"
+          />
+        </div>
+      </header>
+      <section className="relative mx-auto flex w-full max-w-2xl flex-1 flex-col items-start justify-center gap-6 px-4 py-20 sm:px-6">
+        <span className="inline-flex size-14 items-center justify-center rounded-[2px] bg-brand text-white">
+          <Icon name="check" size={28} />
+        </span>
+        <h1 className="text-h2 font-extrabold tracking-tight text-balance text-white">
+          Thanks. Your roof estimate request is in.
+        </h1>
+        <p className="max-w-xl text-lg leading-relaxed text-muted">
+          A member of the {siteConfig.businessName} team will reach out using
+          the details you shared. Want to talk sooner? Give us a call.
+        </p>
+        <PhoneLink location="thank-you" />
+      </section>
     </div>
   );
 }
