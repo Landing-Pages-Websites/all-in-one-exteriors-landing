@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type ReactElement } from "react";
+import { useEffect, useId, useState, type ReactElement } from "react";
 import {
   useRoofEstimateForm,
   type SubmitStatus,
@@ -22,6 +22,56 @@ const BUTTON_LABELS: Record<SubmitStatus, string> = {
   submitting: "Requesting your estimate…",
   success: "Request received",
 };
+
+const LP_PRIVACY_URL = "https://services.allinoneexteriors.com/privacy-policy";
+const LP_TERMS_URL = "https://services.allinoneexteriors.com/terms";
+const SUBMISSION_ENDPOINT = "https://analytics.gomega.ai/submission/submit";
+
+type SmsWindow = Window & {
+  __allInOneSmsPatch?: boolean;
+  __allInOneSmsConsent?: boolean;
+};
+
+function publishSmsConsent(value: boolean): void {
+  if (typeof window === "undefined") return;
+  (window as SmsWindow).__allInOneSmsConsent = value;
+}
+
+/**
+ * useMegaLeadForm rebuilds form_data from the six named roof fields, so a
+ * checkbox on this form would otherwise be dropped. Merge the boolean after
+ * that object is built, only for the MEGA submission request.
+ */
+function installSmsConsentPatch(): void {
+  if (typeof window === "undefined") return;
+  const host = window as SmsWindow;
+  if (host.__allInOneSmsPatch) return;
+  host.__allInOneSmsPatch = true;
+  const original = window.fetch.bind(window);
+  window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+    const nextInit = init ? { ...init } : undefined;
+    try {
+      const url =
+        typeof input === "string"
+          ? input
+          : input instanceof URL
+            ? input.href
+            : input.url;
+      if (url === SUBMISSION_ENDPOINT && nextInit && typeof nextInit.body === "string") {
+        const payload = JSON.parse(nextInit.body) as {
+          form_data?: Record<string, unknown>;
+        };
+        if (payload.form_data && typeof payload.form_data === "object") {
+          payload.form_data.smsConsent = host.__allInOneSmsConsent === true;
+          nextInit.body = JSON.stringify(payload);
+        }
+      }
+    } catch {
+      // Leave the request unchanged when the body is not the lead payload.
+    }
+    return original(input, nextInit);
+  };
+}
 
 /**
  * Roof-estimate lead form on the MEGA contract. The button is type="button":
@@ -50,8 +100,13 @@ export function RoofEstimateForm({
     handleKeyDown,
     handleSubmit,
   } = useRoofEstimateForm(placement);
+  const [smsConsent, setSmsConsent] = useState(false);
   const locked = status !== "idle";
   const Heading = headingLevel;
+
+  useEffect(() => {
+    installSmsConsentPatch();
+  }, []);
 
   return (
     <div className="relative rounded-[2px] border border-line border-t-4 border-t-brand bg-surface p-5 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)] sm:p-7">
@@ -67,7 +122,10 @@ export function RoofEstimateForm({
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") publishSmsConsent(smsConsent);
+          handleKeyDown(event);
+        }}
         aria-labelledby={`${id}-heading`}
         className="mt-4 flex flex-col gap-4 sm:mt-5"
       >
@@ -143,9 +201,55 @@ export function RoofEstimateForm({
             {submitError}
           </p>
         ) : null}
+        <label className="flex items-start gap-3 text-small font-medium text-muted">
+          <input
+            type="checkbox"
+            name="smsConsent"
+            checked={smsConsent}
+            disabled={locked}
+            onChange={(event) => {
+              const next = event.target.checked;
+              setSmsConsent(next);
+              publishSmsConsent(next);
+            }}
+            className="mt-1 h-4 w-4 shrink-0 accent-gold"
+          />
+          <span>
+            By checking this box, you agree to receive SMS customer-care
+            messages from All In One Exteriors, including inspection scheduling
+            and confirmations, reminders, project updates, and service-related
+            communications. Message frequency may vary. Message and data rates
+            may apply. Reply STOP to opt out. Reply HELP for help. Consent is
+            not a condition of purchase. Your mobile information will not be
+            sold or shared with third parties for promotional or marketing
+            purposes. Optional. You can submit this form without opting in to
+            text messages.{" "}
+            <a
+              href={LP_PRIVACY_URL}
+              className="font-semibold text-gold underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy Policy
+            </a>
+            {" | "}
+            <a
+              href={LP_TERMS_URL}
+              className="font-semibold text-gold underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Terms and Conditions
+            </a>
+            .
+          </span>
+        </label>
         <button
           type="button"
-          onClick={attemptSubmit}
+          onClick={() => {
+            publishSmsConsent(smsConsent);
+            attemptSubmit();
+          }}
           disabled={locked}
           aria-busy={status === "submitting"}
           className={`${buttonStyles.primary} w-full`}
