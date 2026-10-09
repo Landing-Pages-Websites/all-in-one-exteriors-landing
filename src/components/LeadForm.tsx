@@ -32,6 +32,9 @@ const inputClasses =
 const SUBMIT_ERROR_MESSAGE =
   "Something went wrong sending your request. Please check your connection and try again.";
 
+const LP_PRIVACY_URL = "https://services.allinoneexteriors.com/privacy-policy";
+const LP_TERMS_URL = "https://services.allinoneexteriors.com/terms-and-conditions";
+
 const budgetToggleClasses =
   "rounded-lg border-2 border-neutral-300 py-2.5 text-center text-sm font-semibold transition-all peer-checked:border-neutral-900 peer-checked:bg-neutral-900 peer-checked:text-white dark:border-neutral-700 dark:peer-checked:border-white dark:peer-checked:bg-white dark:peer-checked:text-neutral-900";
 
@@ -109,6 +112,7 @@ export function LeadForm({
   const [attachmentErrors, setAttachmentErrors] = useState<UploadRejection[]>(
     [],
   );
+  const [smsConsent, setSmsConsent] = useState(false);
 
   const { budgetQualifier } = siteConfig;
   const budgetAnswered = budgetQualifier === null || budget !== "";
@@ -192,6 +196,7 @@ export function LeadForm({
       formKey,
       captchaToken,
       ...(budgetQualifier === null ? {} : { budget }),
+      smsConsent: smsConsent === true,
     };
     try {
       const signingToken =
@@ -327,6 +332,46 @@ export function LeadForm({
           </div>
         </fieldset>
       )}
+      <div className="flex items-start gap-3">
+        <input
+          id={`${idPrefix}-smsConsent`}
+          name="smsConsent"
+          type="checkbox"
+          value="true"
+          checked={smsConsent}
+          onChange={(event) => setSmsConsent(event.target.checked)}
+          className="mt-1 size-4 shrink-0 accent-brand"
+        />
+        <div>
+          <label
+            htmlFor={`${idPrefix}-smsConsent`}
+            className="cursor-pointer text-sm leading-relaxed"
+          >
+            By checking this box, you agree to receive SMS customer-care messages
+            from All In One Exteriors, including inspection scheduling and
+            confirmations, reminders, project updates, and service-related
+            communications. Message frequency may vary. Message and data rates
+            may apply. Reply STOP to opt out. Reply HELP for help. Consent is
+            not a condition of purchase. Your mobile information will not be
+            sold or shared with third parties for promotional or marketing
+            purposes.{" "}
+            <a
+              href={LP_PRIVACY_URL}
+              className="font-semibold text-gold underline"
+            >
+              Privacy Policy
+            </a>
+            {" | "}
+            <a href={LP_TERMS_URL} className="font-semibold text-gold underline">
+              Terms &amp; Conditions
+            </a>
+          </label>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
+            Optional. You can submit this form without opting in to text
+            messages.
+          </p>
+        </div>
+      </div>
       <HoneypotField />
       {siteConfig.uploadsEnabled === true && (
         <div className="flex flex-col gap-1">
